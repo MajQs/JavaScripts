@@ -190,7 +190,7 @@
  }
 
  function processScavenge2() {
-   timer = minNaZbieraku;
+   processScavenge()
    setTimeout(function() {
      if (timer > 0) {
        timer--;
@@ -204,6 +204,7 @@
  }
 
  if (isScavenge()) {
+   timer = minNaZbieraku;
    processScavenge2()
  }
  if (isAF()) {
