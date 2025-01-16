@@ -1,5 +1,6 @@
  javascript:
  console.log("Hello");
+
  // parametry do modyfikowania
  var minNaZbieraku = 30;
 
@@ -178,7 +179,8 @@
      }
    }
    setTimeout(function() {
-     if ($('.time').length > 0) {
+     if ($('.time').is(":visible")) {
+       console.log("Scavenge still working: skipping " );
      } else {
        setTimeout(function() {
          test(3)
