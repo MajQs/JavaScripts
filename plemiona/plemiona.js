@@ -1,2 +1,1 @@
-javascript:
 console.log("Hello");
