@@ -96,6 +96,13 @@
    }, 60000);
  }
 
+ function isScavenge() {
+   var url = new URL(window.location.href);
+   var params = new URLSearchParams(url.search);
+
+   return params.get('mode') === "scavenge"
+ }
+
  if (isScavenge()) {
    console.log("Processing Scavenger..." );
    timer = scavenger.durationInMin;

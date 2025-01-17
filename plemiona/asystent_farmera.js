@@ -45,6 +45,13 @@
 
  }
 
+ function isAF() {
+   var url = new URL(window.location.href);
+   var params = new URLSearchParams(url.search);
+
+   return params.get('screen') === "am_farm"
+ }
+
  if (isAF()) {
    console.log("Processing AF..." );
    processAF();

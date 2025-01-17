@@ -2,20 +2,6 @@
    return Math.floor(Math.random() * (max - min + 1)) + min;
  }
 
- function isScavenge() {
-   var url = new URL(window.location.href);
-   var params = new URLSearchParams(url.search);
-
-   return params.get('mode') === "scavenge"
- }
-
- function isAF() {
-   var url = new URL(window.location.href);
-   var params = new URLSearchParams(url.search);
-
-   return params.get('screen') === "am_farm"
- }
-
  function goToScavenge() {
    var url = new URL(window.location.href);
    var params = new URLSearchParams(url.search);
