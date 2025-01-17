@@ -13,7 +13,11 @@
          if (nextAnchor.length > 0) {
            nextAnchor[0].click(); // next page
          } else {
-           goToScavenge()
+            if(af.repeatWhenNoMoreVillagesLeft === 0){
+              goToScavenge()
+            }else{
+              firstColumnElements[0].click() // back to [1]
+            }
          }
        }
        return;
