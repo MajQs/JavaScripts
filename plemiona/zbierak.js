@@ -1,10 +1,3 @@
-
-
-// global params
- var minInScavenge = 30;
-
-// ===========================
-
  var settings = {
    max_ressources: '9999',
    archers: '0',
@@ -80,7 +73,7 @@
    }
    setTimeout(function() {
      if ($('.time').is(":visible")) {
-       console.log("Scavenge still working: skipping " );
+       console.log("Scavenger still working: skipping " );
      } else {
        setTimeout(function() {
          test(3)
@@ -89,22 +82,22 @@
    }, 3000);
  }
 
- function processScavenge2() {
+ function processScavengerLoop() {
+   console.log("Min left: " + timer);
    processScavenge()
    setTimeout(function() {
      if (timer > 0) {
        timer--;
-       console.log("minutes left: " + timer);
        processScavenge()
-       processScavenge2()
+       processScavengerLoop()
      } else {
        goToAF()
      }
    }, 60000);
  }
 
-
  if (isScavenge()) {
-   timer = minInScavenge;
-   processScavenge2()
+   console.log("Processing Scavenger..." );
+   timer = scavenger.durationInMin;
+   processScavengerLoop()
  }

@@ -46,5 +46,6 @@
  }
 
  if (isAF()) {
+   console.log("Processing AF..." );
    processAF();
  }
