@@ -4,7 +4,7 @@ var scavenger = {
 }
 
 // ==============
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@52b4586/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@52b4586/plemiona/anty_bot.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@52b4586/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@52b4586/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cc359b8/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cc359b8/plemiona/anty_bot.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cc359b8/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cc359b8/plemiona/zbierak.js');

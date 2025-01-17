@@ -83,12 +83,11 @@
  }
 
  function processScavengerLoop() {
-   console.log("Min left: " + timer);
    processScavenge()
+   console.log("Min left: " + timer);
    setTimeout(function() {
      if (timer > 0) {
        timer--;
-       processScavenge()
        processScavengerLoop()
      } else {
        goToAF()
