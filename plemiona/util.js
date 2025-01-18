@@ -4,31 +4,14 @@
 
  function goToScavenge() {
    var url = new URL(window.location.href);
-   var params = new URLSearchParams(url.search);
+   var village = new URLSearchParams(url.search).get('village');
 
-   var village = params.get('village');
-
-   params.forEach(function(value, key) {
-     params.delete(key);
-   });
-
-   params.set('village', village);
-   params.set('screen', 'place');
-   params.set('mode', 'scavenge');
-   window.location.href = url.origin + url.pathname + '?' + params.toString();
+   window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=scavenge';
  }
 
  function goToAF() {
    var url = new URL(window.location.href);
-   var params = new URLSearchParams(url.search);
+   var village = new URLSearchParams(url.search).get('village');
 
-   var village = params.get('village');
-
-   params.forEach(function(value, key) {
-     params.delete(key);
-   });
-
-   params.set('village', village);
-   params.set('screen', 'am_farm');
-   window.location.href = url.origin + url.pathname + '?' + params.toString();
+   window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=am_farm';
  }
