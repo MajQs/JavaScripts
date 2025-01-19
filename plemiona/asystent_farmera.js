@@ -24,7 +24,7 @@
      }
 
      // Click A
-     if ( $(rows[index]).find('td').eq(1).attr('src').includes('green') ) {
+     if ( $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1 ) {
        var aButton = $(rows[index]).find('td').eq(8).find('a').first();
        if (aButton.is('.farm_icon_disabled')) {
          goToScavenge()
