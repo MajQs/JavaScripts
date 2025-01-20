@@ -1,5 +1,5 @@
 
- function processWrecker() {
+ function processWreckerInPlace() {
    console.log("Processing wrecker..." );
 
    localStorage.setItem("wreckerEnabled",false)
@@ -16,6 +16,6 @@
  if (isPlace()) {
    console.log("Processing Place..." );
    setTimeout(function() {
-     processWrecker();
+     processWreckerInPlace();
    }, 3000)
  }
