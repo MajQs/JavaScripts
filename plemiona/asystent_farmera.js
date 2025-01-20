@@ -1,5 +1,6 @@
 function processWrecker() {
    console.log("Processing Wrecker..." );
+   var coordinatesForWrecker = []
 
    let rows = $(`#plunder_list tr`).slice(2);
 
