@@ -90,6 +90,7 @@
        timer--;
        processScavengerLoop()
      } else {
+       localStorage.setItem("wreckerEnabled", true)
        goToAF()
      }
    }, 60000);

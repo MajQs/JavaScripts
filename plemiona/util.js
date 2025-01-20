@@ -15,3 +15,10 @@
 
    window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=am_farm';
  }
+
+ function goToPlace() {
+   var url = new URL(window.location.href);
+   var village = new URLSearchParams(url.search).get('village');
+
+   window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place';
+ }

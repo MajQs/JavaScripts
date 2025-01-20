@@ -1,4 +1,4 @@
-function processWrecker(delay) {
+function processWrecker() {
    console.log("Processing Wrecker..." );
    var coordinatesForWrecker = []
    localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
@@ -22,7 +22,7 @@ function processWrecker(delay) {
            }
            nextAnchor[0].click(); // next page
          } else {
-            localStorage.setItem("wreckerEnabled",false)
+           goToPlace()
          }
        }
        return;
@@ -44,7 +44,7 @@ function processWrecker(delay) {
 
        // next row
        processRowWithDelay(index + 1);
-     }, delay);
+     }, 100);
    }
 
    // start AF
@@ -54,7 +54,7 @@ function processWrecker(delay) {
 
  }
 
- function processFarm(delay) {
+ function processFarm() {
    console.log("Processing Farm..." );
    let rows = $(`#plunder_list tr`).slice(2);
 
@@ -97,7 +97,7 @@ function processWrecker(delay) {
 
        // next row
        processRowWithDelay(index + 1);
-     }, delay);
+     }, getRandomDelay(500, 1200));
    }
 
    // start AF
@@ -115,8 +115,8 @@ function processWrecker(delay) {
 
  if (isAF()) {
    console.log("Processing AF..." );
-   if(localStorage.getItem("wreckerEnabled") == true){
-      processWrecker(100);
+   if(localStorage.getItem("wreckerEnabled") == 'true'){
+      processWrecker();
    }
-   processFarm(getRandomDelay(500, 1200));
+   processFarm();
  }
