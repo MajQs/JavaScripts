@@ -15,7 +15,7 @@ function processWrecker(delay) {
          if (nextAnchor.length > 0) {
            nextAnchor[0].click(); // next page
          } else {
-           console.log("CoordinatesForWrecker: " + cordsForWrecker);
+           console.log("CoordinatesForWrecker: " + coordinatesForWrecker);
          }
        }
        return;
@@ -24,7 +24,7 @@ function processWrecker(delay) {
      if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1 ) { // defeated
        if ($(rows[index]).find('td').eq(3).find('img').length == 0){ // no attack is coming
          var coordinates = $(rows[index]).find('td').eq(3).find('a').first().val()
-         cordsForWrecker.push(coordinates.substr(coordinates.indexOf("("), coordinates.indexOf(")")))
+         coordinatesForWrecker.push(coordinates.substr(coordinates.indexOf("("), coordinates.indexOf(")")))
        }
      }
 
