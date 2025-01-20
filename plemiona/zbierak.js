@@ -47,6 +47,7 @@ var settings_heavy = {
 }
 
 function processScavenge() {
+    console.log("Processing Scavenger..." );
     var container = $('.options-container');
 
     function processLevel(level) {
