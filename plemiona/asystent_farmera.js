@@ -29,7 +29,7 @@ function processWrecker(delay) {
      if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1 ) { // defeated
        if ($(rows[index]).find('td').eq(3).find('img').length == 0){ // no attack is coming
          var coordinates = $(rows[index]).find('td').eq(3).find('a').first().text()
-         cordsForWrecker.push(coordinates.substr(coordinates.indexOf('(') + 1, coordinates.indexOf(')') -2 ))
+         coordinatesForWrecker.push(coordinates.substr(coordinates.indexOf('(') + 1, coordinates.indexOf(')') -2 ))
        }
      }
 
