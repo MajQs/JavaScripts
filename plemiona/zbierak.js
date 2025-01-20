@@ -102,6 +102,6 @@ if (isScavenge()) {
     if(conf.scavenger.enabled == 1){
         setTimeout(function() {
             processScavengerLoop()
-        }
+        }, 2000)
     }
 }
