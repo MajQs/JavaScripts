@@ -1,7 +1,5 @@
 function processWrecker() {
    console.log("Processing Wrecker..." );
-   var coordinatesForWrecker = []
-   localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
 
    let rows = $(`#plunder_list tr`).slice(2);
 

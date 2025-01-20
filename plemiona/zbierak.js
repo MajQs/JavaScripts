@@ -58,11 +58,9 @@
 
      var div = container.find('.scavenge-option')[index]
      if ($(div).find('.free_send_button').length > 0) {
-       console.log("Zbierak");
        $.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
 
        setTimeout(function() {
-         console.log("WyÅ›lij");
          $(div).find('.free_send_button')[0].click();
 
          setTimeout(function() {
@@ -90,6 +88,7 @@
        timer--;
        processScavengerLoop()
      } else {
+       localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
        localStorage.setItem("wreckerEnabled", true)
        goToAF()
      }
