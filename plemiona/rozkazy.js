@@ -19,6 +19,11 @@
    $("#unit_input_ram").val("4")
    $("#unit_input_spy").val("1")
 
+   var catapultsCountText = $("#units_entry_all_catapult").text()
+   if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= 3){
+      $("#unit_input_catapult").val("3")
+   }
+
    $("#target_attack").click()
  }
 
