@@ -17,9 +17,9 @@ function processWrecker(delay) {
          } else {
              let current = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
              if(current == null){
-                localStorage.setItem("coordinatesForWrecker", JSON.stringify(list));
+                localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
              }else{
-                localStorage.setItem("coordinatesForWrecker", JSON.stringify(current.concat(list)));
+                localStorage.setItem("coordinatesForWrecker", JSON.stringify(current.concat(coordinatesForWrecker)));
              }
          }
        }
