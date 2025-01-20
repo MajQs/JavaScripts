@@ -10,7 +10,7 @@
    var url = new URL(window.location.href);
    var params = new URLSearchParams(url.search);
 
-   return params.get('screen') === "place"
+   return params.get('screen') === "place" && params.get('mode') === "command"
  }
 
  if (isPlace()) {

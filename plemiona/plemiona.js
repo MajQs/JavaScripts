@@ -8,7 +8,7 @@ var af = {
 }
 
 // ==============
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@9861e8e/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@9861e8e/plemiona/anty_bot.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@9861e8e/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@9861e8e/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/plac.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/zbierak.js');

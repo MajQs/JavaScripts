@@ -22,7 +22,7 @@ function processWrecker() {
            }
            nextAnchor[0].click(); // next page
          } else {
-           goToPlace()
+           goToCommand()
          }
        }
        return;
