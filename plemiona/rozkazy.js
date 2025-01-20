@@ -41,7 +41,7 @@
      if(localStorage.getItem("wreckerEnabled") == 'true'){
         setTimeout(function() {
           processWreckerInCommand();
-        }, 3000)
+        }, 2000)
      }
  }
 
@@ -50,6 +50,6 @@
    if(localStorage.getItem("wreckerEnabled") == 'true'){
       setTimeout(function() {
         $("#troop_confirm_submit").click()
-      }, 3000)
+      }, 2000)
    }
  }

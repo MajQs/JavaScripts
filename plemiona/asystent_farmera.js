@@ -43,7 +43,7 @@ function processWrecker() {
 
        // next row
        processRowWithDelay(index + 1);
-     }, 50);
+     }, 20);
    }
 
    // start AF
@@ -87,6 +87,11 @@ function processWrecker() {
        aButton.click();
      }
 
+     var minDelay = af.farm.speedInMilliseconds - 250
+     if(minDelay < 250){
+        minDelay = 250
+     }
+
      setTimeout(function() {
        // no army?
        if ($('div.autoHideBox.error').length > 0) {
@@ -96,7 +101,7 @@ function processWrecker() {
 
        // next row
        processRowWithDelay(index + 1);
-     }, getRandomDelay(500, 1200));
+     }, getRandomDelay(minDelay, af.farm.speedInMilliseconds + 250));
    }
 
    // start AF

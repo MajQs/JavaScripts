@@ -1,10 +1,13 @@
 // === PARAMS ===
 var scavenger = {
-   durationInMin: 30 // minuty spędzone na zbieraku
+  durationInMin: 30 // minuty spędzone na zbieraku
 }
 
 var af = {
-   repeatWhenNoMoreVillagesLeft: 0 // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
+  farm: {
+    speedInMilliseconds: 1000,
+    repeatWhenNoMoreVillagesLeft: 0 // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
+  }
 }
 
 // ==============
