@@ -43,7 +43,7 @@ function processWrecker() {
 
        // next row
        processRowWithDelay(index + 1);
-     }, 100);
+     }, 50);
    }
 
    // start AF
