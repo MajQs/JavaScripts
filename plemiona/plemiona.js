@@ -9,6 +9,6 @@ var af = {
 
 // ==============
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/plac.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/rozkazy.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/asystent_farmera.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@b217688/plemiona/zbierak.js');

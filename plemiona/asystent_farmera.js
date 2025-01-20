@@ -117,6 +117,7 @@ function processWrecker() {
    console.log("Processing AF..." );
    if(localStorage.getItem("wreckerEnabled") == 'true'){
       processWrecker();
+   } else{
+      processFarm();
    }
-   processFarm();
  }
