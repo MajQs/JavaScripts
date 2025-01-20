@@ -68,7 +68,7 @@ function processWrecker() {
          if (nextAnchor.length > 0) {
            nextAnchor[0].click(); // next page
          } else {
-            if(af.repeatWhenNoMoreVillagesLeft === 0){
+            if(conf.farm.repeatWhenNoMoreVillagesLeft === 0){
               goToScavenge()
             }else{
               firstColumnElements[0].click() // back to [1]
@@ -87,7 +87,7 @@ function processWrecker() {
        aButton.click();
      }
 
-     var minDelay = af.farm.speedInMilliseconds - 250
+     var minDelay = conf.farm.speedInMilliseconds - 250
      if(minDelay < 250){
         minDelay = 250
      }
@@ -101,7 +101,7 @@ function processWrecker() {
 
        // next row
        processRowWithDelay(index + 1);
-     }, getRandomDelay(minDelay, af.farm.speedInMilliseconds + 250));
+     }, getRandomDelay(minDelay, conf.farm.speedInMilliseconds + 250));
    }
 
    // start AF
@@ -119,9 +119,9 @@ function processWrecker() {
 
  if (isAF()) {
    console.log("Processing AF..." );
-   if(localStorage.getItem("wreckerEnabled") == 'true'){
+   if(conf.wrecker.enabled == 1 && localStorage.getItem("wreckerEnabled") == 'true'){
       processWrecker();
-   } else{
+   } else if (conf.farm.enabled == 1) {
       processFarm();
    }
  }

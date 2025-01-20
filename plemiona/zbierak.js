@@ -104,6 +104,8 @@
 
  if (isScavenge()) {
    console.log("Processing Scavenger..." );
-   timer = scavenger.durationInMin;
-   processScavengerLoop()
+   timer = conf.scavenger.durationInMin;
+   if(conf.scavenger.enabled == 1){
+     processScavengerLoop()
+   }
  }
