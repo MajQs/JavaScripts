@@ -1,6 +1,7 @@
 function processWrecker(delay) {
    console.log("Processing Wrecker..." );
    var coordinatesForWrecker = []
+   localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
 
    let rows = $(`#plunder_list tr`).slice(2);
 
@@ -13,14 +14,15 @@ function processWrecker(delay) {
        if (strongElement.length > 0) {
          let nextAnchor = strongElement.next('a');
          if (nextAnchor.length > 0) {
+           let current = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
+           if(current == null){
+             localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
+           }else{
+             localStorage.setItem("coordinatesForWrecker", JSON.stringify(current.concat(coordinatesForWrecker)));
+           }
            nextAnchor[0].click(); // next page
          } else {
-             let current = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
-             if(current == null){
-                localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
-             }else{
-                localStorage.setItem("coordinatesForWrecker", JSON.stringify(current.concat(coordinatesForWrecker)));
-             }
+            localStorage.setItem("wreckerEnabled",false)
          }
        }
        return;
@@ -113,6 +115,8 @@ function processWrecker(delay) {
 
  if (isAF()) {
    console.log("Processing AF..." );
-   processWrecker(100);
+   if(localStorage.getItem("wreckerEnabled") == true){
+      processWrecker(100);
+   }
    processFarm(getRandomDelay(500, 1200));
  }
