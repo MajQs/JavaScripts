@@ -1,3 +1,6 @@
+
+ var timer = 0;
+
  function getRandomDelay(min, max) {
    return Math.floor(Math.random() * (max - min + 1)) + min;
  }
