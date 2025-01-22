@@ -3,46 +3,41 @@ function processCollectAFStatistics() {
     var coordinatesForWrecker = []
     var allAFCoordinates= []
 
-    function processWreckerWithDelay() {
-        // collect coordinates
-        let rows = $(`#plunder_list tr`).slice(2);
-        for (let index = 0; index < rows.length; index++) {
-            let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
-            let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
-            allAFCoordinates.push(coordinates)
-            if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1 ) { // defeated
-                if ($(rows[index]).find('td').eq(3).find('img').length == 0){ // no attack is coming
-                    coordinatesForWrecker.push(coordinates)
-                }
+    // collect coordinates
+    let rows = $(`#plunder_list tr`).slice(2);
+    for (let index = 0; index < rows.length; index++) {
+        let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
+        let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
+        allAFCoordinates.push(coordinates)
+        if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1 ) { // defeated
+            if ($(rows[index]).find('td').eq(3).find('img').length == 0){ // no attack is coming
+                coordinatesForWrecker.push(coordinates)
             }
-        }
-
-        let currentCoordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
-        if(currentCoordinatesForWrecker == null){
-            localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
-        }else{
-            localStorage.setItem("coordinatesForWrecker", JSON.stringify(currentCoordinatesForWrecker.concat(coordinatesForWrecker)));
-        }
-
-        let currentAllAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
-        if(currentAllAFCoordinates == null){
-            localStorage.setItem("allAFCoordinates", JSON.stringify(coordinatesForWrecker));
-        }else{
-            localStorage.setItem("allAFCoordinates", JSON.stringify(currentAllAFCoordinates.concat(allAFCoordinates)));
-        }
-
-        // next page
-        let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page
-        let nextAnchor = strongElement.next('a'); // next page
-        if (nextAnchor.length > 0) {
-            nextAnchor[0].click(); // next page
-        } else {
-            return;
         }
     }
 
-    // start Wrecker
-    processWreckerWithDelay();
+    let currentCoordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
+    if(currentCoordinatesForWrecker == null){
+        localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
+    }else{
+        localStorage.setItem("coordinatesForWrecker", JSON.stringify(currentCoordinatesForWrecker.concat(coordinatesForWrecker)));
+    }
+
+    let currentAllAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
+    if(currentAllAFCoordinates == null){
+        localStorage.setItem("allAFCoordinates", JSON.stringify(coordinatesForWrecker));
+    }else{
+        localStorage.setItem("allAFCoordinates", JSON.stringify(currentAllAFCoordinates.concat(allAFCoordinates)));
+    }
+
+    // next page
+    let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page
+    let nextAnchor = strongElement.next('a'); // next page
+    if (nextAnchor.length > 0) {
+        nextAnchor[0].click(); // next page
+    } else {
+        goToCommandPage();
+    }
 }
 
 function processFarm() {
@@ -108,7 +103,6 @@ if (isAF()) {
     setTimeout(function() {
         if(conf.wrecker.enabled == 1 && localStorage.getItem("wreckerEnabled") == 'true'){
             processCollectAFStatistics();
-            goToCommandPage()
         } else {
             processFarm();
         }
