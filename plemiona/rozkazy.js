@@ -6,6 +6,7 @@ function processWreckerInCommand() {
         localStorage.setItem("wreckerEnabled", false)
         localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
         goToAfPage()
+        return 0;
     }
 
     var coordinate = coordinatesForWrecker.shift()
@@ -22,7 +23,7 @@ function processWreckerInCommand() {
         $("#unit_input_catapult").val("3")
     }
 
-    $("#target_attack").click()
+//    $("#target_attack").click()
 }
 
 //function processAddingBarbarianVillagesToAF() {

@@ -67,7 +67,7 @@ function processFarm() {
                     }
                 }
             }
-            return;
+            return 0;
         }
 
         // Click A

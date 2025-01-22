@@ -52,7 +52,7 @@ function processScavenge() {
 
     function processLevel(level) {
         if (level < 0) {
-            return
+            return 0;
         }
 
         var divLevel = container.find('.scavenge-option')[level]
