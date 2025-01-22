@@ -23,7 +23,7 @@ function processWreckerInCommand() {
         $("#unit_input_catapult").val("3")
     }
 
-//    $("#target_attack").click()
+    $("#target_attack").click()
 }
 
 //function processAddingBarbarianVillagesToAF() {
