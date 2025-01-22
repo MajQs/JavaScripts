@@ -1,32 +1,43 @@
-function processWrecker() {
-    console.log("Processing Wrecker..." );
+function processCollectAFStatistics() {
+    console.log("Processing collecting AF statistics..." );
     var coordinatesForWrecker = []
+    var allAFCoordinates= []
 
     function processWreckerWithDelay() {
         // collect coordinates
         let rows = $(`#plunder_list tr`).slice(2);
         for (let index = 0; index < rows.length; index++) {
+            let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
+            let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
+            allAFCoordinates.push(coordinates)
             if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1 ) { // defeated
                 if ($(rows[index]).find('td').eq(3).find('img').length == 0){ // no attack is coming
-                    var coordinates = $(rows[index]).find('td').eq(3).find('a').first().text()
-                    coordinatesForWrecker.push(coordinates.substr(coordinates.indexOf('(') + 1, coordinates.indexOf(')') -2 ))
+                    coordinatesForWrecker.push(coordinates)
                 }
             }
+        }
+
+        let currentCoordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
+        if(currentCoordinatesForWrecker == null){
+            localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
+        }else{
+            localStorage.setItem("coordinatesForWrecker", JSON.stringify(currentCoordinatesForWrecker.concat(coordinatesForWrecker)));
+        }
+
+        let currentAllAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
+        if(currentAllAFCoordinates == null){
+            localStorage.setItem("allAFCoordinates", JSON.stringify(coordinatesForWrecker));
+        }else{
+            localStorage.setItem("allAFCoordinates", JSON.stringify(currentAllAFCoordinates.concat(allAFCoordinates)));
         }
 
         // next page
         let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page
         let nextAnchor = strongElement.next('a'); // next page
         if (nextAnchor.length > 0) {
-            let current = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
-            if(current == null){
-                localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
-            }else{
-                localStorage.setItem("coordinatesForWrecker", JSON.stringify(current.concat(coordinatesForWrecker)));
-            }
             nextAnchor[0].click(); // next page
         } else {
-            goToCommand()
+            return;
         }
     }
 
@@ -55,7 +66,7 @@ function processFarm() {
                     nextAnchor[0].click(); // next page
                 } else {
                     if(conf.farm.repeatWhenNoMoreVillagesLeft === 0){
-                        goToScavenge()
+                        goToScavengePage()
                     }else{
                         firstColumnElements[0].click() // back to [1]
                     }
@@ -68,14 +79,14 @@ function processFarm() {
         if ( $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1 ) {
             var aButton = $(rows[index]).find('td').eq(8).find('a').first();
             if (aButton.is('.farm_icon_disabled')) {
-                goToScavenge()
+                goToScavengePage()
             }
             aButton.click();
         }
 
         setTimeout(function() {
             if ($('div.autoHideBox.error').length > 0) {
-                goToScavenge()
+                goToScavengePage()
             }
             processRowWithDelay(index + 1);
         }, getRandomDelay(minDelay, conf.farm.speedInMilliseconds + 250));
@@ -96,8 +107,9 @@ if (isAF()) {
     console.log("AF page..." );
     setTimeout(function() {
         if(conf.wrecker.enabled == 1 && localStorage.getItem("wreckerEnabled") == 'true'){
-            processWrecker();
-        } else if (conf.farm.enabled == 1) {
+            processCollectAFStatistics();
+            goToCommandPage()
+        } else {
             processFarm();
         }
     }, 2000)

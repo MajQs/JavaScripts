@@ -3,10 +3,9 @@ function processWreckerInCommand() {
     var coordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
 
     if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0) {
-        localStorage.setItem("wreckerEnabled",false)
+        localStorage.setItem("wreckerEnabled", false)
         localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-        goToAF()
-        return;
+        goToAfPage()
     }
 
     var coordinate = coordinatesForWrecker.shift()
@@ -25,6 +24,50 @@ function processWreckerInCommand() {
 
     $("#target_attack").click()
 }
+
+//function processAddingBarbarianVillagesToAF() {
+//    console.log("Processing adding barbarian villages to AF..." );
+//
+//	var Request = new XMLHttpRequest();
+//	Request.onreadystatechange = function() {
+//	    console.log("READY")
+//
+//        var Distance;
+//
+//        function ScriptVillage(Data) {
+//            var allAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
+//            var mainVillageId = $.cookie("global_village_id")
+//            var targetVillages = [];
+//            var X; var Y;
+//            var Villages = Data.split("\n");
+//
+//            var i = Villages.length - 1;
+//            while(i--) {
+//                Village[i] = Villages[i].split(',');
+//                if(Village[i][0] == mainVillageId){
+//                    X = Village[i][2]
+//                    Y = Village[i][3]
+//                }
+//            }
+//
+//            var i = Villages.length - 1;
+//            while(i--) {
+//                Village[i] = Villages[i].split(',');
+//                if((Village[i][4] == 0 || Village[i][4] == undefined) && conf.addingBarbarianVillagesToAF.radius >= Math.sqrt(Math.pow(Village[i][2]-X,2)+Math.pow(Village[i][3]-Y,2)))
+//                {
+//                    targetVillages.push(Village[i])
+//                }
+//            }
+//            console.log(targetVillages)
+//        }
+//
+//        ScriptVillage(Request.responseText)
+//
+//	};
+//	Request.open('GET', '/map/village.txt' , true);
+//    Request.send();
+//
+//}
 
 function isCommand() {
     var url = new URL(window.location.href);

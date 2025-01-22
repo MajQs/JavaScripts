@@ -77,15 +77,15 @@ function processScavenge() {
 
 function processScavengerLoop() {
     processScavenge()
-    console.log("Min left: " + timer);
     setTimeout(function() {
         if (timer > 0) {
             timer--;
             processScavengerLoop()
         } else {
             localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
+            localStorage.setItem("allAFCoordinates", JSON.stringify([]));
             localStorage.setItem("wreckerEnabled", true)
-            goToAF()
+            goToAfPage()
         }
     }, 60000);
 }
@@ -100,9 +100,7 @@ function isScavenge() {
 if (isScavenge()) {
     console.log("Scavenger page..." );
     timer = conf.scavenger.durationInMin;
-    if(conf.scavenger.enabled == 1){
-        setTimeout(function() {
-            processScavengerLoop()
-        }, 2000)
-    }
+    setTimeout(function() {
+        processScavengerLoop()
+    }, 2000)
 }
