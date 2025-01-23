@@ -133,8 +133,6 @@ function goToNextLevel(level){
     localStorage.setItem("scriptLevel", level)
     switch(level){
         case 0:
-            localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-            localStorage.setItem("allAFCoordinates", JSON.stringify([]));
             goToAfPage()
             break;
         case 1:
@@ -153,7 +151,7 @@ function goToNextLevel(level){
             }
             setTimeout(function() {
                 goToCommandPage();
-            }, 2000)
+            }, 3000)
             break;
         default:
             localStorage.setItem("scriptLevel", 0)
