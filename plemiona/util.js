@@ -30,7 +30,7 @@ function processCollectingAddingBarbarianVillagesToAF() {
         function ScriptVillage(Data) {
             var allAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
             var mainVillageId = $.cookie("global_village_id")
-            var targetVillages = [];
+            var possibleVillages = [];
             var X; var Y;
             var Villages = Data.split("\n");
 
@@ -50,7 +50,6 @@ function processCollectingAddingBarbarianVillagesToAF() {
 
             function setPossibleVillages(){
                 // look for possible barbarian villages in distance
-                var possibleVillages = [];
                 var i = Villages.length - 1;
                 while(i--) {
                     Village[i] = Villages[i].split(',');
@@ -79,6 +78,7 @@ function processCollectingAddingBarbarianVillagesToAF() {
                 return 0;
             }
             filterPossibleVillages();
+
             localStorage.setItem("coordinatesForAddingBarbarianVillagesToAF", JSON.stringify(possibleVillages));
             return 0;
         }
