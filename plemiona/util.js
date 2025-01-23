@@ -27,15 +27,23 @@ setTimeout(function() {
     if ($(captcha).length > 0) {
         $(captcha).find('a').first().click()
     }
-}, 5000);
+}, 2000);
+
+// Complete Quest
+setTimeout(function() {
+    var completeQuestBtn = $('.btn btn-confirm-yes status-btn quest-complete-btn')
+    if ($(completeQuestBtn).length > 0) {
+        $(completeQuestBtn).first().click()
+    }
+}, 2000);
 
 // Page timer
 // return to AF when you stay too long on the same page
-var timer = conf.scavenger.durationInMin + 1 ;
+var timer = conf.scavenger.durationInMin ;
 function pageTimer() {
     setTimeout(function() {
         console.log("TIMER: min left = " + timer );
-        if (timer > 0) {
+        if (timer >= 0) {
             timer--;
             pageTimer()
         } else {

@@ -79,7 +79,6 @@ function processScavengerLoop() {
     processScavenge()
     setTimeout(function() {
         if (timer > 0) {
-            timer--;
             processScavengerLoop()
         } else {
             goToNextLevel(collectAFStatisticsLevel)

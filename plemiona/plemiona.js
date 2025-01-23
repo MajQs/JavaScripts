@@ -17,7 +17,7 @@ var conf = {
 }
 
 // ==============
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@f6b67a5/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@f6b67a5/plemiona/rozkazy.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@f6b67a5/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@f6b67a5/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/rozkazy.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/zbierak.js');
