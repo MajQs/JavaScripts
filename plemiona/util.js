@@ -30,12 +30,12 @@ setTimeout(function() {
 }, 2000);
 
 // Complete Quest
-setTimeout(function() {
+function completeQuest(){
     var completeQuestBtn = $('.btn btn-confirm-yes status-btn quest-complete-btn')
     if ($(completeQuestBtn).length > 0) {
         $(completeQuestBtn).first().click()
     }
-}, 2000);
+}
 
 // Page timer
 // return to AF when you stay too long on the same page
@@ -45,6 +45,7 @@ function pageTimer() {
         console.log("TIMER: min left = " + timer );
         if (timer >= 0) {
             timer--;
+            completeQuest()
             pageTimer()
         } else {
             goToNextLevel(defaultLevel)
