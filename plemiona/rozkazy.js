@@ -1,10 +1,10 @@
-function processWreckerInCommand() {
+function processWrecker() {
     console.log("Processing wrecker..." );
     var coordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
 
     if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null) {
         localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-        goToNextLevel(defaultLevel)
+        goToNextLevel(addingBarbarianVillagesToAFLevel)
         return 0;
     }
 
@@ -23,51 +23,15 @@ function processWreckerInCommand() {
     }
 
     $("#target_attack").click()
+    return 0;
 }
 
-//function processAddingBarbarianVillagesToAF() {
-//    console.log("Processing adding barbarian villages to AF..." );
-//
-//	var Request = new XMLHttpRequest();
-//	Request.onreadystatechange = function() {
-//	    console.log("READY")
-//
-//        var Distance;
-//
-//        function ScriptVillage(Data) {
-//            var allAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
-//            var mainVillageId = $.cookie("global_village_id")
-//            var targetVillages = [];
-//            var X; var Y;
-//            var Villages = Data.split("\n");
-//
-//            var i = Villages.length - 1;
-//            while(i--) {
-//                Village[i] = Villages[i].split(',');
-//                if(Village[i][0] == mainVillageId){
-//                    X = Village[i][2]
-//                    Y = Village[i][3]
-//                }
-//            }
-//
-//            var i = Villages.length - 1;
-//            while(i--) {
-//                Village[i] = Villages[i].split(',');
-//                if((Village[i][4] == 0 || Village[i][4] == undefined) && conf.addingBarbarianVillagesToAF.radius >= Math.sqrt(Math.pow(Village[i][2]-X,2)+Math.pow(Village[i][3]-Y,2)))
-//                {
-//                    targetVillages.push(Village[i])
-//                }
-//            }
-//            console.log(targetVillages)
-//        }
-//
-//        ScriptVillage(Request.responseText)
-//
-//	};
-//	Request.open('GET', '/map/village.txt' , true);
-//    Request.send();
-//
-//}
+function processAddingBarbarianVillagesToAFLevel() {
+    console.log("Processing adding barbarian villages to AF..." );
+//    var coordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForAddingBarbarianVillagesToAF"));
+    goToNextLevel(defaultLevel)
+    return 0;
+}
 
 function isCommand() {
     var url = new URL(window.location.href);
@@ -87,7 +51,9 @@ if (isCommand()) {
     console.log("Command page..." );
     setTimeout(function() {
         if(shouldProcessLevel(wreckerLevel)){
-            processWreckerInCommand();
+            processWrecker();
+        } else if(shouldProcessLevel(addingBarbarianVillagesToAFLevel)){
+            processAddingBarbarianVillagesToAFLevel()
         }
     }, 2000)
 }
@@ -95,7 +61,7 @@ if (isCommand()) {
 if (isCommandConfirm()) {
     console.log("Command Confirm page..." );
     setTimeout(function() {
-        if(shouldProcessLevel(wreckerLevel)){
+        if(shouldProcessLevel(wreckerLevel) || shouldProcessLevel(addingBarbarianVillagesToAFLevel)){
             $("#troop_confirm_submit").click()
         }
     }, 2000)

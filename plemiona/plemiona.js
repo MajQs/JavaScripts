@@ -9,10 +9,10 @@ var conf = {
     durationInMin: 30                   // minuty spędzone na zbieraku
   },
   wrecker: {                        // BURZYCIEL -> wymaga: (1 skan, 4 lk, 4 taran), opcjonalne: 3 kat
-    maxDistance: 10                     // do jakiej odległości ma wysyłać, (10 = 5h przy prędkość jednostek: 0.625)
+    maxDistance: 10                     // do jakiej odległości ma atakować, (10 = 5h przy prędkość jednostek: 0.625)
   },
-  addingBarbarianVillagesToAF: {
-    radius: 5
+  addingBarbarianVillagesToAF: {    // AUTOMATYCZNE DODAWANIE WIOSEK BARBARZYŃSKICH - wysyła 1LK na wioske z poza listy AF
+    maxDistance: 5                      // do jakiej odległości ma atakować
   }
 }
 
