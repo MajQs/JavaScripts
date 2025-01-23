@@ -47,3 +47,24 @@ function pageTimer() {
     }, 60000);
 }
 pageTimer()
+
+
+var defaultLevel = 0
+var collectAFStatisticsLevel = 1
+var wreckerLevel = 2
+
+function goToNextLevel(){
+    let currentLevel = localStorage.getItem("scriptLevel")
+    localStorage.setItem("scriptLevel", currentLevel + 1)
+    switch(currentLevel){
+        case 1:
+            break;
+        case 2:
+
+            break;
+        default:
+            localStorage.setItem("scriptLevel", 0)
+    }
+
+}
+

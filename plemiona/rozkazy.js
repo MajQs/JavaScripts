@@ -2,7 +2,7 @@ function processWreckerInCommand() {
     console.log("Processing wrecker..." );
     var coordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
 
-    if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null || conf.wrecker.enabled == 0) {
+    if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null) {
         localStorage.setItem("wreckerEnabled", false)
         localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
         goToAfPage()

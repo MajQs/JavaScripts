@@ -9,10 +9,11 @@ function processCollectAFStatistics() {
         let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
         let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
         allAFCoordinates.push(coordinates)
-        if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1 ) { // defeated
-            if ($(rows[index]).find('td').eq(3).find('img').length == 0){ // no attack is coming
-                coordinatesForWrecker.push(coordinates)
-            }
+        if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                         // defeated
+            && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
+            && $(rows[index]).find('td').eq(7).text() <= conf.wrecker.maxDistance)                                      // is in rage of max distance
+        {
+            coordinatesForWrecker.push(coordinates)
         }
     }
 

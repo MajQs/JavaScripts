@@ -9,7 +9,7 @@ var conf = {
     durationInMin: 30                   // minuty spędzone na zbieraku
   },
   wrecker: {                        // BURZYCIEL -> wymaga: (1 skan, 4 lk, 4 taran), opcjonalne: 3 kat
-    enabled: 1
+    maxDistance: 10                     // do jakiej odległości ma wysyłać, (10 = 5h przy prędkość jednostek: 0.625)
   },
   addingBarbarianVillagesToAF: {
     radius: 5
