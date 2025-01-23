@@ -73,7 +73,7 @@ function processFarm() {
         }
 
         // Click A
-        if ( $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1 ) {
+        if ( $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1 ) {                  // pełna wygrana
             var aButton = $(rows[index]).find('td').eq(8).find('a').first();
             if (aButton.is('.farm_icon_disabled')) {
                 goToScavengePage()

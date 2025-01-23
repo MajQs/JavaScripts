@@ -34,7 +34,7 @@ setTimeout(function() {
 var timer = conf.scavenger.durationInMin + 1 ;
 function pageTimer() {
     setTimeout(function() {
-        console.log("Min left: " + timer);
+        console.log("TIMER: min left = " + timer );
         if (timer > 0) {
             timer--;
             pageTimer()
@@ -44,8 +44,6 @@ function pageTimer() {
     }, 60000);
 }
 pageTimer()
-
-
 
 
 var defaultLevel = 0

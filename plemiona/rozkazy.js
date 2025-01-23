@@ -85,18 +85,18 @@ function isCommandConfirm() {
 
 if (isCommand()) {
     console.log("Command page..." );
-    if(shouldProcessLevel(wreckerLevel)){
-        setTimeout(function() {
+    setTimeout(function() {
+        if(shouldProcessLevel(wreckerLevel)){
             processWreckerInCommand();
-        }, 2000)
-    }
+        }
+    }, 2000)
 }
 
 if (isCommandConfirm()) {
     console.log("Command Confirm page..." );
-    if(shouldProcessLevel(wreckerLevel)){
-        setTimeout(function() {
+    setTimeout(function() {
+        if(shouldProcessLevel(wreckerLevel)){
             $("#troop_confirm_submit").click()
-        }, 2000)
-    }
+        }
+    }, 2000)
 }
