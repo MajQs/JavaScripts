@@ -21,8 +21,8 @@ function goToCommandPage() {
     window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=command';
 }
 
-function processCollectingAddingBarbarianVillagesToAF() {
-    console.log("Processing adding barbarian villages to AF..." );
+function processAutoExpansion() {
+    console.log("Processing Auto Expansion..." );
 
 	var Request = new XMLHttpRequest();
 	Request.onreadystatechange = function() {
@@ -30,46 +30,44 @@ function processCollectingAddingBarbarianVillagesToAF() {
         function ScriptVillage(Data) {
             var allAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
             var mainVillageId = $.cookie("global_village_id")
+            var playerId;
+            var playerVillages = [];
             var possibleVillages = [];
-            var X; var Y;
             var Villages = Data.split("\n");
 
-            function setMainCoords(){
+            function setPlayerId(){
                 var i = Villages.length - 1;
                 while(i--) {
                     Village[i] = Villages[i].split(',');
                     if(Village[i][0] == mainVillageId){
-                        X = Village[i][2]
-                        Y = Village[i][3]
+                        playerId = Village[i][4]
+                        localStorage.setItem("playerId", playerId);
                     }
                 }
-                console.log("Main coords " + X + "|" + Y)
                 return 0;
             }
-            setMainCoords();
+            setPlayerId();
 
-            function setPossibleVillages(){
-                // look for possible barbarian villages in distance
+            function setPlayerVillages(){
                 var i = Villages.length - 1;
                 while(i--) {
                     Village[i] = Villages[i].split(',');
-                    if((Village[i][4] == 0 || Village[i][4] == undefined)   // barbarian village
-                        && conf.addingBarbarianVillagesToAF.maxDistance >= Math.sqrt(Math.pow(Village[i][2]-X,2)+Math.pow(Village[i][3]-Y,2)))
-                    {
-                        possibleVillages.push(Village[i])
+                    if(Village[i][4] == playerId){
+                        playerVillages.push(Village[i])
                     }
                 }
                 return 0;
             }
-            setPossibleVillages()
+            setPlayerVillages();
 
-            // ignore villages available in AF from possibleVillages
+            // ignore villages available in AF
             function filterPossibleVillages(){
-                for (let pvi = possibleVillages.length-1; pvi >= 0; pvi--) {
+                for (let vi = Villages.length-1; vi >= 0; vi--) {
                     for (let afci = allAFCoordinates.length-1; afci >= 0; afci--) {
+                        village = Villages[vi].split(',');
                         coords = allAFCoordinates[afci].split("|")
-                        if(coords[0] == possibleVillages[pvi][2] && coords[1] == possibleVillages[pvi][3]){
-                            possibleVillages.splice(pvi,1);
+                        if(coords[0] == village[2] && coords[1] == village[3]){
+                            Villages.splice(vi,1);
                             allAFCoordinates.splice(afci,1);
                             afci = 0;
                         }
@@ -79,7 +77,31 @@ function processCollectingAddingBarbarianVillagesToAF() {
             }
             filterPossibleVillages();
 
-            localStorage.setItem("coordinatesForAddingBarbarianVillagesToAF", JSON.stringify(possibleVillages));
+            // look for possible barbarian villages in distance
+            function setPossibleVillages(){
+                var i = Villages.length - 1;
+                while(i--) {
+                    Village[i] = Villages[i].split(',');
+                    if(Village[i][4] == 0 || Village[i][4] == undefined){       // barbarian village
+                        for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
+                            var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillages[pvi][2],2)+Math.pow(Village[i][3]-playerVillages[pvi][3],2))
+                            if(distance <= conf.farm.autoExpansion.maxDistance){
+                                //[playerVillageID, distance, barbarianVillage]
+                                possibleVillages.push([playerVillages[pvi][0], distance, Village[i]])
+                            }
+                        }
+                    }
+                }
+                return 0;
+            }
+            setPossibleVillages()
+
+            // sort possibleVillages by distance
+            possibleVillages.sort(function (a, b) {
+                return a[1] - b[1]
+            })
+
+            localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(possibleVillages));
             return 0;
         }
         ScriptVillage(Request.responseText)
@@ -105,7 +127,7 @@ function completeQuest(){
         $(completeQuestBtn).first().click()
     }
 }
-
+698271048
 // Page timer
 // return to AF when you stay too long on the same page
 var timer = conf.scavenger.durationInMin ;
@@ -127,7 +149,7 @@ pageTimer()
 var defaultLevel = 0
 var collectAFStatisticsLevel = 1
 var wreckerLevel = 2
-var addingBarbarianVillagesToAFLevel = 3
+var autoExpansionLevel = 3
 
 function goToNextLevel(level){
     localStorage.setItem("scriptLevel", level)
@@ -145,13 +167,15 @@ function goToNextLevel(level){
             break;
         case 3:
             var day = String(new Date().getDate()).padStart(2, '0');
-            if(localStorage.getItem("day") != day){
-                processCollectingAddingBarbarianVillagesToAF()
-                localStorage.setItem("day", day);
-            }
-            setTimeout(function() {
+            if(localStorage.getItem("autoExpansionDay") != day){
+                processAutoExpansion()
+                localStorage.setItem("autoExpansionDay", day);
+                setTimeout(function() {
+                    goToCommandPage();
+                }, 10000)
+            }else{
                 goToCommandPage();
-            }, 3000)
+            }
             break;
         default:
             localStorage.setItem("scriptLevel", 0)

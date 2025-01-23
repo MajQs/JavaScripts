@@ -4,7 +4,7 @@ function processWrecker() {
 
     if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null) {
         localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-        goToNextLevel(addingBarbarianVillagesToAFLevel)
+        goToNextLevel(autoExpansionLevel)
         return 0;
     }
 
@@ -25,22 +25,29 @@ function processWrecker() {
     return 0;
 }
 
-function processAddingBarbarianVillagesToAFLevel() {
-    console.log("Processing adding barbarian villages to AF..." );
-    var coordinatesForAddingBarbarianVillagesToAF = JSON.parse(localStorage.getItem("coordinatesForAddingBarbarianVillagesToAF"));
+function processAutoExpansionLevel() {
+    console.log("Processing Auto Expansion..." );
+    var coordinatesForAutoExpansion = JSON.parse(localStorage.getItem("coordinatesForAutoExpansion"));
 
-    if ($('.error_box').length > 0 || coordinatesForAddingBarbarianVillagesToAF.length == 0 || coordinatesForAddingBarbarianVillagesToAF == null) {
+    if ($('.error_box').length > 0 || coordinatesForAutoExpansion.length == 0 || coordinatesForAutoExpansion == null) {
         goToNextLevel(defaultLevel)
         return 0;
     }
 
-    var coordinate = coordinatesForAddingBarbarianVillagesToAF.shift()
-    localStorage.setItem("coordinatesForAddingBarbarianVillagesToAF", JSON.stringify(coordinatesForAddingBarbarianVillagesToAF));
-    $("#place_target").find('input').first().val(coordinate)
+    var mainVillageId = $.cookie("global_village_id")
+    for (let i = 0; i < coordinatesForAutoExpansion.length; i++) {
+        if(mainVillageId == coordinatesForAutoExpansion[i][0]){
+            $("#place_target").find('input').first().val(coordinatesForAutoExpansion[i][2][2]+"|"+coordinatesForAutoExpansion[i][2][3])
+            coordinatesForAutoExpansion.splice(i,1)
+            localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(coordinatesForAutoExpansion));
 
-    $("#unit_input_spy").val("1")
+            $("#unit_input_spy").val("1")
 
-    $("#target_attack").click()
+            $("#target_attack").click()
+            return 0;
+        }
+    }
+
     return 0;
 }
 
@@ -63,8 +70,8 @@ if (isCommand()) {
     setTimeout(function() {
         if(shouldProcessLevel(wreckerLevel)){
             processWrecker();
-        } else if(shouldProcessLevel(addingBarbarianVillagesToAFLevel)){
-            processAddingBarbarianVillagesToAFLevel()
+        } else if(shouldProcessLevel(autoExpansionLevel)){
+            processAutoExpansionLevel()
         }
     }, 2000)
 }
@@ -72,7 +79,7 @@ if (isCommand()) {
 if (isCommandConfirm()) {
     console.log("Command Confirm page..." );
     setTimeout(function() {
-        if(shouldProcessLevel(wreckerLevel) || shouldProcessLevel(addingBarbarianVillagesToAFLevel)){
+        if(shouldProcessLevel(wreckerLevel) || shouldProcessLevel(autoExpansionLevel)){
             $("#troop_confirm_submit").click()
         }
     }, 2000)
