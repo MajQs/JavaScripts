@@ -1,4 +1,4 @@
-// Loop: farm -> scavenger -> wrecker
+// Loop: farm -> scavenger -> wrecker -> addingBarbarianVillagesToAF
 // === PARAMS ===
 var conf = {
   farm: {                           // FARMA -> wysyła A z AF
@@ -12,12 +12,12 @@ var conf = {
     maxDistance: 10                     // do jakiej odległości ma atakować, (10 = 5h przy prędkość jednostek: 0.625)
   },
   addingBarbarianVillagesToAF: {    // AUTOMATYCZNE DODAWANIE WIOSEK BARBARZYŃSKICH - wysyła 1LK na wioske z poza listy AF
-    maxDistance: 5                      // do jakiej odległości ma atakować
+    maxDistance: 30                      // do jakiej odległości ma atakować
   }
 }
 
 // ==============
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/rozkazy.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@27231c8/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@2ff685a/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@2ff685a/plemiona/rozkazy.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@2ff685a/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@2ff685a/plemiona/zbierak.js');

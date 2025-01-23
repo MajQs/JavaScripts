@@ -34,44 +34,56 @@ function processCollectingAddingBarbarianVillagesToAF() {
             var X; var Y;
             var Villages = Data.split("\n");
 
-            // find main village coords
-            var i = Villages.length - 1;
-            while(i--) {
-                Village[i] = Villages[i].split(',');
-                if(Village[i][0] == mainVillageId){
-                    X = Village[i][2]
-                    Y = Village[i][3]
-                }
-            }
-            console.log("Main coords " + X + "|" + Y)
-
-            // look for possible barbarian villages in distance
-            var possibleVillages = [];
-            var i = Villages.length - 1;
-            while(i--) {
-                Village[i] = Villages[i].split(',');
-                if((Village[i][4] == 0 || Village[i][4] == undefined)   // barbarian village
-                    && conf.addingBarbarianVillagesToAF.maxDistance >= Math.sqrt(Math.pow(Village[i][2]-X,2)+Math.pow(Village[i][3]-Y,2)))
-                {
-                    possibleVillages.push(Village[i])
-                }
-            }
-
-            // ignore villages available in AF from possibleVillages
-            for (let pvi = possibleVillages.length-1; pvi >= 0; pvi--) {
-                for (let afci = allAFCoordinates.length-1; afci >= 0; afci--) {
-                    coords = allAFCoordinates[afci].split("|")
-                    if(coords[0] == possibleVillages[pvi][2] && coords[1] == possibleVillages[pvi][3]){
-                        possibleVillages.splice(pvi,1)
-                        allAFCoordinates.splice(afci,1)
-                        //afci = 0;
+            function setMainCoords(){
+                var i = Villages.length - 1;
+                while(i--) {
+                    Village[i] = Villages[i].split(',');
+                    if(Village[i][0] == mainVillageId){
+                        X = Village[i][2]
+                        Y = Village[i][3]
                     }
                 }
+                console.log("Main coords " + X + "|" + Y)
+                return 0;
             }
+            setMainCoords();
+
+            function setPossibleVillages(){
+                // look for possible barbarian villages in distance
+                var possibleVillages = [];
+                var i = Villages.length - 1;
+                while(i--) {
+                    Village[i] = Villages[i].split(',');
+                    if((Village[i][4] == 0 || Village[i][4] == undefined)   // barbarian village
+                        && conf.addingBarbarianVillagesToAF.maxDistance >= Math.sqrt(Math.pow(Village[i][2]-X,2)+Math.pow(Village[i][3]-Y,2)))
+                    {
+                        possibleVillages.push(Village[i])
+                    }
+                }
+                return 0;
+            }
+            setPossibleVillages()
+
+            // ignore villages available in AF from possibleVillages
+            function filterPossibleVillages(){
+                for (let pvi = possibleVillages.length-1; pvi >= 0; pvi--) {
+                    for (let afci = allAFCoordinates.length-1; afci >= 0; afci--) {
+                        coords = allAFCoordinates[afci].split("|")
+                        if(coords[0] == possibleVillages[pvi][2] && coords[1] == possibleVillages[pvi][3]){
+                            possibleVillages.splice(pvi,1);
+                            allAFCoordinates.splice(afci,1);
+                            afci = 0;
+                        }
+                    }
+                }
+                return 0;
+            }
+            filterPossibleVillages();
             localStorage.setItem("coordinatesForAddingBarbarianVillagesToAF", JSON.stringify(possibleVillages));
+            return 0;
         }
         ScriptVillage(Request.responseText)
-
+        return 0;
 	};
 	Request.open('GET', '/map/village.txt' , true);
     Request.send();
