@@ -10,7 +10,6 @@ function processWrecker() {
 
     var coordinate = coordinatesForWrecker.shift()
     localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
-
     $("#place_target").find('input').first().val(coordinate)
 
     $("#unit_input_light").val("4")
@@ -28,8 +27,20 @@ function processWrecker() {
 
 function processAddingBarbarianVillagesToAFLevel() {
     console.log("Processing adding barbarian villages to AF..." );
-//    var coordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForAddingBarbarianVillagesToAF"));
-    goToNextLevel(defaultLevel)
+    var coordinatesForAddingBarbarianVillagesToAF = JSON.parse(localStorage.getItem("coordinatesForAddingBarbarianVillagesToAF"));
+
+    if ($('.error_box').length > 0 || coordinatesForAddingBarbarianVillagesToAF.length == 0 || coordinatesForAddingBarbarianVillagesToAF == null) {
+        goToNextLevel(defaultLevel)
+        return 0;
+    }
+
+    var coordinate = coordinatesForAddingBarbarianVillagesToAF.shift()
+    localStorage.setItem("coordinatesForAddingBarbarianVillagesToAF", JSON.stringify(coordinatesForAddingBarbarianVillagesToAF));
+    $("#place_target").find('input').first().val(coordinate)
+
+    $("#unit_input_spy").val("1")
+
+    $("#target_attack").click()
     return 0;
 }
 
