@@ -82,10 +82,7 @@ function processScavengerLoop() {
             timer--;
             processScavengerLoop()
         } else {
-            localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-            localStorage.setItem("allAFCoordinates", JSON.stringify([]));
-            localStorage.setItem("wreckerEnabled", true)
-            goToAfPage()
+            goToNextLevel(collectAFStatisticsLevel)
         }
     }, 60000);
 }

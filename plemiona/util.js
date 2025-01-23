@@ -39,32 +39,42 @@ function pageTimer() {
             timer--;
             pageTimer()
         } else {
-            localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-            localStorage.setItem("allAFCoordinates", JSON.stringify([]));
-            localStorage.setItem("wreckerEnabled", true)
-            goToAfPage()
+            goToNextLevel(defaultLevel)
         }
     }, 60000);
 }
 pageTimer()
 
 
+
+
 var defaultLevel = 0
 var collectAFStatisticsLevel = 1
 var wreckerLevel = 2
 
-function goToNextLevel(){
-    let currentLevel = localStorage.getItem("scriptLevel")
-    localStorage.setItem("scriptLevel", currentLevel + 1)
-    switch(currentLevel){
+function goToNextLevel(level){
+    localStorage.setItem("scriptLevel", level)
+    switch(level){
+        case 0:
+            localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
+            localStorage.setItem("allAFCoordinates", JSON.stringify([]));
+            goToAfPage()
+            break;
         case 1:
+            localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
+            localStorage.setItem("allAFCoordinates", JSON.stringify([]));
+            goToAfPage()
             break;
         case 2:
-
+            goToCommandPage();
             break;
         default:
             localStorage.setItem("scriptLevel", 0)
+            goToAfPage()
     }
+}
 
+function shouldProcessLevel(level){
+    return localStorage.getItem("scriptLevel") == level
 }
 

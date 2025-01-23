@@ -33,11 +33,12 @@ function processCollectAFStatistics() {
 
     // next page
     let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page
-    let nextAnchor = strongElement.next('a'); // next page
+    let nextAnchor = strongElement.next('a');   // next page
     if (nextAnchor.length > 0) {
-        nextAnchor[0].click(); // next page
+        nextAnchor[0].click();                  // next page
     } else {
-        goToCommandPage();
+        goToNextLevel(wreckerLevel)
+        return 0;
     }
 }
 
@@ -102,7 +103,7 @@ function isAF() {
 if (isAF()) {
     console.log("AF page..." );
     setTimeout(function() {
-        if(localStorage.getItem("wreckerEnabled") == 'true'){
+        if(shouldProcessLevel(collectAFStatisticsLevel)){
             processCollectAFStatistics();
         } else {
             processFarm();

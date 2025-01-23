@@ -3,9 +3,8 @@ function processWreckerInCommand() {
     var coordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
 
     if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null) {
-        localStorage.setItem("wreckerEnabled", false)
         localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-        goToAfPage()
+        goToNextLevel(defaultLevel)
         return 0;
     }
 
@@ -86,7 +85,7 @@ function isCommandConfirm() {
 
 if (isCommand()) {
     console.log("Command page..." );
-    if(localStorage.getItem("wreckerEnabled") == 'true'){
+    if(shouldProcessLevel(wreckerLevel)){
         setTimeout(function() {
             processWreckerInCommand();
         }, 2000)
@@ -95,7 +94,7 @@ if (isCommand()) {
 
 if (isCommandConfirm()) {
     console.log("Command Confirm page..." );
-    if(localStorage.getItem("wreckerEnabled") == 'true'){
+    if(shouldProcessLevel(wreckerLevel)){
         setTimeout(function() {
             $("#troop_confirm_submit").click()
         }, 2000)
