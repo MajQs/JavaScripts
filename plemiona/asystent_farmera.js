@@ -101,7 +101,7 @@ function isAF() {
 if (isAF()) {
     console.log("AF page..." );
     setTimeout(function() {
-        if(conf.wrecker.enabled == 1 && localStorage.getItem("wreckerEnabled") == 'true'){
+        if(localStorage.getItem("wreckerEnabled") == 'true'){
             processCollectAFStatistics();
         } else {
             processFarm();
