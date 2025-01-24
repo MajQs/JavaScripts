@@ -55,9 +55,9 @@ function processCollectAFStatistics() {
     let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page
     let nextAnchor = strongElement.next('a');   // next page
     if (nextAnchor.length > 0) {
-//        nextAnchor[0].click();                  // next page
+        nextAnchor[0].click();                  // next page
     } else {
-//        goToNextLevel(collectServerDataLevel)
+        goToNextLevel(collectServerDataLevel)
         return 0;
     }
 }
