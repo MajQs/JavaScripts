@@ -46,30 +46,30 @@ function processAutoExpansion() {
     function process(){
         for (let i = 0; i < coordinatesForAutoExpansion.length; i++) {
             if(mainVillageId == coordinatesForAutoExpansion[i][0]){
-                var isUnderAttack = false
-                var Request = new XMLHttpRequest();
-                Request.onreadystatechange = function() {
-                    var commands = $("#commands_outgoings").find(".quickedit-label")
+            var target = coordinatesForAutoExpansion[i][2][0]
+                function isUnderAttack(){
+                    let isUnderAttack = false
+                    var Request = new XMLHttpRequest();
+                	Request.open('GET', 'game.php?village='+mainVillageId+'&screen=info_village&id=' + target , false);
+                    Request.send(null);
+                    var commands = $("<div>").html(Request.responseText).find("#commands_outgoings");
                     for(let cvni=0; cvni < commands.length; cvni++){
                         for(let pvi=0; pvi < playerVillages.length; pvi++){
                             var pvn = playerVillages[pvi][0][1].replace("+", " ")
                             var cvn = commands.eq(cvni).text()
                             if(cvn.indexOf(pvn) > -1){
                                 isUnderAttack = true
-                                return 0;
                             }
                         }
                     }
-                    return 0;
-            	};
-            	Request.open('GET', 'game.php?village='+mainVillageId+'&screen=info_village&id=' + coordinatesForAutoExpansion[i][2][0] , true);
-                Request.send();
+                    return isUnderAttack
+                }
 
                 $("#place_target").find('input').first().val(coordinatesForAutoExpansion[i][2][2]+"|"+coordinatesForAutoExpansion[i][2][3])
                 coordinatesForAutoExpansion.splice(i,1)
                 localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(coordinatesForAutoExpansion));
 
-                if(!isUnderAttack){
+                if(!isUnderAttack()){
                     for(let pvi=0; pvi < playerVillages.length; pvi++){
                         if(mainVillageId == playerVillages[pvi][0][0]){
                             playerVillages[pvi][1] = --attacksLeft

@@ -22,7 +22,7 @@ function goToCommandPage() {
 }
 
 function processCollectingServerData() {
-    console.log("Processing Auto Expansion..." );
+    console.log("Processing Collecting Server Data..." );
 
 	var Request = new XMLHttpRequest();
 	Request.onreadystatechange = function() {

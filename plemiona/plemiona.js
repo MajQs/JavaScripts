@@ -9,8 +9,8 @@ var conf = {
       maxDistance: 10                           // (10 = 5h przy prędkości jednostek: 0.625)
     },
     autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
-      maxDistance: 20,
-      dailyNumberOfAttacksFromVillage: 10       // ilość ataków z jednej wioski gracza
+      maxDistance: 25,
+      dailyNumberOfAttacksFromVillage: 10       // ilość ataków z jednej wioski gracza na dzień
     }
   },
   scavenger: {                          // ZBIERAK -> nie bierze LK pod uwagę
@@ -19,7 +19,7 @@ var conf = {
 }
 
 // ==============
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@ce310ab/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@ce310ab/plemiona/rozkazy.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@ce310ab/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@ce310ab/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@093ff6c/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@093ff6c/plemiona/rozkazy.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@093ff6c/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@093ff6c/plemiona/zbierak.js');
