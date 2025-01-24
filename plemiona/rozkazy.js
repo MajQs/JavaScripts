@@ -28,6 +28,7 @@ function processWrecker() {
 function processAutoExpansionLevel() {
     console.log("Processing Auto Expansion..." );
     var coordinatesForAutoExpansion = JSON.parse(localStorage.getItem("coordinatesForAutoExpansion"));
+    var playerVillages = JSON.parse(localStorage.getItem("playerVillages"));
 
     if ($('.error_box').length > 0 || coordinatesForAutoExpansion.length == 0 || coordinatesForAutoExpansion == null) {
         goToNextLevel(defaultLevel)
@@ -37,17 +38,48 @@ function processAutoExpansionLevel() {
     var mainVillageId = $.cookie("global_village_id")
     for (let i = 0; i < coordinatesForAutoExpansion.length; i++) {
         if(mainVillageId == coordinatesForAutoExpansion[i][0]){
+            var isUnderAttack? = false
+            var Request = new XMLHttpRequest();
+            Request.onreadystatechange = function() {
+                var commands = $("#commands_outgoings").find(".quickedit-label")
+                for(let cvni=0; cvni < commands.length; cvni++){
+                    for(let pvi=0; pvi < playerVillages.length; pvi++){
+                        var pvn = playerVillages[pvi][0][1].replace("+", " ")
+                        var cvn = commands.eq(cvni).text()
+                        if(cvn.indexOf(pvn) > -1){
+                            isUnderAttack = true
+                            return 0;
+                        }
+                    }
+                }
+                return 0;
+        	};
+        	Request.open('GET', 'game.php?village='+mainVillageId+'&screen=info_village&id=' + coordinatesForAutoExpansion[i][2][0] , true);
+            Request.send();
+
             $("#place_target").find('input').first().val(coordinatesForAutoExpansion[i][2][2]+"|"+coordinatesForAutoExpansion[i][2][3])
             coordinatesForAutoExpansion.splice(i,1)
             localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(coordinatesForAutoExpansion));
 
-            $("#unit_input_spy").val("1")
+            var spyCountText = $("#units_entry_all_spy").text()
 
-            $("#target_attack").click()
-            return 0;
+            if(!isUnderAttack && spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) >= 1){
+                for(let pvi=0; pvi < playerVillages.length; pvi++){
+                    if(mainVillageId == playerVillages[pvi][0][0]){
+                        var attacksLeft = playerVillages[pvi][0][1]
+                        playerVillages[pvi][0][1] = attacksLeft--
+                        localStorage.setItem(playerVillages, JSON.stringify(playerVillages));
+                    }
+                }
+
+                $("#unit_input_spy").val("1")
+
+                $("#target_attack").click()
+                return 0;
+            }
         }
     }
-
+    goToNextLevel(defaultLevel)
     return 0;
 }
 

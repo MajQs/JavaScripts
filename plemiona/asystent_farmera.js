@@ -2,6 +2,7 @@ function processCollectAFStatistics() {
     console.log("Processing collecting AF statistics..." );
     var coordinatesForWrecker = []
     var allAFCoordinates= []
+//    var afStatistics= []
 
     // collect coordinates
     let rows = $(`#plunder_list tr`).slice(2);
@@ -9,27 +10,22 @@ function processCollectAFStatistics() {
         let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
         let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
         allAFCoordinates.push(coordinates)
+
+        //coords, max_loot, date
+//        var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src').indexOf('max_loot/1') > -1
+//        var date = $(rows[index]).find('td').eq(3).text()
+//        afStatistics.push([coordinates, date, max_loot])
+
         if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                         // defeated
             && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
             && $(rows[index]).find('td').eq(7).text() <= conf.farm.wrecker.maxDistance)                                 // is in rage of max distance
         {
             coordinatesForWrecker.push(coordinates)
-        }
     }
 
-    let currentCoordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
-    if(currentCoordinatesForWrecker == null){
-        localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
-    }else{
-        localStorage.setItem("coordinatesForWrecker", JSON.stringify(currentCoordinatesForWrecker.concat(coordinatesForWrecker)));
-    }
-
-    let currentAllAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
-    if(currentAllAFCoordinates == null){
-        localStorage.setItem("allAFCoordinates", JSON.stringify(coordinatesForWrecker));
-    }else{
-        localStorage.setItem("allAFCoordinates", JSON.stringify(currentAllAFCoordinates.concat(allAFCoordinates)));
-    }
+    saveParameterToLocalStorage("coordinatesForWrecker", coordinatesForWrecker)
+    saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
+//    saveParameterToLocalStorage("afStatistics", afStatistics)
 
     // next page
     let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page

@@ -53,12 +53,13 @@ function processAutoExpansion() {
                 while(i--) {
                     Village[i] = Villages[i].split(',');
                     if(Village[i][4] == playerId){
-                        playerVillages.push(Village[i])
+                        playerVillages.push([Village[i], conf.farm.autoExpansion.numberOfAttacksFromVillage])
                     }
                 }
                 return 0;
             }
             setPlayerVillages();
+            localStorage.setItem(playerVillages, JSON.stringify(playerVillages));
 
             // ignore villages available in AF
             function filterPossibleVillages(){
@@ -84,10 +85,10 @@ function processAutoExpansion() {
                     Village[i] = Villages[i].split(',');
                     if(Village[i][4] == 0 || Village[i][4] == undefined){       // barbarian village
                         for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
-                            var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillages[pvi][2],2)+Math.pow(Village[i][3]-playerVillages[pvi][3],2))
+                            var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillages[pvi][0][2],2)+Math.pow(Village[i][3]-playerVillages[pvi][0][3],2))
                             if(distance <= conf.farm.autoExpansion.maxDistance){
                                 //[playerVillageID, distance, barbarianVillage]
-                                possibleVillages.push([playerVillages[pvi][0], distance, Village[i]])
+                                possibleVillages.push([playerVillages[pvi][0][0], distance, Village[i]])
                             }
                         }
                     }
@@ -127,10 +128,10 @@ function completeQuest(){
         $(completeQuestBtn).first().click()
     }
 }
-698271048
+
 // Page timer
 // return to AF when you stay too long on the same page
-var timer = conf.scavenger.durationInMin ;
+var timer = 10 ;
 function pageTimer() {
     setTimeout(function() {
         console.log("TIMER: min left = " + timer );
@@ -185,5 +186,15 @@ function goToNextLevel(level){
 
 function shouldProcessLevel(level){
     return localStorage.getItem("scriptLevel") == level
+}
+
+function saveParameterToLocalStorage(name, data){
+    let current = JSON.parse(localStorage.getItem(name));
+    if(current == null){
+        localStorage.setItem(name, JSON.stringify(data));
+    }else{
+        localStorage.setItem(name, JSON.stringify(current.concat(data)));
+    }
+    return 0;
 }
 
