@@ -21,6 +21,7 @@ function processCollectAFStatistics() {
             && $(rows[index]).find('td').eq(7).text() <= conf.farm.wrecker.maxDistance)                                 // is in rage of max distance
         {
             coordinatesForWrecker.push(coordinates)
+        }
     }
 
     saveParameterToLocalStorage("coordinatesForWrecker", coordinatesForWrecker)
