@@ -30,7 +30,20 @@ function processAutoExpansionLevel() {
     var coordinatesForAutoExpansion = JSON.parse(localStorage.getItem("coordinatesForAutoExpansion"));
     var playerVillages = JSON.parse(localStorage.getItem("playerVillages"));
 
-    if ($('.error_box').length > 0 || coordinatesForAutoExpansion.length == 0 || coordinatesForAutoExpansion == null) {
+    var attacksLeft
+    for(let pvi=0; pvi < playerVillages.length; pvi++){
+        if(mainVillageId == playerVillages[pvi][0]){
+            attacksLeft = playerVillages[pvi][1]
+        }
+    }
+
+    var spyCountText = $("#units_entry_all_spy").text()
+    if ($('.error_box').length > 0
+        || coordinatesForAutoExpansion.length == 0
+        || coordinatesForAutoExpansion == null
+        || attacksLeft == 0
+        || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) >= 1)
+    {
         goToNextLevel(defaultLevel)
         return 0;
     }
@@ -61,26 +74,15 @@ function processAutoExpansionLevel() {
             coordinatesForAutoExpansion.splice(i,1)
             localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(coordinatesForAutoExpansion));
 
-            var spyCountText = $("#units_entry_all_spy").text()
-            var attacksLeft
-            for(let pvi=0; pvi < playerVillages.length; pvi++){
-                if(mainVillageId == playerVillages[pvi][0]){
-                    attacksLeft = playerVillages[pvi][1]
-                }
-            }
-
-            if(!isUnderAttack
-                && attacksLeft > 0
-                && spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) >= 1)
-            {
+            if(!isUnderAttack){
                 playerVillages[pvi][1] = --attacksLeft
                 localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
 
                 $("#unit_input_spy").val("1")
                 $("#target_attack").click()
                 return 0;
-            } else{
-                goToNextLevel(defaultLevel)
+            } else {
+                goToCommandPage();
             }
         }
     }
