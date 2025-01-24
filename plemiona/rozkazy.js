@@ -44,7 +44,7 @@ function processAutoExpansionLevel() {
                 var commands = $("#commands_outgoings").find(".quickedit-label")
                 for(let cvni=0; cvni < commands.length; cvni++){
                     for(let pvi=0; pvi < playerVillages.length; pvi++){
-                        var pvn = playerVillages[pvi][0][1].replace("+", " ")
+                        var pvn = playerVillages[pvi][1].replace("+", " ")
                         var cvn = commands.eq(cvni).text()
                         if(cvn.indexOf(pvn) > -1){
                             isUnderAttack = true
@@ -65,19 +65,20 @@ function processAutoExpansionLevel() {
 
             if(!isUnderAttack && spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) >= 1){
                 for(let pvi=0; pvi < playerVillages.length; pvi++){
-                    if(mainVillageId == playerVillages[pvi][0][0]){
-                        var attacksLeft = playerVillages[pvi][0][1]
-                        playerVillages[pvi][0][1] = attacksLeft--
+                    if(mainVillageId == playerVillages[pvi][0]){
+                        var attacksLeft = playerVillages[pvi][1]
+                        playerVillages[pvi][1] = attacksLeft--
                         localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
                     }
                 }
                 $("#unit_input_spy").val("1")
                 $("#target_attack").click()
                 return 0;
+            } else{
+                goToNextLevel(defaultLevel)
             }
         }
     }
-    goToNextLevel(defaultLevel)
     return 0;
 }
 
