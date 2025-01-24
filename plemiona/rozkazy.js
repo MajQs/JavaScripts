@@ -38,7 +38,7 @@ function processAutoExpansionLevel() {
     var mainVillageId = $.cookie("global_village_id")
     for (let i = 0; i < coordinatesForAutoExpansion.length; i++) {
         if(mainVillageId == coordinatesForAutoExpansion[i][0]){
-            var isUnderAttack? = false
+            var isUnderAttack = false
             var Request = new XMLHttpRequest();
             Request.onreadystatechange = function() {
                 var commands = $("#commands_outgoings").find(".quickedit-label")
