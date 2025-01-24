@@ -95,7 +95,7 @@ function isCommand() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('screen') === "place" && (params.get('mode') === "command" || params.get('mode') == null)
+    return params.get('screen') === "place" && params.get('try') != "confirm" && (params.get('mode') === "command" || params.get('mode') == null)
 }
 
 function isCommandConfirm() {
