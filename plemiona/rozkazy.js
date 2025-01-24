@@ -56,7 +56,7 @@ function processAutoExpansionLevel() {
                 var commands = $("#commands_outgoings").find(".quickedit-label")
                 for(let cvni=0; cvni < commands.length; cvni++){
                     for(let pvi=0; pvi < playerVillages.length; pvi++){
-                        var pvn = playerVillages[pvi][1].replace("+", " ")
+                        var pvn = playerVillages[pvi][0][1].replace("+", " ")
                         var cvn = commands.eq(cvni).text()
                         if(cvn.indexOf(pvn) > -1){
                             isUnderAttack = true
@@ -74,9 +74,12 @@ function processAutoExpansionLevel() {
             localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(coordinatesForAutoExpansion));
 
             if(!isUnderAttack){
-                playerVillages[pvi][1] = --attacksLeft
+                for(let pvi=0; pvi < playerVillages.length; pvi++){
+                    if(mainVillageId == playerVillages[pvi][0][0]){
+                        playerVillages[pvi][1] = --attacksLeft
+                    }
+                }
                 localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
-
                 $("#unit_input_spy").val("1")
                 $("#target_attack").click()
                 return 0;
