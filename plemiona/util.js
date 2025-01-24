@@ -59,7 +59,7 @@ function processAutoExpansion() {
                 return 0;
             }
             setPlayerVillages();
-            localStorage.setItem(playerVillages, JSON.stringify(playerVillages));
+            localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
 
             // ignore villages available in AF
             function filterPossibleVillages(){

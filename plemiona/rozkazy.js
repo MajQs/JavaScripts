@@ -68,12 +68,10 @@ function processAutoExpansionLevel() {
                     if(mainVillageId == playerVillages[pvi][0][0]){
                         var attacksLeft = playerVillages[pvi][0][1]
                         playerVillages[pvi][0][1] = attacksLeft--
-                        localStorage.setItem(playerVillages, JSON.stringify(playerVillages));
+                        localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
                     }
                 }
-
                 $("#unit_input_spy").val("1")
-
                 $("#target_attack").click()
                 return 0;
             }
