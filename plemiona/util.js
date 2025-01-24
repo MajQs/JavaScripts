@@ -186,6 +186,7 @@ function goToNextLevel(level){
             localStorage.setItem("scriptLevel", 0)
             goToAfPage()
     }
+    return 0;
 }
 
 function shouldProcessLevel(level){
