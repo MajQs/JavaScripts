@@ -1,8 +1,12 @@
 function processCollectAFStatistics() {
     console.log("Processing collecting AF statistics..." );
     var coordinatesForWrecker = []
-    var allAFCoordinates= []
-//    var afStatistics= []
+    var allAFCoordinates = []
+
+    var afStatistics = JSON.parse(localStorage.getItem("afStatistics"));
+    if (afStatistics == null){
+        afStatistics = [];
+    }
 
     // collect coordinates
     let rows = $(`#plunder_list tr`).slice(2);
@@ -10,11 +14,30 @@ function processCollectAFStatistics() {
         let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
         let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
         allAFCoordinates.push(coordinates)
-
         //coords, max_loot, date
-//        var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src').indexOf('max_loot/1') > -1
-//        var date = $(rows[index]).find('td').eq(3).text()
-//        afStatistics.push([coordinates, date, max_loot])
+        var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src')
+        if(max_loot == null){
+            max_loot = false;
+        }else{
+            max_loot = max_loot.indexOf('max_loot/1') > -1
+        }
+
+        var date = $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ","")
+        let exist = false;
+        for(let afsi = 0; afsi < afStatistics.length; afsi++){
+            if(afStatistics[afsi][0] == coordinates){
+                exist = true;
+                if(afStatistics[afsi][1][afStatistics[afsi][1].length-1][0] != date){
+                    if(afStatistics[afsi][1].length >= 10){
+                        afStatistics[afsi][1].shift()
+                    }
+                    afStatistics[afsi][1].push([date, max_loot])
+                }
+            }
+        }
+        if(!exist){
+            afStatistics.push([coordinates, [[date, max_loot]]])
+        }
 
         if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                         // defeated
             && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
@@ -26,15 +49,15 @@ function processCollectAFStatistics() {
 
     saveParameterToLocalStorage("coordinatesForWrecker", coordinatesForWrecker)
     saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
-//    saveParameterToLocalStorage("afStatistics", afStatistics)
+    localStorage.setItem("afStatistics", JSON.stringify(afStatistics));
 
     // next page
     let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page
     let nextAnchor = strongElement.next('a');   // next page
     if (nextAnchor.length > 0) {
-        nextAnchor[0].click();                  // next page
+//        nextAnchor[0].click();                  // next page
     } else {
-        goToNextLevel(collectServerDataLevel)
+//        goToNextLevel(collectServerDataLevel)
         return 0;
     }
 }

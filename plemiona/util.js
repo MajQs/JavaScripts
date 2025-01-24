@@ -83,7 +83,7 @@ function processCollectingServerData() {
                 var i = Villages.length - 1;
                 while(i--) {
                     Village[i] = Villages[i].split(',');
-                    if(Village[i][4] == 0 || Village[i][4] == undefined){       // barbarian village
+                    if(Village[i][4] == 0 && Village[i][5] <= conf.farm.autoExpansion.maxVillagePoints){       // barbarian village
                         for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
                             var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillages[pvi][0][2],2)+Math.pow(Village[i][3]-playerVillages[pvi][0][3],2))
                             if(distance <= conf.farm.autoExpansion.maxDistance){
