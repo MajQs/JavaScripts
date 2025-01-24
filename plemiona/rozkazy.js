@@ -25,7 +25,7 @@ function processWrecker() {
     return 0;
 }
 
-function processAutoExpansionLevel() {
+function processAutoExpansion() {
     console.log("Processing Auto Expansion..." );
     var coordinatesForAutoExpansion = JSON.parse(localStorage.getItem("coordinatesForAutoExpansion"));
     var playerVillages = JSON.parse(localStorage.getItem("playerVillages"));
@@ -111,7 +111,7 @@ if (isCommand()) {
         if(shouldProcessLevel(wreckerLevel)){
             processWrecker();
         } else if(shouldProcessLevel(autoExpansionLevel)){
-            processAutoExpansionLevel()
+            processAutoExpansion()
         }
     }, 2000)
 }

@@ -34,7 +34,7 @@ function processCollectAFStatistics() {
     if (nextAnchor.length > 0) {
         nextAnchor[0].click();                  // next page
     } else {
-        goToNextLevel(wreckerLevel)
+        goToNextLevel(collectServerDataLevel)
         return 0;
     }
 }

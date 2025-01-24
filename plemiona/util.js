@@ -21,7 +21,7 @@ function goToCommandPage() {
     window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=command';
 }
 
-function processAutoExpansion() {
+function processCollectingServerData() {
     console.log("Processing Auto Expansion..." );
 
 	var Request = new XMLHttpRequest();
@@ -149,8 +149,9 @@ pageTimer()
 
 var defaultLevel = 0
 var collectAFStatisticsLevel = 1
-var wreckerLevel = 2
-var autoExpansionLevel = 3
+var collectServerDataLevel = 2
+var wreckerLevel = 3
+var autoExpansionLevel = 4
 
 function goToNextLevel(level){
     localStorage.setItem("scriptLevel", level)
@@ -164,19 +165,22 @@ function goToNextLevel(level){
             goToAfPage()
             break;
         case 2:
-            goToCommandPage();
-            break;
-        case 3:
             var day = String(new Date().getDate()).padStart(2, '0');
             if(localStorage.getItem("autoExpansionDay") != day){
-                processAutoExpansion()
+                processCollectingServerData()
                 localStorage.setItem("autoExpansionDay", day);
                 setTimeout(function() {
-                    goToCommandPage();
+                    goToNextLevel(wreckerLevel);
                 }, 20000)
             }else{
-                goToCommandPage();
+                goToNextLevel(wreckerLevel);
             }
+            break;
+        case 3:
+            goToCommandPage();
+            break;
+        case 4:
+            goToCommandPage();
             break;
         default:
             localStorage.setItem("scriptLevel", 0)
