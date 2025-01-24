@@ -2,11 +2,6 @@ function processWrecker() {
     console.log("Processing wrecker..." );
     var coordinatesForWrecker = JSON.parse(localStorage.getItem("coordinatesForWrecker"));
 
-    if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null) {
-        localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-        goToNextLevel(autoExpansionLevel)
-    }
-
     function process(){
         var coordinate = coordinatesForWrecker.shift()
         localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
@@ -25,7 +20,13 @@ function processWrecker() {
         return 0;
     }
 
-    process();
+    if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null) {
+        localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
+        goToNextLevel(autoExpansionLevel)
+    } else{
+        process();
+    }
+
     return 0;
 }
 
@@ -40,16 +41,6 @@ function processAutoExpansion() {
         if(mainVillageId == playerVillages[pvi][0][0]){
             attacksLeft = playerVillages[pvi][1]
         }
-    }
-
-    var spyCountText = $("#units_entry_all_spy").text()
-    if ($('.error_box').length > 0
-        || coordinatesForAutoExpansion.length == 0
-        || coordinatesForAutoExpansion == null
-        || attacksLeft <= 0
-        || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) == 0)
-    {
-        goToNextLevel(defaultLevel)
     }
 
     function process(){
@@ -96,7 +87,18 @@ function processAutoExpansion() {
         return 0;
     }
 
-    process();
+    var spyCountText = $("#units_entry_all_spy").text()
+    if ($('.error_box').length > 0
+        || coordinatesForAutoExpansion.length == 0
+        || coordinatesForAutoExpansion == null
+        || attacksLeft <= 0
+        || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) == 0)
+    {
+        goToNextLevel(defaultLevel)
+    } else {
+        process();
+    }
+
     return 0;
 }
 
@@ -104,14 +106,14 @@ function isCommand() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('screen') === "place" && params.get('try') != "confirm" && (params.get('mode') === "command" || params.get('mode') == null)
+    return params.get('screen') === "place" && $("#target_attack").length > 0
 }
 
 function isCommandConfirm() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('screen') === "place" && params.get('try') === "confirm" && Array.from(url.searchParams).length == 3
+    return params.get('screen') === "place" && $("#troop_confirm_submit").length > 0
 }
 
 if (isCommand()) {
