@@ -10,7 +10,7 @@ var conf = {
     },
     autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
       maxDistance: 20,
-      numberOfAttacksFromVillage: 10            // ilość ataków z jednej wioski gracza
+      dailyNumberOfAttacksFromVillage: 10            // ilość ataków z jednej wioski gracza
     }
   },
   scavenger: {                          // ZBIERAK -> nie bierze LK pod uwagę

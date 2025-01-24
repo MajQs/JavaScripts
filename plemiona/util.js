@@ -53,7 +53,7 @@ function processAutoExpansion() {
                 while(i--) {
                     Village[i] = Villages[i].split(',');
                     if(Village[i][4] == playerId){
-                        playerVillages.push([Village[i], conf.farm.autoExpansion.numberOfAttacksFromVillage])
+                        playerVillages.push([Village[i], conf.farm.autoExpansion.dailyNumberOfAttacksFromVillage])
                     }
                 }
                 return 0;
