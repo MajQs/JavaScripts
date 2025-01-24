@@ -62,15 +62,20 @@ function processAutoExpansionLevel() {
             localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(coordinatesForAutoExpansion));
 
             var spyCountText = $("#units_entry_all_spy").text()
-
-            if(!isUnderAttack && spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) >= 1){
-                for(let pvi=0; pvi < playerVillages.length; pvi++){
-                    if(mainVillageId == playerVillages[pvi][0]){
-                        var attacksLeft = playerVillages[pvi][1]
-                        playerVillages[pvi][1] = attacksLeft--
-                        localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
-                    }
+            var attacksLeft
+            for(let pvi=0; pvi < playerVillages.length; pvi++){
+                if(mainVillageId == playerVillages[pvi][0]){
+                    attacksLeft = playerVillages[pvi][1]
                 }
+            }
+
+            if(!isUnderAttack
+                && attacksLeft > 0
+                && spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) >= 1)
+            {
+                playerVillages[pvi][1] = --attacksLeft
+                localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
+
                 $("#unit_input_spy").val("1")
                 $("#target_attack").click()
                 return 0;

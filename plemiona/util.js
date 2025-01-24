@@ -173,7 +173,7 @@ function goToNextLevel(level){
                 localStorage.setItem("autoExpansionDay", day);
                 setTimeout(function() {
                     goToCommandPage();
-                }, 10000)
+                }, 20000)
             }else{
                 goToCommandPage();
             }
