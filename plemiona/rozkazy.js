@@ -29,10 +29,11 @@ function processAutoExpansionLevel() {
     console.log("Processing Auto Expansion..." );
     var coordinatesForAutoExpansion = JSON.parse(localStorage.getItem("coordinatesForAutoExpansion"));
     var playerVillages = JSON.parse(localStorage.getItem("playerVillages"));
+    var mainVillageId = $.cookie("global_village_id")
 
     var attacksLeft
     for(let pvi=0; pvi < playerVillages.length; pvi++){
-        if(mainVillageId == playerVillages[pvi][0]){
+        if(mainVillageId == playerVillages[pvi][0][0]){
             attacksLeft = playerVillages[pvi][1]
         }
     }
@@ -42,13 +43,11 @@ function processAutoExpansionLevel() {
         || coordinatesForAutoExpansion.length == 0
         || coordinatesForAutoExpansion == null
         || attacksLeft == 0
-        || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) >= 1)
+        || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) == 0)
     {
         goToNextLevel(defaultLevel)
-        return 0;
     }
 
-    var mainVillageId = $.cookie("global_village_id")
     for (let i = 0; i < coordinatesForAutoExpansion.length; i++) {
         if(mainVillageId == coordinatesForAutoExpansion[i][0]){
             var isUnderAttack = false
