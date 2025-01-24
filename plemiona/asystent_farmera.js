@@ -92,8 +92,13 @@ function processFarm() {
             return 0;
         }
 
+        if($(rows[index]).find('td').eq(7).text() > conf.farm.maxDistance){
+            goToScavengePage()
+            return 0;
+        }
+
         // Click A
-        if ( $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1  // pełna wygrana
+        if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1   // pełna wygrana
             || $(rows[index]).find('td').eq(6).text() == '0' ) {                                    // mur 0
             var aButton = $(rows[index]).find('td').eq(8).find('a').first();
             if (aButton.is('.farm_icon_disabled')) {

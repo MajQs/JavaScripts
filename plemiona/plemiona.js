@@ -3,6 +3,7 @@
 // === PARAMS ===
 var conf = {
   farm: {                               // FARMA -> wysyła A z AF (pełna wygrana lub poziom muru 0)
+    maxDistance: 10,
     speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
     repeatWhenNoMoreVillagesLeft: 0,        // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
     wrecker: {                              // BURZYCIEL -> wymaga: (1 skan, 4 lk, 4 taran), opcjonalne: 3 kat
