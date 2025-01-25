@@ -152,6 +152,12 @@ var collectAFStatisticsLevel = 1
 var collectServerDataLevel = 2
 var wreckerLevel = 3
 var autoExpansionLevel = 4
+var switchVillageLevel = 99
+
+if(localStorage.getItem("scriptLevel") == switchVillageLevel){
+    goToNextLevel(defaultLevel);
+    return 0;
+}
 
 function goToNextLevel(level){
     localStorage.setItem("scriptLevel", level)
@@ -181,6 +187,9 @@ function goToNextLevel(level){
             break;
         case 4:
             goToCommandPage();
+            break;
+        case 99:
+            $("#village_switch_right").find(".arrowRight").click()
             break;
         default:
             localStorage.setItem("scriptLevel", 0)

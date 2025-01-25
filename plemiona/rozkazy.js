@@ -94,7 +94,7 @@ function processAutoExpansion() {
         || attacksLeft <= 0
         || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) == 0)
     {
-        goToNextLevel(defaultLevel)
+        goToNextLevel(switchVillageLevel)
     } else {
         process();
     }
