@@ -2,8 +2,6 @@
 // TIMER: default time = 10 min
 // === PARAMS ===
 var conf = {
-  freezeOffOnVillages: ["village 1", "village 2"]
-  freezeDeffOnVillages: []
   farm: {                               // FARMA -> wysyła A z AF (pełna wygrana lub poziom muru 0)
     maxDistance: 10,
     speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
@@ -19,6 +17,10 @@ var conf = {
   },
   scavenger: {                          // ZBIERAK -> nie bierze LK pod uwagę
     durationInMin: 30                       // minuty spędzone na zbieraku
+  },
+  freeze: {                             // ZAMRAŻARKA
+    offOnVillages: ["M001", "village 2"],
+    deffOnVillages: ["village 1"]
   }
 }
 
