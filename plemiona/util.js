@@ -156,7 +156,6 @@ var switchVillageLevel = 99
 
 if(localStorage.getItem("scriptLevel") == switchVillageLevel){
     goToNextLevel(defaultLevel);
-    return 0;
 }
 
 function goToNextLevel(level){
