@@ -2,6 +2,8 @@
 // TIMER: default time = 10 min
 // === PARAMS ===
 var conf = {
+  freezeOffOnVillages: ["village 1", "village 2"]
+  freezeDeffOnVillages: []
   farm: {                               // FARMA -> wysyła A z AF (pełna wygrana lub poziom muru 0)
     maxDistance: 10,
     speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)

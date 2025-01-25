@@ -211,3 +211,21 @@ function saveParameterToLocalStorage(name, data){
     return 0;
 }
 
+function isVillageWithFrozenOff(){
+    for(let i=0; i < conf.freezeOffOnVillages.length; i++){
+        if(conf.freezeOffOnVillages[i] == $("#menu_row2_village").find('a').text()){
+                return true
+        }
+    }
+    return false
+}
+
+function isVillageWithFrozenDeff(){
+    for(let i=0; i < conf.freezeDeffOnVillages.length; i++){
+        if(conf.freezeDeffOnVillages[i] == $("#menu_row2_village").find('a').text()){
+                return true
+        }
+    }
+    return false
+}
+

@@ -20,7 +20,11 @@ function processWrecker() {
         return 0;
     }
 
-    if ($('.error_box').length > 0 || coordinatesForWrecker.length == 0 || coordinatesForWrecker == null) {
+    if ($('.error_box').length > 0
+        || coordinatesForWrecker.length == 0
+        || coordinatesForWrecker == null
+        || isVillageWithFrozenOff())
+    {
         localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
         goToNextLevel(autoExpansionLevel)
     } else{

@@ -115,8 +115,12 @@ function processFarm() {
         }, getRandomDelay(minDelay, conf.farm.speedInMilliseconds + 250));
     }
 
-    // start farm
-    processRowWithDelay(0);
+    if(isVillageWithFrozenOff()){
+        goToScavengePage()
+    }else{
+        // start farm
+        processRowWithDelay(0);
+    }
 }
 
 function isAF() {

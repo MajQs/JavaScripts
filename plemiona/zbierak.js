@@ -97,6 +97,17 @@ if (isScavenge()) {
     console.log("Scavenger page..." );
     timer = conf.scavenger.durationInMin;
     setTimeout(function() {
+        if(isVillageWithFrozenOff()){
+            settings_axe.max_unit_number = 0
+            settings_light.max_unit_number = 0
+            settings_marcher.max_unit_number = 0
+        }
+        if(isVillageWithFrozenDeff()) {
+            settings_spear.max_unit_number = 0
+            settings_sword.max_unit_number = 0
+            settings_archer.max_unit_number = 0
+            settings_heavy.max_unit_number = 0
+        }
         processScavengerLoop()
     }, 2000)
 }
