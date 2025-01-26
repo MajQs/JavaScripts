@@ -108,7 +108,7 @@ function processFarm() {
                 if(afStatistics[i][0] == coordinates){
                     function shouldPressB(){
                         let pressB = true;
-                        for(let d=afStatistics[i][1].length - 3; d < afStatistics[i][1].length){
+                        for(let d=afStatistics[i][1].length - 3; d < afStatistics[i][1].length; d++){
                             if(afStatistics[i][1][d][1] == false){
                                 pressB = false;
                             }
