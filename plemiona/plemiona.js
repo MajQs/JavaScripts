@@ -29,7 +29,7 @@ var conf = {
 }
 
 // === SCRIPT ===
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@c9882be/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@c9882be/plemiona/rozkazy.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@c9882be/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@c9882be/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@83a0485/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@83a0485/plemiona/rozkazy.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@83a0485/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@83a0485/plemiona/zbierak.js');

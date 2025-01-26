@@ -188,7 +188,12 @@ function goToNextLevel(level){
             goToCommandPage();
             break;
         case 99:
-            $("#village_switch_right").find(".arrowRight").click()
+            var nextVillage = $("#village_switch_right").find(".arrowRight")
+            if(nextVillage.length > 0){
+                nextVillage.click()
+            }else{
+                goToNextLevel(defaultLevel);
+            }
             break;
         default:
             localStorage.setItem("scriptLevel", 0)
