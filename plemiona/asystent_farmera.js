@@ -100,35 +100,36 @@ function processFarm() {
         if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1   // pełna wygrana
             || $(rows[index]).find('td').eq(6).text() == '0' ) {                                    // mur 0
 
-            var afStatistics = JSON.parse(localStorage.getItem("afStatistics"));
-            for(let i=0; i < afStatistics.length; i++){
-                let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
-                let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
-                function pressA(){
-                    // Click A
-                    var aButton = $(rows[index]).find('td').eq(8).find('a').first();
-                    if (aButton.is('.farm_icon_disabled')) {
-                        goToScavengePage()
-                    }else{
-                        console.log("pressing A")
-                        aButton.click();
-                    }
-                    return 0;
+            function pressA(){
+                // Click A
+                var aButton = $(rows[index]).find('td').eq(8).find('a').first();
+                if (aButton.is('.farm_icon_disabled')) {
+                    goToScavengePage()
+                }else{
+                    console.log("pressing A")
+                    aButton.click();
                 }
-                function pressB(){
-                    // Click B
-                    var bButton = $(rows[index]).find('td').eq(9).find('a').first();
-                    if (bButton.is('.farm_icon_disabled')) {
-                        pressA()
-                    }else{
-                        console.log("pressing B")
-                        bButton.click();
-                    }
-                    return 0;
-                }
+                return 0;
+            }
 
-                if(afStatistics[i][0] == coordinates){
-                    function shouldPressB(){
+            function pressB(){
+                // Click B
+                var bButton = $(rows[index]).find('td').eq(9).find('a').first();
+                if (bButton.is('.farm_icon_disabled')) {
+                    pressA()
+                }else{
+                    console.log("pressing B")
+                    bButton.click();
+                }
+                return 0;
+            }
+
+            function shouldPressB(){
+                var afStatistics = JSON.parse(localStorage.getItem("afStatistics"));
+                for(let i=0; i < afStatistics.length; i++){
+                    let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
+                    let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
+                    if(afStatistics[i][0] == coordinates){
                         let pressB = true;
                         let dd
                         if(afStatistics[i][1].length - 3 < 0){
@@ -143,14 +144,14 @@ function processFarm() {
                         }
                         return pressB;
                     }
-                    if(shouldPressB()){
-                        pressB()
-                    }else{
-                        pressA()
-                    }
-                }else{
-                    pressA()
                 }
+                return false
+            }
+
+            if(shouldPressB()){
+                pressB()
+            }else{
+                pressA()
             }
         }
 
