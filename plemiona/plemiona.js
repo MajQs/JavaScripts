@@ -11,10 +11,10 @@ var conf = {
     speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
     repeatWhenNoMoreVillagesLeft: 0,        // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
     wrecker: {                              // BURZYCIEL -> wymaga: (1 skan, 4 lk, 4 taran), opcjonalne: 3 kat
-      maxDistance: 10                           // (10 = 5h przy prędkości jednostek: 0.625)
+      maxDistance: 0                           // (10 = 5h przy prędkości jednostek: 0.625)
     },
     autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
-      maxDistance: 20,
+      maxDistance: 0,
       maxVillagePoints: 500,                    // aby uniknąć wiosek graczy którzy usuneli konto itp.
       dailyNumberOfAttacksFromVillage: 10       // ilość ataków z jednej wioski gracza na dzień
     }
@@ -29,7 +29,7 @@ var conf = {
 }
 
 // === SCRIPT ===
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/rozkazy.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@06029ab/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@06029ab/plemiona/rozkazy.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@06029ab/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@06029ab/plemiona/zbierak.js');

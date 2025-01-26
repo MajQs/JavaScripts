@@ -97,14 +97,42 @@ function processFarm() {
             return 0;
         }
 
-        // Click A
+
         if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1   // pełna wygrana
             || $(rows[index]).find('td').eq(6).text() == '0' ) {                                    // mur 0
-            var aButton = $(rows[index]).find('td').eq(8).find('a').first();
-            if (aButton.is('.farm_icon_disabled')) {
-                goToScavengePage()
+
+            var afStatistics = JSON.parse(localStorage.getItem("afStatistics"));
+            for(let i=0; i < afStatistics.length; i++){
+                let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
+                let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
+                if(afStatistics[i][0] == coordinates){
+                    function shouldPressB(){
+                        let pressB = true;
+                        for(let d=afStatistics[i][1].length - 3; d < afStatistics[i][1].length){
+                            if(afStatistics[i][1][d][1] == false){
+                                pressB = false;
+                            }
+                        }
+                        return pressB;
+                    }
+
+                    if(shouldPressB()){
+                        // Click B
+                        var bButton = $(rows[index]).find('td').eq(9).find('a').first();
+                        if (bButton.is('.farm_icon_disabled')) {
+                            goToScavengePage()
+                        }
+                        bButton.click();
+                    }else{
+                        // Click A
+                        var aButton = $(rows[index]).find('td').eq(8).find('a').first();
+                        if (aButton.is('.farm_icon_disabled')) {
+                            goToScavengePage()
+                        }
+                        aButton.click();
+                    }
+                }
             }
-            aButton.click();
         }
 
         setTimeout(function() {
