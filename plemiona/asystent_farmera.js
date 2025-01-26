@@ -105,23 +105,25 @@ function processFarm() {
                 let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
                 let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
                 function pressA(){
-                    console.log("pressing A")
                     // Click A
                     var aButton = $(rows[index]).find('td').eq(8).find('a').first();
                     if (aButton.is('.farm_icon_disabled')) {
                         goToScavengePage()
+                    }else{
+                        console.log("pressing A")
+                        aButton.click();
                     }
-                    aButton.click();
                     return 0;
                 }
                 function pressB(){
-                    console.log("pressing B")
                     // Click B
                     var bButton = $(rows[index]).find('td').eq(9).find('a').first();
                     if (bButton.is('.farm_icon_disabled')) {
                         pressA()
+                    }else{
+                        console.log("pressing B")
+                        bButton.click();
                     }
-                    bButton.click();
                     return 0;
                 }
 
