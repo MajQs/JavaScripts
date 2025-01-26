@@ -105,6 +105,27 @@ function processFarm() {
             for(let i=0; i < afStatistics.length; i++){
                 let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
                 let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
+                function pressA(){
+                    console.log("pressing A")
+                    // Click A
+                    var aButton = $(rows[index]).find('td').eq(8).find('a').first();
+                    if (aButton.is('.farm_icon_disabled')) {
+                        goToScavengePage()
+                    }
+                    aButton.click();
+                    return 0;
+                }
+                function pressB(){
+                    console.log("pressing B")
+                    // Click B
+                    var bButton = $(rows[index]).find('td').eq(9).find('a').first();
+                    if (bButton.is('.farm_icon_disabled')) {
+                        pressA()
+                    }
+                    bButton.click();
+                    return 0;
+                }
+
                 if(afStatistics[i][0] == coordinates){
                     function shouldPressB(){
                         let pressB = true;
@@ -115,22 +136,13 @@ function processFarm() {
                         }
                         return pressB;
                     }
-
                     if(shouldPressB()){
-                        // Click B
-                        var bButton = $(rows[index]).find('td').eq(9).find('a').first();
-                        if (bButton.is('.farm_icon_disabled')) {
-                            goToScavengePage()
-                        }
-                        bButton.click();
+                        pressB()
                     }else{
-                        // Click A
-                        var aButton = $(rows[index]).find('td').eq(8).find('a').first();
-                        if (aButton.is('.farm_icon_disabled')) {
-                            goToScavengePage()
-                        }
-                        aButton.click();
+                        pressA()
                     }
+                }else{
+                    pressA()
                 }
             }
         }
