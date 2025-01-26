@@ -130,19 +130,17 @@ function processFarm() {
                     let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
                     let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
                     if(afStatistics[i][0] == coordinates){
-                        let pressB = true;
-                        let dd
                         if(afStatistics[i][1].length - 3 < 0){
-                            dd = afStatistics[i][1].length
+                            return false
                         }else{
-                            dd = afStatistics[i][1].length - 3
-                        }
-                        for(let d=dd; d < afStatistics[i][1].length; d++){
-                            if(afStatistics[i][1][d][1] == false){
-                                pressB = false;
+                            let pressB = true;
+                            for(let d=afStatistics[i][1].length - 3; d < afStatistics[i][1].length; d++){
+                                if(afStatistics[i][1][d][1] == false){
+                                    pressB = false;
+                                }
                             }
+                            return pressB;
                         }
-                        return pressB;
                     }
                 }
                 return false
