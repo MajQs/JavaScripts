@@ -97,7 +97,6 @@ function processFarm() {
             return 0;
         }
 
-
         if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('green') > -1   // pełna wygrana
             || $(rows[index]).find('td').eq(6).text() == '0' ) {                                    // mur 0
 
