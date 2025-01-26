@@ -1,5 +1,9 @@
-// Loop: farm -> scavenger -> wrecker -> autoExpansion
+// Loop: farm -> scavenger -> (collecting data) -> wrecker -> autoExpansion -> switch village
 // TIMER: default time = 10 min
+// FREEZE:
+//  off  -> avoid farm, wrecker and units(axe, lk, marcher) on scavenger
+//  deff -> avoid units(spear, sword, archer, ck) on scavenger
+
 // === PARAMS ===
 var conf = {
   farm: {                               // FARMA -> wysyła A z AF (pełna wygrana lub poziom muru 0)
@@ -24,8 +28,8 @@ var conf = {
   }
 }
 
-// ==============
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cfebd1d/plemiona/util.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cfebd1d/plemiona/rozkazy.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cfebd1d/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@cfebd1d/plemiona/zbierak.js');
+// === SCRIPT ===
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/util.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/rozkazy.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/asystent_farmera.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@1a59bf0/plemiona/zbierak.js');

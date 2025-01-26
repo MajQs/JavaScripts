@@ -60,6 +60,12 @@ function processScavenge() {
             $.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
 
             setTimeout(function() {
+                if($('.autoHideBox.error').length > 0){
+                    goToNextLevel(collectAFStatisticsLevel)
+                }
+            }, 500);
+
+            setTimeout(function() {
                 $(divLevel).find('.free_send_button')[0].click();
                 setTimeout(function() {
                     processLevel(level - 1)

@@ -138,5 +138,5 @@ if (isAF()) {
         } else {
             processFarm();
         }
-    }, 2000)
+    }, 1500)
 }
