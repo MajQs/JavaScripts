@@ -9,6 +9,12 @@ function goToScavengePage() {
     window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=scavenge';
 }
 
+function goToMassScavengePage() {
+    var url = new URL(window.location.href);
+    var village = new URLSearchParams(url.search).get('village');
+    window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=scavenge_mass';
+}
+
 function goToAfPage() {
     var url = new URL(window.location.href);
     var village = new URLSearchParams(url.search).get('village');
