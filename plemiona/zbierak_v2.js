@@ -96,7 +96,7 @@ function processMassScavenger(){
             && villages.eq(i).find(".option.option-4.option-active").length < 0)
         {
             var scavengerVillageDoneList = JSON.parse(localStorage.getItem("MajQs.scavengerVillageDoneList"));
-            for(let i=0; i<scavengerVillageDoneList.length, i++){
+            for(let i=0; i<scavengerVillageDoneList.length; i++){
                 if(villages.eq(i).attr("id").indexOf(scavengerVillageDoneList[i]) == 0){
                     window.location.href = villages.eq(i).find("td a").first().attr('href')
                 }
