@@ -48,7 +48,7 @@ var settings_heavy = {
 
 function processScavenge() {
     console.log("Processing Scavenger..." );
-    saveParameterToLocalStorage("MajQs.scavengerVillageDoneList", $.cookie("global_village_id"))
+    saveParameterToLocalStorage("MajQs.scavengerVillageDoneList", [$.cookie("global_village_id")])
 
     var container = $('.options-container');
 
@@ -104,10 +104,10 @@ function processMassScavenger(){
     }
 
     for(let i=0; i< villages.length; i++){
-        if(villages.eq(i).find(".option.option-1.option-active").length < 0
-            && villages.eq(i).find(".option.option-2.option-active").length < 0
-            && villages.eq(i).find(".option.option-3.option-active").length < 0
-            && villages.eq(i).find(".option.option-4.option-active").length < 0)
+        if(villages.eq(i).find(".option.option-1.option-active").length == 0
+            && villages.eq(i).find(".option.option-2.option-active").length == 0
+            && villages.eq(i).find(".option.option-3.option-active").length == 0
+            && villages.eq(i).find(".option.option-4.option-active").length == 0)
         {
             if(isVillageAlreadyNotVisited()){
                 window.location.href = villages.eq(i).find("td a").first().attr('href')
