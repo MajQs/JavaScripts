@@ -51,10 +51,9 @@ function processScavenge() {
     saveParameterToLocalStorage("MajQs.scavengerVillageDoneList", [$.cookie("global_village_id")])
 
     var container = $('.options-container');
-
     function processLevel(level) {
         if (level < 0) {
-            return 0;
+            goToMassScavengePage()
         }
 
         var divLevel = container.find('.scavenge-option')[level]
@@ -63,7 +62,7 @@ function processScavenge() {
 
             setTimeout(function() {
                 if($('.autoHideBox.error').length > 0){
-                    goToNextLevel(collectAFStatisticsLevel)
+                    goToMassScavengePage()
                 }
             }, 500);
 
@@ -81,6 +80,7 @@ function processScavenge() {
 
     if ($('.time').is(":visible")) {
         console.log("Scavenger still working: skipping " );
+        goToMassScavengePage()
     } else {
         processLevel(3)
     }
@@ -145,7 +145,6 @@ if (isScavenge()) {
             settings_heavy.max_unit_number = 0
         }
         processScavenge()
-        goToMassScavengePage()
     }, 1500)
 }
 
