@@ -90,13 +90,13 @@ function processScavenge() {
 function processMassScavenger(){
     var villages = $(".villages-container tbody tr").slice(1);
 
-    function isVillageAlreadyNotVisited(){
+    function isVillageAlreadyNotVisited(villageId){
         var scavengerVillageDoneList = JSON.parse(localStorage.getItem("MajQs.scavengerVillageDoneList"));
         if(scavengerVillageDoneList == null) {
             scavengerVillageDoneList = []
         }
         for(let i=0; i<scavengerVillageDoneList.length; i++){
-            if(villages.eq(i).attr("id").indexOf(scavengerVillageDoneList[i]) > 0){
+            if(villages.eq(villageId).attr("id").indexOf(scavengerVillageDoneList[i]) > 0){
                 return false
             }
         }
@@ -109,7 +109,7 @@ function processMassScavenger(){
             && villages.eq(i).find(".option.option-3.option-active").length == 0
             && villages.eq(i).find(".option.option-4.option-active").length == 0)
         {
-            if(isVillageAlreadyNotVisited()){
+            if(isVillageAlreadyNotVisited(i)){
                 window.location.href = villages.eq(i).find("td a").first().attr('href')
             }
         }
