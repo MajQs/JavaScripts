@@ -31,5 +31,5 @@ var conf = {
 // === SCRIPT ===
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@8e0fc65/plemiona/util.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@8e0fc65/plemiona/rozkazy.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@8e0fc65/plemiona/asystent_farmera.js');
-$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@8e0fc65/plemiona/zbierak.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@8e0fc65/plemiona/asystent_farmera_v2.js');
+$.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@8e0fc65/plemiona/zbierak_v2.js');

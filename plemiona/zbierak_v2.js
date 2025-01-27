@@ -90,13 +90,16 @@ function processScavenge() {
 function processMassScavenger(){
     var villages = $(".villages-container tbody tr").slice(1);
     for(let i=0; i< villages.length; i++){
-        if(villages.eq(i).find(".option.option-1.option-active").length > 0
-            && villages.eq(i).find(".option.option-2.option-active").length > 0
-            && villages.eq(i).find(".option.option-3.option-active").length > 0
-            && villages.eq(i).find(".option.option-4.option-active").length > 0)
+        if(villages.eq(i).find(".option.option-1.option-active").length < 0
+            && villages.eq(i).find(".option.option-2.option-active").length < 0
+            && villages.eq(i).find(".option.option-3.option-active").length < 0
+            && villages.eq(i).find(".option.option-4.option-active").length < 0)
         {
-            if(villages.eq(i).attr("id").indexOf($.cookie("global_village_id")) > 0){
-                window.location.href = villages.eq(i).find("td a").first().attr('href')
+            var scavengerVillageDoneList = JSON.parse(localStorage.getItem("MajQs.scavengerVillageDoneList"));
+            for(let i=0; i<scavengerVillageDoneList.length, i++){
+                if(villages.eq(i).attr("id").indexOf(scavengerVillageDoneList[i]) == 0){
+                    window.location.href = villages.eq(i).find("td a").first().attr('href')
+                }
             }
         }
     }
