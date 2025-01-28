@@ -92,6 +92,7 @@ function processFarm() {
                     nextAnchor[0].click(); // next page
                 } else {
                     if(conf.farm.repeatWhenNoMoreVillagesLeft === 0){
+                        saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
                         nextVillage()
                     }else{
                         firstColumnElements[0].click() // back to [1]
@@ -102,6 +103,7 @@ function processFarm() {
         }
 
         if($(rows[index]).find('td').eq(7).text() > conf.farm.maxDistance){
+            saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
             nextVillage()
             return 0;
         }
@@ -113,6 +115,7 @@ function processFarm() {
                 // Click A
                 var aButton = $(rows[index]).find('td').eq(8).find('a').first();
                 if (aButton.is('.farm_icon_disabled')) {
+                    saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
                     nextVillage()
                 }else{
                     console.log("pressing A")
@@ -165,8 +168,10 @@ function processFarm() {
             }
         }
 
+
         setTimeout(function() {
             if ($('div.autoHideBox.error').length > 0) {
+                saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
                 nextVillage()
             }
             processRowWithDelay(index + 1);
@@ -191,23 +196,29 @@ function isAF() {
 if (isAF()) {
     console.log("AF page..." );
     setTimeout(function() {
+
+        function isVillageAlreadyNotVisited(){
+            var farmVillageDoneList = JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList"));
+            if(farmVillageDoneList == null) {
+                farmVillageDoneList = []
+            }
+            for(let i=0; i<farmVillageDoneList.length; i++){
+                if(farmVillageDoneList[i] == $.cookie("global_village_id")){
+                    return false
+                }
+            }
+            return true
+        }
+
         if(shouldProcessLevel(collectAFStatisticsLevel)){
             processCollectAFStatistics();
         } else {
-            var startVillage = JSON.parse(localStorage.getItem("MajQs.afStartVillage"));
-            if(startVillage == null){
-                startVillage = $.cookie("global_village_id")
-                localStorage.setItem("MajQs.afStartVillage", JSON.stringify(startVillage));
+            if(isVillageAlreadyNotVisited()){
                 processFarm();
-            }else{
-                if(startVillage == $.cookie("global_village_id")){
-                    localStorage.removeItem("MajQs.afStartVillage");
-                    goToScavengePage()
-                }else{
-                    processFarm();
-                }
+            } else {
+                localStorage.removeItem("MajQs.farmVillageDoneList");
+                goToScavengePage()
             }
-
         }
-    }, getRandomDelay(1000, 1500))
+    }, 1500)
 }
