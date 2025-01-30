@@ -138,7 +138,7 @@ function isMassScavenge() {
 if (isScavenge()) {
     console.log("Scavenger page..." );
     setTimeout(function() {
-        settings.archers = conf.farm.scavenger.archers
+        settings.archers = conf.scavenger.archers
         if(isVillageWithFrozenOff()){
             settings_axe.max_unit_number = 0
             settings_light.max_unit_number = 0
