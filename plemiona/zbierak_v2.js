@@ -104,9 +104,7 @@ function processMassScavenger(){
         return true
     }
 
-    if(villages.length == 0){
-        goToNextLevel(collectAFStatisticsLevel)
-    } else {
+    if(villages != null){
         for(let i=0; i< villages.length; i++){
             if(villages.eq(i).find(".option.option-1.option-active").length == 0
                 && villages.eq(i).find(".option.option-2.option-active").length == 0
@@ -135,6 +133,17 @@ function isMassScavenge() {
     return params.get('mode') === "scavenge_mass"
 }
 
+function getLeftTime(){
+    var startTime = JSON.parse(localStorage.getItem("MajQs.scavengerStartTime"));
+    if(startTime == null){
+        startTime = Date.now()
+        localStorage.setItem("MajQs.scavengerStartTime", startTime);
+    }
+    let margin = 3
+    let pass = (Date.now() - startTime)/60/1000
+    return Math.round(conf.scavenger.durationInMinutes - getRandomDelay(pass - margin , pass + margin))
+}
+
 if (isScavenge()) {
     console.log("Scavenger page..." );
     setTimeout(function() {
@@ -160,7 +169,6 @@ function processMassScavengerLoop() {
         if (timer > 0) {
             processMassScavengerLoop()
         } else {
-            localStorage.removeItem("MajQs.scavengerVillageDoneList");
             goToNextLevel(collectAFStatisticsLevel)
         }
     }, 60000);
@@ -169,11 +177,12 @@ function processMassScavengerLoop() {
 if (isMassScavenge()) {
     console.log("Mass Scavenger page..." );
     setTimeout(function() {
-        timer = conf.scavenger.durationInMin;
+        timer = getLeftTime();
         processMassScavengerLoop()
     }, 1500)
 }
 
 if(!isMassScavenge() && !isScavenge()){
     localStorage.removeItem("MajQs.scavengerVillageDoneList");
+    localStorage.removeItem("MajQs.scavengerStartTime");
 }

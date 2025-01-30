@@ -11,7 +11,7 @@ var conf = {
     speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
     repeatWhenNoMoreVillagesLeft: 0,        // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
     wrecker: {                              // BURZYCIEL -> wymaga: (1 skan, 4 lk, 4 taran), opcjonalne: 3 kat
-      maxDistance: 0                           // (10 = 5h przy prędkości jednostek: 0.625)
+      maxDistance: 10                           // (10 = 5h przy prędkości jednostek: 0.625)
     },
     autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
       maxDistance: 0,
@@ -20,8 +20,8 @@ var conf = {
     }
   },
   scavenger: {                          // ZBIERAK -> nie bierze LK pod uwagę
-  	archers: 0,                             // is the world with archers (1 - yes, 0 - no)
-    durationInMin: 30                       // minuty spędzone na zbieraku
+  	archers: 0,                             // świat z łucznikami? (1 - yes, 0 - no)
+    durationInMinutes: 30                       // minuty spędzone na zbieraku (+- 3min)
   },
   freeze: {                             // ZAMRAŻARKA
     offOnVillages: ["M001", "village 2"],

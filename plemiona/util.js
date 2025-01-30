@@ -47,7 +47,7 @@ function processCollectingServerData() {
                     Village[i] = Villages[i].split(',');
                     if(Village[i][0] == mainVillageId){
                         playerId = Village[i][4]
-                        localStorage.setItem("playerId", playerId);
+                        localStorage.setItem("MajQs.playerId", playerId);
                     }
                 }
                 return 0;
@@ -65,50 +65,50 @@ function processCollectingServerData() {
                 return 0;
             }
             setPlayerVillages();
-            localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
+            localStorage.setItem("MajQs.playerVillages", JSON.stringify(playerVillages));
 
             // ignore villages available in AF
-            function filterPossibleVillages(){
-                for (let vi = Villages.length-1; vi >= 0; vi--) {
-                    for (let afci = allAFCoordinates.length-1; afci >= 0; afci--) {
-                        village = Villages[vi].split(',');
-                        coords = allAFCoordinates[afci].split("|")
-                        if(coords[0] == village[2] && coords[1] == village[3]){
-                            Villages.splice(vi,1);
-                            allAFCoordinates.splice(afci,1);
-                            afci = 0;
-                        }
-                    }
-                }
-                return 0;
-            }
-            filterPossibleVillages();
+//            function filterPossibleVillages(){
+//                for (let vi = Villages.length-1; vi >= 0; vi--) {
+//                    for (let afci = allAFCoordinates.length-1; afci >= 0; afci--) {
+//                        village = Villages[vi].split(',');
+//                        coords = allAFCoordinates[afci].split("|")
+//                        if(coords[0] == village[2] && coords[1] == village[3]){
+//                            Villages.splice(vi,1);
+//                            allAFCoordinates.splice(afci,1);
+//                            afci = 0;
+//                        }
+//                    }
+//                }
+//                return 0;
+//            }
+//            filterPossibleVillages();
 
             // look for possible barbarian villages in distance
-            function setPossibleVillages(){
-                var i = Villages.length - 1;
-                while(i--) {
-                    Village[i] = Villages[i].split(',');
-                    if(Village[i][4] == 0 && Village[i][5] <= conf.farm.autoExpansion.maxVillagePoints){       // barbarian village
-                        for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
-                            var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillages[pvi][0][2],2)+Math.pow(Village[i][3]-playerVillages[pvi][0][3],2))
-                            if(distance <= conf.farm.autoExpansion.maxDistance){
-                                //[playerVillageID, distance, barbarianVillage]
-                                possibleVillages.push([playerVillages[pvi][0][0], distance, Village[i]])
-                            }
-                        }
-                    }
-                }
-                return 0;
-            }
-            setPossibleVillages()
+//            function setPossibleVillages(){
+//                var i = Villages.length - 1;
+//                while(i--) {
+//                    Village[i] = Villages[i].split(',');
+//                    if(Village[i][4] == 0 && Village[i][5] <= conf.farm.autoExpansion.maxVillagePoints){       // barbarian village
+//                        for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
+//                            var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillages[pvi][0][2],2)+Math.pow(Village[i][3]-playerVillages[pvi][0][3],2))
+//                            if(distance <= conf.farm.autoExpansion.maxDistance){
+//                                //[playerVillageID, distance, barbarianVillage]
+//                                possibleVillages.push([playerVillages[pvi][0][0], distance, Village[i]])
+//                            }
+//                        }
+//                    }
+//                }
+//                return 0;
+//            }
+//            setPossibleVillages()
 
             // sort possibleVillages by distance
-            possibleVillages.sort(function (a, b) {
-                return a[1] - b[1]
-            })
-
-            localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(possibleVillages));
+//            possibleVillages.sort(function (a, b) {
+//                return a[1] - b[1]
+//            })
+//
+//            localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(possibleVillages));
             return 0;
         }
         ScriptVillage(Request.responseText)
@@ -160,26 +160,24 @@ const wreckerLevel = 3
 const autoExpansionLevel = 4
 const switchVillageLevel = 99
 
-if(localStorage.getItem("scriptLevel") == switchVillageLevel){
+if(localStorage.getItem("MajQs.scriptLevel") == switchVillageLevel){
     goToNextLevel(defaultLevel);
 }
 
 function goToNextLevel(level){
-    localStorage.setItem("scriptLevel", level)
+    localStorage.setItem("MajQs.scriptLevel", level)
     switch(level){
-        case 0:
+        case defaultLevel:
             goToAfPage()
             break;
-        case 1:
-            localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-            localStorage.setItem("allAFCoordinates", JSON.stringify([]));
+        case collectAFStatisticsLevel:
             goToAfPage()
             break;
-        case 2:
+        case collectServerDataLevel:
             var day = String(new Date().getDate()).padStart(2, '0');
-            if(localStorage.getItem("autoExpansionDay") != day){
+            if(localStorage.getItem("MajQs.collectedServerDataDay") != day){
                 processCollectingServerData()
-                localStorage.setItem("autoExpansionDay", day);
+                localStorage.setItem("MajQs.collectedServerDataDay", day);
                 setTimeout(function() {
                     goToNextLevel(wreckerLevel);
                 }, 20000)
@@ -187,13 +185,13 @@ function goToNextLevel(level){
                 goToNextLevel(wreckerLevel);
             }
             break;
-        case 3:
+        case wreckerLevel:
             goToCommandPage();
             break;
-        case 4:
+        case autoExpansionLevel:
             goToCommandPage();
             break;
-        case 99:
+        case switchVillageLevel:
             var nextVillage = $("#village_switch_right").find(".arrowRight")
             if(nextVillage.length > 0){
                 nextVillage.click()
@@ -202,14 +200,14 @@ function goToNextLevel(level){
             }
             break;
         default:
-            localStorage.setItem("scriptLevel", 0)
+            localStorage.setItem("MajQs.scriptLevel", 0)
             goToAfPage()
     }
     return 0;
 }
 
 function shouldProcessLevel(level){
-    return localStorage.getItem("scriptLevel") == level
+    return localStorage.getItem("MajQs.scriptLevel") == level
 }
 
 function saveParameterToLocalStorage(name, data){
