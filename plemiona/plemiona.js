@@ -20,6 +20,7 @@ var conf = {
     }
   },
   scavenger: {                          // ZBIERAK -> nie bierze LK pod uwagę
+  	archers: 0,                             // is the world with archers (1 - yes, 0 - no)
     durationInMin: 30                       // minuty spędzone na zbieraku
   },
   freeze: {                             // ZAMRAŻARKA

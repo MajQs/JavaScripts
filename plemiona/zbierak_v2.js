@@ -1,6 +1,6 @@
 var settings = {
     max_ressources: '9999',
-    archers: '1',
+    archers: '0',
     skip_level_1: '0'
 }
 
@@ -70,8 +70,8 @@ function processScavenge() {
                 $(divLevel).find('.free_send_button')[0].click();
                 setTimeout(function() {
                     processLevel(level - 1)
-                }, 2000);
-            }, 2000);
+                }, 1500);
+            }, 1500);
         }else {
             processLevel(level - 1)
         }
@@ -88,6 +88,7 @@ function processScavenge() {
 }
 
 function processMassScavenger(){
+    console.log("Mass Scavenger page..." );
     var villages = $(".villages-container tbody tr").slice(1);
 
     function isVillageAlreadyNotVisited(villageId){
@@ -103,14 +104,18 @@ function processMassScavenger(){
         return true
     }
 
-    for(let i=0; i< villages.length; i++){
-        if(villages.eq(i).find(".option.option-1.option-active").length == 0
-            && villages.eq(i).find(".option.option-2.option-active").length == 0
-            && villages.eq(i).find(".option.option-3.option-active").length == 0
-            && villages.eq(i).find(".option.option-4.option-active").length == 0)
-        {
-            if(isVillageAlreadyNotVisited(i)){
-                window.location.href = villages.eq(i).find("td a").first().attr('href')
+    if(villages.length == 0){
+        goToNextLevel(collectAFStatisticsLevel)
+    } else {
+        for(let i=0; i< villages.length; i++){
+            if(villages.eq(i).find(".option.option-1.option-active").length == 0
+                && villages.eq(i).find(".option.option-2.option-active").length == 0
+                && villages.eq(i).find(".option.option-3.option-active").length == 0
+                && villages.eq(i).find(".option.option-4.option-active").length == 0)
+            {
+                if(isVillageAlreadyNotVisited(i)){
+                    window.location.href = villages.eq(i).find("td a").first().attr('href')
+                }
             }
         }
     }
@@ -133,6 +138,7 @@ function isMassScavenge() {
 if (isScavenge()) {
     console.log("Scavenger page..." );
     setTimeout(function() {
+        settings.archers = conf.farm.scavenger.archers
         if(isVillageWithFrozenOff()){
             settings_axe.max_unit_number = 0
             settings_light.max_unit_number = 0
@@ -155,15 +161,19 @@ function processMassScavengerLoop() {
             processMassScavengerLoop()
         } else {
             localStorage.removeItem("MajQs.scavengerVillageDoneList");
-            goToNextLevel(defaultLevel)
+            goToNextLevel(collectAFStatisticsLevel)
         }
     }, 60000);
 }
 
 if (isMassScavenge()) {
     console.log("Mass Scavenger page..." );
-    timer = conf.scavenger.durationInMin;
     setTimeout(function() {
+        timer = conf.scavenger.durationInMin;
         processMassScavengerLoop()
     }, 1500)
+}
+
+if(!isMassScavenge() && !isScavenge()){
+    localStorage.removeItem("MajQs.scavengerVillageDoneList");
 }

@@ -153,12 +153,12 @@ function pageTimer() {
 pageTimer()
 
 
-var defaultLevel = 0
-var collectAFStatisticsLevel = 1
-var collectServerDataLevel = 2
-var wreckerLevel = 3
-var autoExpansionLevel = 4
-var switchVillageLevel = 99
+const defaultLevel = 0
+const collectAFStatisticsLevel = 1
+const collectServerDataLevel = 2
+const wreckerLevel = 3
+const autoExpansionLevel = 4
+const switchVillageLevel = 99
 
 if(localStorage.getItem("scriptLevel") == switchVillageLevel){
     goToNextLevel(defaultLevel);

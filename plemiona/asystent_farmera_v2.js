@@ -3,9 +3,9 @@ function processCollectAFStatistics() {
     var coordinatesForWrecker = []
     var allAFCoordinates = []
 
-    var afStatistics = JSON.parse(localStorage.getItem("afStatistics"));
+    var afStatistics = new Map(JSON.parse(localStorage.getItem("afStatistics")));
     if (afStatistics == null){
-        afStatistics = [];
+        afStatistics = new Map();
     }
 
     // collect coordinates
@@ -67,7 +67,7 @@ function nextVillage(){
     if(nextVillage.length > 0){
         nextVillage.click()
     }else{
-        goToScavengePage()
+        goToMassScavengePage()
     }
 }
 
@@ -179,7 +179,7 @@ function processFarm() {
     }
 
     if(isVillageWithFrozenOff()){
-        goToScavengePage()
+        goToMassScavengePage()
     }else{
         // start farm
         processRowWithDelay(0);
@@ -216,9 +216,10 @@ if (isAF()) {
             if(isVillageAlreadyNotVisited()){
                 processFarm();
             } else {
-                localStorage.removeItem("MajQs.farmVillageDoneList");
-                goToScavengePage()
+                goToMassScavengePage()
             }
         }
     }, 1500)
+} else {
+    localStorage.removeItem("MajQs.farmVillageDoneList");
 }
