@@ -79,7 +79,7 @@ function processCollectAFStatistics() {
     }
 
     function saveCoordinatesForWrecker(){
-        if(coordinatesForWrecker != null && coordinatesForWrecker.length > 0){}
+        if(coordinatesForWrecker != null && coordinatesForWrecker.length > 0){
             var sortedByDistance = Array.from(coordinatesForWrecker.entries()).sort(function (a, b) {return a[1][0][1] - b[1][0][1]})
             var sortedByVillage = sortedByDistance.sort(function (a, b) {return a[1][0][0] - b[1][0][0]})
             var villageMap = new Map()
@@ -107,7 +107,6 @@ function processCollectAFStatistics() {
         nextAnchor[0].click();                  // next page
     } else {
         goToNextLevel(collectServerDataLevel)
-        return 0;
     }
 }
 
