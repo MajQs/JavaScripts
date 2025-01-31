@@ -21,62 +21,62 @@ function processCollectAFStatistics() {
 //    }
 
     // collect coordinates
-    let rows = $(`#plunder_list tr`).slice(2);
-    for (let index = 0; index < rows.length; index++) {
-        let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
-        let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
-
-        // afStatistics
-//        allAFCoordinates.push(coordinates)
-//        //coords, max_loot, date
-//        var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src')
-//        if(max_loot == null){
-//            max_loot = false;
-//        }else{
-//            max_loot = max_loot.indexOf('max_loot/1') > -1
-//        }
+//    let rows = $(`#plunder_list tr`).slice(2);
+//    for (let index = 0; index < rows.length; index++) {
+//        let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
+//        let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
 //
-//        var date = $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ","")
-//        let exist = false;
-//        for(let afsi = 0; afsi < afStatistics.length; afsi++){
-//            if(afStatistics[afsi][0] == coordinates){
-//                exist = true;
-//                if(afStatistics[afsi][1][afStatistics[afsi][1].length-1][0] != date){
-//                    if(afStatistics[afsi][1].length >= 10){
-//                        afStatistics[afsi][1].shift()
+//        // afStatistics
+////        allAFCoordinates.push(coordinates)
+////        //coords, max_loot, date
+////        var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src')
+////        if(max_loot == null){
+////            max_loot = false;
+////        }else{
+////            max_loot = max_loot.indexOf('max_loot/1') > -1
+////        }
+////
+////        var date = $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ","")
+////        let exist = false;
+////        for(let afsi = 0; afsi < afStatistics.length; afsi++){
+////            if(afStatistics[afsi][0] == coordinates){
+////                exist = true;
+////                if(afStatistics[afsi][1][afStatistics[afsi][1].length-1][0] != date){
+////                    if(afStatistics[afsi][1].length >= 10){
+////                        afStatistics[afsi][1].shift()
+////                    }
+////                    afStatistics[afsi][1].push([date, max_loot])
+////                }
+////            }
+////        }
+////        if(!exist){
+////            afStatistics.push([coordinates, [[date, max_loot]]])
+////        }
+//
+//        // coordinatesForWrecker
+//        if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                         // defeated
+//            && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
+//            && playerVillages != null)
+//        {
+//            var coords = coordinates.split("|")
+//            for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
+//                var distance = Math.sqrt(Math.pow(coords[0]-playerVillages[pvi][0][2],2)+Math.pow(coords[1]-playerVillages[pvi][0][3],2))
+//                if(distance <= conf.farm.wrecker.maxDistance){  // is in rage of max distance
+//                    var current = coordinatesForWrecker.get(coordinates)
+//                    if(current == null){
+//                        current = []
 //                    }
-//                    afStatistics[afsi][1].push([date, max_loot])
+//                    current.push([playerVillages[pvi][0][0], distance])
+//                    current.sort(function (a, b) {
+//                        return a[1] - b[1]
+//                    })
+//                    coordinatesForWrecker.set(coordinates, current)
 //                }
 //            }
 //        }
-//        if(!exist){
-//            afStatistics.push([coordinates, [[date, max_loot]]])
-//        }
-
-        // coordinatesForWrecker
-        if ($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                         // defeated
-            && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
-            && playerVillages != null)
-        {
-            var coords = coordinates.split("|")
-            for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
-                var distance = Math.sqrt(Math.pow(coords[0]-playerVillages[pvi][0][2],2)+Math.pow(coords[1]-playerVillages[pvi][0][3],2))
-                if(distance <= conf.farm.wrecker.maxDistance){  // is in rage of max distance
-                    var current = coordinatesForWrecker.get(coordinates)
-                    if(current == null){
-                        current = []
-                    }
-                    current.push([playerVillages[pvi][0][0], distance])
-                    current.sort(function (a, b) {
-                        return a[1] - b[1]
-                    })
-                    coordinatesForWrecker.set(coordinates, current)
-                }
-            }
-        }
-    }
-
-    saveParameterToLocalStorage("MajQs.coordinatesForWrecker", Array.from(coordinatesForWrecker.entries()))
+//    }
+//
+//    saveParameterToLocalStorage("MajQs.coordinatesForWrecker", Array.from(coordinatesForWrecker.entries()))
 //    saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
 //    localStorage.setItem("afStatistics", JSON.stringify(afStatistics));
 
