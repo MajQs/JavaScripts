@@ -9,19 +9,19 @@ function processWrecker() {
 
     function process(target){
 
-        if(isEnough("units_entry_all_light" , farm.wrecker.units.light)
-            && isEnough("units_entry_all_ram" , farm.wrecker.units.ram)
+        if(isEnough("units_entry_all_light" , conf.farm.wrecker.units.light)
+            && isEnough("units_entry_all_ram" , conf.farm.wrecker.units.ram)
             && isEnough("units_entry_all_spy" ,1))
         {
              $("#place_target").find('input').first().val(target)
 
-             $("#unit_input_light").val(farm.wrecker.units.light)
-             $("#unit_input_ram").val(farm.wrecker.units.ram)
+             $("#unit_input_light").val(conf.farm.wrecker.units.light)
+             $("#unit_input_ram").val(conf.farm.wrecker.units.ram)
              $("#unit_input_spy").val("1")
 
              var catapultsCountText = $("#units_entry_all_catapult").text()
-             if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= farm.wrecker.units.catapult){
-                 $("#unit_input_catapult").val(farm.wrecker.units.catapult)
+             if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= conf.farm.wrecker.units.catapult){
+                 $("#unit_input_catapult").val(conf.farm.wrecker.units.catapult)
              }
 
              $("#target_attack").click()
