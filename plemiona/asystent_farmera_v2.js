@@ -4,7 +4,7 @@ function processCollectAFStatistics() {
     var coordinatesForWrecker
 //    var allAFCoordinates = []
 
-    var cfw = JSON.parse(localStorage.getItem("MajQs.coordinatesForWrecker"))
+    var cfw = JSON.parse(localStorage.getItem("MajQs.coordinatesForWreckerTemp"))
     if (cfw == null){
         coordinatesForWrecker = new Map();
     } else {
@@ -78,6 +78,11 @@ function processCollectAFStatistics() {
         }
     }
 
+    localStorage.setItem("MajQs.coordinatesForWreckerTemp", JSON.stringify(Array.from(coordinatesForWrecker)))
+//    saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
+//    localStorage.setItem("afStatistics", JSON.stringify(afStatistics));
+
+
     function saveCoordinatesForWrecker(){
         if(coordinatesForWrecker != null && coordinatesForWrecker.size > 0){
             var sortedByDistance = Array.from(coordinatesForWrecker.entries()).sort(function (a, b) {return a[1][0][1] - b[1][0][1]})
@@ -95,10 +100,6 @@ function processCollectAFStatistics() {
             return 0;
         }
     }
-    saveCoordinatesForWrecker()
-
-//    saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
-//    localStorage.setItem("afStatistics", JSON.stringify(afStatistics));
 
     // next page
     let strongElement = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children().filter('strong'); // current page
@@ -106,6 +107,8 @@ function processCollectAFStatistics() {
     if (nextAnchor.length > 0) {
         nextAnchor[0].click();                  // next page
     } else {
+        saveCoordinatesForWrecker()
+        localStorage.removeItem("MajQs.coordinatesForWreckerTemp")
         goToNextLevel(collectServerDataLevel)
     }
 }
