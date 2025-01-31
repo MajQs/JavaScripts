@@ -83,9 +83,9 @@ function processCollectingServerData() {
                     Village[i] = Villages[i].split(',');
                     if(Village[i][4] == playerId){
                         var villageData = {
-                            "name": Village[i][1]
-                            "X": Village[i][2]
-                            "Y": Village[i][3]
+                            "name": Village[i][1],
+                            "X": Village[i][2],
+                            "Y": Village[i][3],
                             "isWrecker": isOff(Village[i][0]),
                             "autoExpansionDailyAttacks": conf.farm.autoExpansion.dailyNumberOfAttacksFromVillage
                         }
