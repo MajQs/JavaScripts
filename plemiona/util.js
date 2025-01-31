@@ -27,6 +27,11 @@ function goToCommandPage() {
     window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=command';
 }
 
+function goToCommandPageFor(village) {
+    var url = new URL(window.location.href);
+    window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=command';
+}
+
 function processCollectingServerData() {
     console.log("Processing Collecting Server Data..." );
 
@@ -219,10 +224,10 @@ function goToNextLevel(level){
             }
             break;
         case wreckerLevel:
-            localStorage.removeItem("MajQs.coordinatesForWrecker")
             goToCommandPage();
             break;
         case autoExpansionLevel:
+            localStorage.removeItem("MajQs.coordinatesForWrecker")
             goToCommandPage();
             break;
         case switchVillageLevel:

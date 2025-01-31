@@ -78,7 +78,23 @@ function processCollectAFStatistics() {
         }
     }
 
-    saveParameterToLocalStorage("MajQs.coordinatesForWrecker", Array.from(coordinatesForWrecker.entries()))
+    function saveCoordinatesForWrecker(){
+        var sortedByDistance = Array.from(coordinatesForWrecker.entries()).sort(function (a, b) {return a[1][0][1] - b[1][0][1]})
+        var sortedByVillage = sortedByDistance.sort(function (a, b) {return a[1][0][0] - b[1][0][0]})
+        var villageMap = new Map()
+        for(let i=0; i< sortedByVillage.length; i++){
+            var t = villageMap.get(sortedByVillage[i][1][0][0])
+            if(t == null){
+                t = []
+            }
+            t.push(sortedByVillage[i][0])
+            villageMap.set(sortedByVillage[i][1][0][0], t)
+        }
+        localStorage.setItem("MajQs.coordinatesForWrecker", JSON.stringify(Array.from(villageMap)));
+        return 0;
+    }
+    saveCoordinatesForWrecker()
+
 //    saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
 //    localStorage.setItem("afStatistics", JSON.stringify(afStatistics));
 

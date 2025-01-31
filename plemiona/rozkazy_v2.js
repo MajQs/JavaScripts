@@ -7,14 +7,13 @@ function processWrecker() {
         return unit.substr(unit.indexOf('(') + 1, unit.indexOf(')') - 1 ) >= count
     }
 
-    function process(){
+    function process(target){
+
         if(isEnough("units_entry_all_light" ,4)
             && isEnough("units_entry_all_ram" ,4)
             && isEnough("units_entry_all_spy" ,1))
         {
-             var coordinate = coordinatesForWrecker.shift()
-             localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
-             $("#place_target").find('input').first().val(coordinate)
+             $("#place_target").find('input').first().val(target)
 
              $("#unit_input_light").val("4")
              $("#unit_input_ram").val("4")
@@ -27,38 +26,41 @@ function processWrecker() {
 
              $("#target_attack").click()
         } else {
-
+            coordMap.delete($.cookie("global_village_id"))
+            localStorage.setItem("MajQs.coordinatesForWrecker", JSON.stringify(Array.from(coordMap)));
+            if(coordMap.size > 0){
+                goToCommandPageFor(coordMap.entries().next().value[0])
+            } else{
+                //goToNextLevel(autoExpansionLevel)
+                goToNextLevel(defaultLevel)
+            }
         }
 
-        localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
-        $("#place_target").find('input').first().val(coordinate)
-
-        $("#unit_input_light").val("4")
-        $("#unit_input_ram").val("4")
-        $("#unit_input_spy").val("1")
-
-        var catapultsCountText = $("#units_entry_all_catapult").text()
-        if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= 3){
-            $("#unit_input_catapult").val("3")
-        }
-
-        $("#target_attack").click()
         return 0;
     }
 
-//    if ($('.error_box').length > 0
-//        || coordinatesForWrecker.length == 0
-//        || coordinatesForWrecker == null
-//        || isVillageWithFrozenOff())
-//    {
-//        localStorage.setItem("coordinatesForWrecker", JSON.stringify([]));
-////        goToNextLevel(autoExpansionLevel)
-//        goToNextLevel(defaultLevel)
-//    } else{
-//        process();
-//    }
+    if ($('.error_box').length > 0
+        || coordinatesForWrecker == null
+        || coordinatesForWrecker.length == 0)
+    {
+        localStorage.removeItem("MajQs.coordinatesForWrecker");
+//        goToNextLevel(autoExpansionLevel)
+        goToNextLevel(defaultLevel)
+    } else {
+        var coordMap = new Map(coordinatesForWrecker)
+        var villageTargets = coordMap.get($.cookie("global_village_id"))
+        if(villageTargets != null && !isVillageWithFrozenOff()){
+            let target = villageTargets.shift()
+            if(villageTargets.length == 0){
+                coordMap.delete($.cookie("global_village_id"))
+            }
+            localStorage.setItem("MajQs.coordinatesForWrecker", JSON.stringify(Array.from(coordMap)));
+            process(target);
+        }else{
+            goToCommandPageFor(coordMap.entries().next().value[0])
+        }
+    }
 
-    goToNextLevel(defaultLevel)
     return 0;
 }
 
