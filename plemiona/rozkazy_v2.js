@@ -9,19 +9,19 @@ function processWrecker() {
 
     function process(target){
 
-        if(isEnough("units_entry_all_light" ,4)
-            && isEnough("units_entry_all_ram" ,4)
+        if(isEnough("units_entry_all_light" , farm.wrecker.units.light)
+            && isEnough("units_entry_all_ram" , farm.wrecker.units.ram)
             && isEnough("units_entry_all_spy" ,1))
         {
              $("#place_target").find('input').first().val(target)
 
-             $("#unit_input_light").val("4")
-             $("#unit_input_ram").val("4")
+             $("#unit_input_light").val(farm.wrecker.units.light)
+             $("#unit_input_ram").val(farm.wrecker.units.ram)
              $("#unit_input_spy").val("1")
 
              var catapultsCountText = $("#units_entry_all_catapult").text()
-             if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= 3){
-                 $("#unit_input_catapult").val("3")
+             if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= farm.wrecker.units.catapult){
+                 $("#unit_input_catapult").val(farm.wrecker.units.catapult)
              }
 
              $("#target_attack").click()
