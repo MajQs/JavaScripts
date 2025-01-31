@@ -11,7 +11,14 @@ var conf = {
     speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
     repeatWhenNoMoreVillagesLeft: 0,        // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
     wrecker: {                              // BURZYCIEL -> wymaga: (1 skan, 4 lk, 4 taran), opcjonalne: 3 kat
-      maxDistance: 10                           // (10 = 5h przy prędkości jednostek: 0.625)
+      maxDistance: 10,                           // (10 = 5h przy prędkości jednostek: 0.625)
+      requiredUnits: {
+        lk: 4,
+        ram: 4
+      },
+      optionalUnits: {
+        kat: 7
+      }
     },
     autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
       maxDistance: 0,

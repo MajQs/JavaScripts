@@ -66,13 +66,16 @@ function processCollectingServerData() {
                     Request.send(null);
                     var units = $("<div>").html(Request.responseText).find("#train_form").find('tr');
                     for(let i=0; i<units.length; i++){
-                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "ram"){
+                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "ram"
+                            && units.eq(i).find("td").eq(2).text().split("/")[1] >= 1){
                             ram = true
                         }
-                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "light"){
+                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "light"
+                            && units.eq(i).find("td").eq(2).text().split("/")[1] >= 1){
                             light = true
                         }
                         if(units.eq(i).find(".nowrap a").attr("data-unit") == "spy"){
+                            && units.eq(i).find("td").eq(2).text().split("/")[1] >= 1
                             spy = true
                         }
                     }
