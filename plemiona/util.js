@@ -216,6 +216,7 @@ function goToNextLevel(level){
             }
             break;
         case wreckerLevel:
+            localStorage.removeItem("MajQs.coordinatesForWrecker")
             goToCommandPage();
             break;
         case autoExpansionLevel:
