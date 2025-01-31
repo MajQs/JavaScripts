@@ -10,7 +10,7 @@ function processWrecker() {
     function process(){
         if(isEnough("units_entry_all_light" ,4)
             && isEnough("units_entry_all_ram" ,4)
-            && isEnough("units_entry_all_spy" ,1)
+            && isEnough("units_entry_all_spy" ,1))
         {
              var coordinate = coordinatesForWrecker.shift()
              localStorage.setItem("coordinatesForWrecker", JSON.stringify(coordinatesForWrecker));
