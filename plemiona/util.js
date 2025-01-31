@@ -74,8 +74,8 @@ function processCollectingServerData() {
                             && units.eq(i).find("td").eq(2).text().split("/")[1] >= 1){
                             light = true
                         }
-                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "spy"){
-                            && units.eq(i).find("td").eq(2).text().split("/")[1] >= 1
+                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "spy"
+                            && units.eq(i).find("td").eq(2).text().split("/")[1] >= 1){
                             spy = true
                         }
                     }
