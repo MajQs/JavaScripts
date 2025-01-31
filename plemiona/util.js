@@ -37,7 +37,7 @@ function processCollectingServerData() {
             var allAFCoordinates = JSON.parse(localStorage.getItem("allAFCoordinates"));
             var mainVillageId = $.cookie("global_village_id")
             var playerId;
-            var playerVillages = [];
+            var playerVillages = new Map();
             var possibleVillages = [];
             var Villages = Data.split("\n");
 
@@ -56,16 +56,46 @@ function processCollectingServerData() {
 
             function setPlayerVillages(){
                 var i = Villages.length - 1;
+
+                function isOff(villageId){
+                    let ram = false;
+                    let light = false;
+                    let spy = false;
+                    var Request = new XMLHttpRequest();
+                    Request.open('GET', 'game.php?village='+villageId+'&screen=train', false);
+                    Request.send(null);
+                    var units = $("<div>").html(Request.responseText).find("#train_form").find('tr');
+                    for(let i=0; i<units.length; i++){
+                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "ram"){
+                            ram = true
+                        }
+                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "light"){
+                            light = true
+                        }
+                        if(units.eq(i).find(".nowrap a").attr("data-unit") == "spy"){
+                            spy = true
+                        }
+                    }
+                    return ram && light && spy
+                }
+
                 while(i--) {
                     Village[i] = Villages[i].split(',');
                     if(Village[i][4] == playerId){
-                        playerVillages.push([Village[i], conf.farm.autoExpansion.dailyNumberOfAttacksFromVillage])
+                        var villageData = {
+                            "name": Village[i][1]
+                            "X": Village[i][2]
+                            "Y": Village[i][3]
+                            "isWrecker": isOff(Village[i][0]),
+                            "autoExpansionDailyAttacks": conf.farm.autoExpansion.dailyNumberOfAttacksFromVillage
+                        }
+                        playerVillages.set(Village[i][0], villageData)
                     }
                 }
                 return 0;
             }
             setPlayerVillages();
-            localStorage.setItem("MajQs.playerVillages", JSON.stringify(playerVillages));
+            localStorage.setItem("MajQs.playerVillages", JSON.stringify(Array.from(playerVillages)));
 
             // ignore villages available in AF
 //            function filterPossibleVillages(){
