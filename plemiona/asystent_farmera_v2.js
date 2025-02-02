@@ -223,20 +223,18 @@ function processFarm() {
 
 
         setTimeout(function() {
-            if ($('div.autoHideBox.error').length > 0) {
+            if ($('div.autoHideBox.error').length > 0 || isVillageWithFrozenOff()) {
                 saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
                 nextVillage()
+            }else {
+
             }
             processRowWithDelay(index + 1);
         }, getRandomDelay(minDelay, conf.farm.speedInMilliseconds + 250));
     }
 
-    if(isVillageWithFrozenOff()){
-        goToMassScavengePage()
-    }else{
-        // start farm
-        processRowWithDelay(0);
-    }
+    // start farm
+    processRowWithDelay(0);
 }
 
 function isAF() {
