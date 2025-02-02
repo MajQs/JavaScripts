@@ -64,7 +64,7 @@ function processCollectAFStatistics() {
                 var distance = Math.sqrt(Math.pow(coords[0]-playerVillages[pvi][1].X,2)+Math.pow(coords[1]-playerVillages[pvi][1].Y,2))
                 if(distance <= conf.farm.wrecker.maxDistance    // is in rage of max distance
                     && playerVillages[pvi][1].isWrecker         // is wrecker
-                    && conf.freeze.offOnVillages.includes(playerVillages[pvi]))
+                    && !conf.freeze.offOnVillages.includes(playerVillages[pvi]))
                 {
                     var current = coordinatesForWrecker.get(coordinates)
                     if(current == null){
@@ -227,14 +227,18 @@ function processFarm() {
                 saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
                 nextVillage()
             }else {
-
+                processRowWithDelay(index + 1);
             }
-            processRowWithDelay(index + 1);
         }, getRandomDelay(minDelay, conf.farm.speedInMilliseconds + 250));
     }
 
-    // start farm
-    processRowWithDelay(0);
+    if ($('div.autoHideBox.error').length > 0 || isVillageWithFrozenOff()) {
+        saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
+        nextVillage()
+    }else {
+        // start farm
+        processRowWithDelay(0);
+    }
 }
 
 function isAF() {
