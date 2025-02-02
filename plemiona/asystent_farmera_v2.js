@@ -63,7 +63,8 @@ function processCollectAFStatistics() {
             for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
                 var distance = Math.sqrt(Math.pow(coords[0]-playerVillages[pvi][1].X,2)+Math.pow(coords[1]-playerVillages[pvi][1].Y,2))
                 if(distance <= conf.farm.wrecker.maxDistance    // is in rage of max distance
-                    && playerVillages[pvi][1].isWrecker)        // is wrecker
+                    && playerVillages[pvi][1].isWrecker
+                    && !isVillageWithFrozenOff())        // is wrecker
                 {
                     var current = coordinatesForWrecker.get(coordinates)
                     if(current == null){
