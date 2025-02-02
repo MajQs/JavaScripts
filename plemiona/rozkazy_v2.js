@@ -56,6 +56,9 @@ function processWrecker() {
             }
             localStorage.setItem("MajQs.coordinatesForWrecker", JSON.stringify(Array.from(coordMap)));
             process(target);
+        }else if(isVillageWithFrozenOff()){
+            coordMap.delete($.cookie("global_village_id"))
+            localStorage.setItem("MajQs.coordinatesForWrecker", JSON.stringify(Array.from(coordMap)));
         }else{
             goToCommandPageFor(coordMap.entries().next().value[0])
         }
