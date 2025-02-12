@@ -65,18 +65,25 @@ function processCollectAFStatistics() {
                 if(distance <= conf.farm.wrecker.maxDistance    // is in rage of max distance
                     && playerVillages[pvi][1].isWrecker)         // is wrecker
                 {
-                    for (let foovi = conf.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
-                        if(!conf.freeze.offOnVillages[foovi].indexOf(playerVillages[pvi][1].name) >= 0){
-                            var current = coordinatesForWrecker.get(coordinates)
-                            if(current == null){
-                                current = []
+                    function isVillageWithNotFrozenOff(name){
+                        for (let foovi = conf.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
+                            if(!conf.freeze.offOnVillages[foovi].indexOf(name) >= 0){
+                                return false
                             }
-                            current.push([playerVillages[pvi][0], distance])
-                            current.sort(function (a, b) {
-                                return a[1] - b[1]
-                            })
-                            coordinatesForWrecker.set(coordinates, current)
                         }
+                        return true
+                    }
+
+                    if(isVillageWithNotFrozenOff(playerVillages[pvi][1].name)){
+                        var current = coordinatesForWrecker.get(coordinates)
+                        if(current == null){
+                            current = []
+                        }
+                        current.push([playerVillages[pvi][0], distance])
+                        current.sort(function (a, b) {
+                            return a[1] - b[1]
+                        })
+                        coordinatesForWrecker.set(coordinates, current)
                     }
                 }
             }
