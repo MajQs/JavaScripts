@@ -66,12 +66,13 @@ function processCollectAFStatistics() {
                     && playerVillages[pvi][1].isWrecker)         // is wrecker
                 {
                     function isVillageWithNotFrozenOff(name){
+                        let result = true
                         for (let foovi = conf.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
-                            if(!conf.freeze.offOnVillages[foovi].indexOf(name) >= 0){
-                                return false
+                            if(name.indexOf(conf.freeze.offOnVillages[foovi]) >= 0){
+                                result = false
                             }
                         }
-                        return true
+                        return result
                     }
 
                     if(isVillageWithNotFrozenOff(playerVillages[pvi][1].name)){
