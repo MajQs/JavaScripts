@@ -24,11 +24,12 @@ var conf = {
       dailyNumberOfAttacksFromVillage: 10       // ilość ataków z jednej wioski gracza na dzień
     }
   },
-  scavenger: {                          // ZBIERAK -> nie bierze LK pod uwagę
-  	archers: 0,                             // świat z łucznikami? (1 - yes, 0 - no)
+  scavenger: {                              // ZBIERAK -> nie bierze LK pod uwagę
+  	archers: 0,                                 // świat z łucznikami? (1 - yes, 0 - no)
+  	spearUntouchable: 50,                       // ile pozostawić pik
     durationInMinutes: 30                       // minuty spędzone na zbieraku (+- 3min)
   },
-  freeze: {                             // ZAMRAŻARKA
+  freeze: {                                 // ZAMRAŻARKA - wystarczy podać część nazwy wioski
     offOnVillages: ["M001", "village 2"],
     deffOnVillages: ["village 1"]
   }

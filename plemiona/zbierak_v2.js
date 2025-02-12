@@ -5,7 +5,7 @@ var settings = {
 }
 
 var settings_spear = {
-    untouchable: '0',
+    untouchable: '50',
     max_unit_number: '9999',
     conditional_safeguard: '0'
 }
