@@ -26,7 +26,7 @@ var conf = {
   },
   scavenger: {                              // ZBIERAK -> nie bierze LK pod uwagę
   	archers: 0,                                 // świat z łucznikami? (1 - yes, 0 - no)
-  	spearUntouchable: 50,                       // ile pozostawić pik
+  	spearSafeguard: 50,                       // ile pozostawić pik
     durationInMinutes: 30                       // minuty spędzone na zbieraku (+- 3min)
   },
   freeze: {                                 // ZAMRAŻARKA - wystarczy podać część nazwy wioski

@@ -5,7 +5,7 @@ var settings = {
 }
 
 var settings_spear = {
-    untouchable: '50',
+    untouchable: '0',
     max_unit_number: '9999',
     conditional_safeguard: '0'
 }
@@ -148,6 +148,7 @@ if (isScavenge()) {
     console.log("Scavenger page..." );
     setTimeout(function() {
         settings.archers = conf.scavenger.archers
+        settings_spear.conditional_safeguard = conf.scavenger.spearSafeguard
         if(isVillageWithFrozenOff()){
             settings_axe.max_unit_number = 0
             settings_light.max_unit_number = 0
