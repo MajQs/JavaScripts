@@ -55,7 +55,7 @@ function processCollectAFStatistics() {
 
         // coordinatesForWrecker
         if (($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                        // defeated
-            || $(rows[index]).find('td').eq(6).text() <= 1)                                                             // wall
+            || $(rows[index]).find('td').eq(6).text() <= 1)                                                             // or wall
             && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
             && playerVillages != null)
         {
@@ -66,7 +66,7 @@ function processCollectAFStatistics() {
                     && playerVillages[pvi][1].isWrecker)         // is wrecker
                 {
                     for (let foovi = conf.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
-                        if(!conf.freeze.offOnVillages[foovi].indexOf(playerVillages[pvi][1].name)){
+                        if(!conf.freeze.offOnVillages[foovi].indexOf(playerVillages[pvi][1].name) >= 0){
                             var current = coordinatesForWrecker.get(coordinates)
                             if(current == null){
                                 current = []
