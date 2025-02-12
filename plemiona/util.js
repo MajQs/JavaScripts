@@ -271,7 +271,6 @@ function isVillageWithFrozenOff(){
 function isVillageWithFrozenDeff(){
     for(let i=0; i < conf.freeze.deffOnVillages.length; i++){
         if($("#menu_row2_village").find('a').text().indexOf(conf.freeze.deffOnVillages[i]) >= 0){
-        if(conf.freeze.deffOnVillages[i] == $("#menu_row2_village").find('a').text()){
             return true
         }
     }
