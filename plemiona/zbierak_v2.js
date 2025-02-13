@@ -70,8 +70,8 @@ function processScavenge() {
                 $(divLevel).find('.free_send_button')[0].click();
                 setTimeout(function() {
                     processLevel(level - 1)
-                }, 1500);
-            }, 1500);
+                }, 500);
+            }, 2500);
         }else {
             processLevel(level - 1)
         }
