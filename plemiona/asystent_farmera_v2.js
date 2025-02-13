@@ -212,27 +212,26 @@ function processFarm() {
             }
 
             function shouldPressB(){
-//                var afStatistics = JSON.parse(localStorage.getItem("afStatistics"));
-//                if(afStatistics == null) {
-//                    return 0;
-//                }
-//                for(let i=0; i < afStatistics.length; i++){
-//                    let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
-//                    let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
-//                    if(afStatistics[i][0] == coordinates){
-//                        if(afStatistics[i][1].length - 3 < 0){
-//                            return false
-//                        }else{
-//                            let pressB = true;
-//                            for(let d=afStatistics[i][1].length - 3; d < afStatistics[i][1].length; d++){
-//                                if(afStatistics[i][1][d][1] == false){
-//                                    pressB = false;
-//                                }
-//                            }
-//                            return pressB;
-//                        }
-//                    }
-//                }
+                var afs = JSON.parse(localStorage.getItem("MajQs.afStatistics"));
+                if(afs == null) {
+                    return false
+                }else{
+                    var afStatistics = new Map(afs)
+                    let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
+                    let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
+                    var villageStatistics = afStatistics.get(coordinates)
+                    if(villageStatistics.length < 5){
+                        return false
+                    }else{
+                        let pressB = true;
+                        for(let vsi=villageStatistics.length - 5; vsi < villageStatistics.length; vsi++){
+                            if(villageStatistics[vsi].max_loot == false){
+                                pressB = false;
+                            }
+                        }
+                        return pressB;
+                    }
+                }
                 return false
             }
 
