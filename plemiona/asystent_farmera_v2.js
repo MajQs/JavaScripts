@@ -24,100 +24,88 @@ function processCollectAFStatistics() {
         let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
         let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
 
-        function getMaxLoot(){
-            var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src')
-            if(max_loot == null){
-                max_loot = false;
-            }else{
-                max_loot = max_loot.indexOf('max_loot/1') > -1
+        function collectAfStatistic(){
+            function getMaxLoot(){
+                var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src')
+                if(max_loot == null){
+                    max_loot = false;
+                }else{
+                    max_loot = max_loot.indexOf('max_loot/1') > -1
+                }
+                return max_loot
             }
-            return max_loot
-        }
 
-
-        var villageStatistics = afStatistics.get(coordinates)
-        if(villageStatistics == null){
-            villageStatistics = []
-        }
-
-        var ravStatus = $(rows[index]).find('td').eq(1).find('img').first().attr('src')
-
-        var villageStatistic = {
-             "date": $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ",""),
-             "max_loot": getMaxLoot(),
-             "status": ravStatus.substring(ravStatus.indexOf("dots/")+5, ravStatus.indexOf(".png")),
-             "wall": $(rows[index]).find('td').eq(6).text()
-        }
-
-        if(villageStatistics.length == 0
-            || villageStatistics[villageStatistics.length-1].date != date)
-        {
-            if(villageStatistics.length >= 10){
-                  villageStatistics.shift()
+            var villageStatistics = afStatistics.get(coordinates)
+            if(villageStatistics == null){
+                villageStatistics = []
             }
-            villageStatistics.push(villageStatistic)
-            afStatistics.set(coordinates, villageStatistics)
+
+            var ravStatus = $(rows[index]).find('td').eq(1).find('img').first().attr('src')
+
+            var villageStatistic = {
+                 "date": $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ",""),
+                 "max_loot": getMaxLoot(),
+                 "status": ravStatus.substring(ravStatus.indexOf("dots/")+5, ravStatus.indexOf(".png")),
+                 "wall": $(rows[index]).find('td').eq(6).text()
+            }
+
+            if(villageStatistics.length == 0
+                || villageStatistics[villageStatistics.length-1].date != villageStatistic.date)
+            {
+                if(villageStatistics.length >= 10){
+                      villageStatistics.shift()
+                }
+                villageStatistics.push(villageStatistic)
+                afStatistics.set(coordinates, villageStatistics)
+            }
+            return 0
         }
 
-//        let exist = false;
-//        for(let afsi = 0; afsi < afStatistics.length; afsi++){
-//            if(afStatistics[afsi][0] == coordinates){
-//                exist = true;
-//                if(afStatistics[afsi][1][afStatistics[afsi][1].length-1][0] != date){
-//                    if(afStatistics[afsi][1].length >= 10){
-//                        afStatistics[afsi][1].shift()
-//                    }
-//                    afStatistics[afsi][1].push([date, max_loot])
-//                }
-//            }
-//        }
-//        if(!exist){
-//            afStatistics.push([coordinates, [[date, max_loot]]])
-//        }
-
-        // coordinatesForWrecker
-        if (($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                        // defeated
-            || $(rows[index]).find('td').eq(6).text() <= 1)                                                             // or wall
-            && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
-            && playerVillages != null)
-        {
-            var coords = coordinates.split("|")
-            for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
-                var distance = Math.sqrt(Math.pow(coords[0]-playerVillages[pvi][1].X,2)+Math.pow(coords[1]-playerVillages[pvi][1].Y,2))
-                if(distance <= conf.farm.wrecker.maxDistance    // is in rage of max distance
-                    && playerVillages[pvi][1].isWrecker)         // is wrecker
-                {
-                    function isVillageWithNotFrozenOff(name){
-                        let result = true
-                        for (let foovi = conf.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
-                            if(name.indexOf(conf.freeze.offOnVillages[foovi]) >= 0){
-                                result = false
+        function collectCoordinatesForWrecker(){
+            if (($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                        // defeated
+                || $(rows[index]).find('td').eq(6).text() <= 1)                                                             // or wall
+                && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
+                && playerVillages != null)
+            {
+                var coords = coordinates.split("|")
+                for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
+                    var distance = Math.sqrt(Math.pow(coords[0]-playerVillages[pvi][1].X,2)+Math.pow(coords[1]-playerVillages[pvi][1].Y,2))
+                    if(distance <= conf.farm.wrecker.maxDistance    // is in rage of max distance
+                        && playerVillages[pvi][1].isWrecker)         // is wrecker
+                    {
+                        function isVillageWithNotFrozenOff(name){
+                            let result = true
+                            for (let foovi = conf.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
+                                if(name.indexOf(conf.freeze.offOnVillages[foovi]) >= 0){
+                                    result = false
+                                }
                             }
+                            return result
                         }
-                        return result
-                    }
 
-                    if(isVillageWithNotFrozenOff(playerVillages[pvi][1].name)){
-                        var current = coordinatesForWrecker.get(coordinates)
-                        if(current == null){
-                            current = []
+                        if(isVillageWithNotFrozenOff(playerVillages[pvi][1].name)){
+                            var current = coordinatesForWrecker.get(coordinates)
+                            if(current == null){
+                                current = []
+                            }
+                            current.push([playerVillages[pvi][0], distance])
+                            current.sort(function (a, b) {
+                                return a[1] - b[1]
+                            })
+                            coordinatesForWrecker.set(coordinates, current)
                         }
-                        current.push([playerVillages[pvi][0], distance])
-                        current.sort(function (a, b) {
-                            return a[1] - b[1]
-                        })
-                        coordinatesForWrecker.set(coordinates, current)
                     }
                 }
             }
+            return 0
         }
+
+        collectAfStatistic()
+        collectCoordinatesForWrecker()
     }
 
     localStorage.setItem("MajQs.coordinatesForWreckerTemp", JSON.stringify(Array.from(coordinatesForWrecker)))
     localStorage.setItem("MajQs.afStatistics", JSON.stringify(Array.from(afStatistics)))
-//    saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
-//    localStorage.setItem("afStatistics", JSON.stringify(afStatistics));
-
 
     function saveCoordinatesForWrecker(){
         if(coordinatesForWrecker != null && coordinatesForWrecker.size > 0){
