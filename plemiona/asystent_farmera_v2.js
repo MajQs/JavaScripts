@@ -2,7 +2,7 @@ function processCollectAFStatistics() {
     console.log("Processing collecting AF statistics..." );
     var playerVillages = JSON.parse(localStorage.getItem("MajQs.playerVillages"));
     var coordinatesForWrecker
-//    var allAFCoordinates = []
+    var afStatistics
 
     var cfw = JSON.parse(localStorage.getItem("MajQs.coordinatesForWreckerTemp"))
     if (cfw == null){
@@ -11,14 +11,12 @@ function processCollectAFStatistics() {
         coordinatesForWrecker = new Map(cfw);
     }
 
-
-//    var afs = JSON.parse(localStorage.getItem("MajQs.afStatistics"))
-//    var afStatistics = []
-//    if (afs == null){
-//        afStatistics = new Map();
-//    } else {
-//        afStatistics = new Map(afs);
-//    }
+    var afs = JSON.parse(localStorage.getItem("MajQs.afStatistics"))
+    if (afs == null){
+        afStatistics = new Map();
+    } else {
+        afStatistics = new Map(afs);
+    }
 
     // collect coordinates
     let rows = $(`#plunder_list tr`).slice(2);
@@ -26,17 +24,41 @@ function processCollectAFStatistics() {
         let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
         let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
 
-        // afStatistics
-//        allAFCoordinates.push(coordinates)
-//        //coords, max_loot, date
-//        var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src')
-//        if(max_loot == null){
-//            max_loot = false;
-//        }else{
-//            max_loot = max_loot.indexOf('max_loot/1') > -1
-//        }
-//
-//        var date = $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ","")
+        function getMaxLoot(){
+            var max_loot = $(rows[index]).find('td').eq(2).find('img').first().attr('src')
+            if(max_loot == null){
+                max_loot = false;
+            }else{
+                max_loot = max_loot.indexOf('max_loot/1') > -1
+            }
+            return max_loot
+        }
+
+
+        var villageStatistics = afStatistics.get(coordinates)
+        if(villageStatistics == null){
+            villageStatistics = []
+        }
+
+        var ravStatus = $(rows[index]).find('td').eq(1).find('img').first().attr('src')
+
+        var villageStatistic = {
+             "date": $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ",""),
+             "max_loot": getMaxLoot(),
+             "status": ravStatus.substring(ravStatus.indexOf("dots/")+5, ravStatus.indexOf(".png")),
+             "wall": $(rows[index]).find('td').eq(6).text()
+        }
+
+        if(villageStatistics.length == 0
+            || villageStatistics[villageStatistics.length-1].date != date)
+        {
+            if(villageStatistics.length >= 10){
+                  villageStatistics.shift()
+            }
+            villageStatistics.push(villageStatistic)
+            afStatistics.set(coordinates, villageStatistics)
+        }
+
 //        let exist = false;
 //        for(let afsi = 0; afsi < afStatistics.length; afsi++){
 //            if(afStatistics[afsi][0] == coordinates){
@@ -92,6 +114,7 @@ function processCollectAFStatistics() {
     }
 
     localStorage.setItem("MajQs.coordinatesForWreckerTemp", JSON.stringify(Array.from(coordinatesForWrecker)))
+    localStorage.setItem("MajQs.afStatistics", JSON.stringify(Array.from(afStatistics)))
 //    saveParameterToLocalStorage("allAFCoordinates", allAFCoordinates)
 //    localStorage.setItem("afStatistics", JSON.stringify(afStatistics));
 

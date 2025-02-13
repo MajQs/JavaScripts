@@ -177,10 +177,10 @@ function completeQuest(){
 // return to AF when you stay too long on the same page
 var timer = 10 ;
 function pageTimer() {
+    console.log("TIMER: min left = " + timer );
     setTimeout(function() {
-        console.log("TIMER: min left = " + timer );
+        timer--;
         if (timer >= 0) {
-            timer--;
             completeQuest()
             pageTimer()
         } else {
