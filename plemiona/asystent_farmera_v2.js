@@ -220,7 +220,7 @@ function processFarm() {
                     let coordinatesWithBrackets = $(rows[index]).find('td').eq(3).find('a').first().text()
                     let coordinates = coordinatesWithBrackets.substr(coordinatesWithBrackets.indexOf('(') + 1, coordinatesWithBrackets.indexOf(')') -2 )
                     var villageStatistics = afStatistics.get(coordinates)
-                    if(villageStatistics.length < 5){
+                    if(villageStatistics == null || villageStatistics.length < 5){
                         return false
                     }else{
                         let pressB = true;
