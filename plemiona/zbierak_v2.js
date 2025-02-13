@@ -71,7 +71,7 @@ function processScavenge() {
                 setTimeout(function() {
                     processLevel(level - 1)
                 }, 500);
-            }, 2500);
+            }, 4500);
         }else {
             processLevel(level - 1)
         }
