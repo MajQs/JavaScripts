@@ -178,6 +178,7 @@ function completeQuest(){
 var timer = 10 ;
 function pageTimer() {
     console.log("TIMER: min left = " + timer );
+    autoTagIncomingAttacks()
     setTimeout(function() {
         timer--;
         if (timer >= 0) {
@@ -277,3 +278,36 @@ function isVillageWithFrozenDeff(){
     return false
 }
 
+
+// *** autoTagIncomingAttacks ***
+function autoTagIncomingAttacks(){
+    var incomingsAmount = localStorage.getItem("MajQs.incomingsAmount");
+    if(incomingsAmount == null){
+        incomingsAmount = 0
+    }
+    var currentIncomingsAmount = $("#incomings_amount").text()
+    if(incomingsAmount != currentIncomingsAmount){
+        localStorage.setItem("MajQs.incomingsAmount", currentIncomingsAmount);
+        $("#incomings_amount").click()
+    }
+    return 0
+}
+
+function isIncomingsAttacks() {
+    var url = new URL(window.location.href);
+    var params = new URLSearchParams(url.search);
+
+    return params.get('mode') === "incomings" && params.get('subtype') === "attacks"
+}
+
+if (isIncomingsAttacks()) {
+    console.log("Incomings Attacks page..." );
+    setTimeout(function() {
+        if($('.quickedit-label:contains("Atak")').length > 0){
+            $("#select_all").click()
+            $('#incomings_table :input[value="Etykieta"]').click()
+        }else{
+            goToNextLevel(defaultLevel)
+        }
+    }, 1500)
+}
