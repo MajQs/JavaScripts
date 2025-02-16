@@ -2,12 +2,11 @@ function processWrecker() {
     console.log("Processing wrecker..." );
     var coordinatesForWrecker = JSON.parse(localStorage.getItem("MajQs.coordinatesForWrecker"));
 
-    function isEnough(unit, count){
-        var unit = $("#"+unit).text()
-        return unit.substr(unit.indexOf('(') + 1, unit.indexOf(')') - 1 ) >= count
-    }
-
     function process(target){
+        function isEnough(unit, count){
+            var unit = $("#"+unit).text()
+            return unit.substr(unit.indexOf('(') + 1, unit.indexOf(')') - 1 ) >= count
+        }
 
         if(isEnough("units_entry_all_light" , conf.farm.wrecker.units.light)
             && isEnough("units_entry_all_ram" , conf.farm.wrecker.units.ram)
@@ -31,8 +30,7 @@ function processWrecker() {
             if(coordMap.size > 0){
                 goToCommandPageFor(coordMap.entries().next().value[0])
             } else{
-                //goToNextLevel(autoExpansionLevel)
-                goToNextLevel(defaultLevel)
+                goToNextLevel(autoExpansionLevel)
             }
         }
 
@@ -44,8 +42,7 @@ function processWrecker() {
         || coordinatesForWrecker.length == 0)
     {
         localStorage.removeItem("MajQs.coordinatesForWrecker");
-//        goToNextLevel(autoExpansionLevel)
-        goToNextLevel(defaultLevel)
+        goToNextLevel(autoExpansionLevel)
     } else {
         var coordMap = new Map(coordinatesForWrecker)
         var villageTargets = coordMap.get($.cookie("global_village_id"))
@@ -62,8 +59,7 @@ function processWrecker() {
             if(coordMap.size > 0){
                 goToCommandPageFor(coordMap.entries().next().value[0])
             } else{
-                //goToNextLevel(autoExpansionLevel)
-                goToNextLevel(defaultLevel)
+                goToNextLevel(autoExpansionLevel)
             }
         }else{
             goToCommandPageFor(coordMap.entries().next().value[0])
@@ -75,74 +71,69 @@ function processWrecker() {
 
 function processAutoExpansion() {
     console.log("Processing Auto Expansion..." );
-    var coordinatesForAutoExpansion = JSON.parse(localStorage.getItem("coordinatesForAutoExpansion"));
-    var playerVillages = JSON.parse(localStorage.getItem("playerVillages"));
-    var mainVillageId = $.cookie("global_village_id")
+    var coordinatesForAutoExpansion = JSON.parse(localStorage.getItem("MajQs.coordinatesForAutoExpansion"));
 
+    var playerVillages = JSON.parse(localStorage.getItem("MajQs.playerVillages"));
     var attacksLeft
     for(let pvi=0; pvi < playerVillages.length; pvi++){
-        if(mainVillageId == playerVillages[pvi][0][0]){
-            attacksLeft = playerVillages[pvi][1]
+        if($.cookie("global_village_id") == playerVillages[pvi][0]){
+            attacksLeft = playerVillages[pvi][1].autoExpansionDailyAttacks
         }
     }
 
-    function process(){
-        for (let i = 0; i < coordinatesForAutoExpansion.length; i++) {
-            if(mainVillageId == coordinatesForAutoExpansion[i][0]){
-            var target = coordinatesForAutoExpansion[i][2][0]
-                function isUnderAttack(){
-                    let isUnderAttack = false
-                    var Request = new XMLHttpRequest();
-                	Request.open('GET', 'game.php?village='+mainVillageId+'&screen=info_village&id=' + target , false);
-                    Request.send(null);
-                    var commands = $("<div>").html(Request.responseText).find("#commands_outgoings");
-                    for(let cvni=0; cvni < commands.length; cvni++){
-                        for(let pvi=0; pvi < playerVillages.length; pvi++){
-                            var pvn = playerVillages[pvi][0][1].replace("+", " ")
-                            var cvn = commands.eq(cvni).text()
-                            if(cvn.indexOf(pvn) > -1){
-                                isUnderAttack = true
-                            }
-                        }
-                    }
-                    return isUnderAttack
-                }
+    function process(target){
+        function isEnough(unit, count){
+            var unit = $("#"+unit).text()
+            return unit.substr(unit.indexOf('(') + 1, unit.indexOf(')') - 1 ) >= count
+        }
 
-                $("#place_target").find('input').first().val(coordinatesForAutoExpansion[i][2][2]+"|"+coordinatesForAutoExpansion[i][2][3])
-                coordinatesForAutoExpansion.splice(i,1)
-                localStorage.setItem("coordinatesForAutoExpansion", JSON.stringify(coordinatesForAutoExpansion));
-
-                if(!isUnderAttack()){
-                    for(let pvi=0; pvi < playerVillages.length; pvi++){
-                        if(mainVillageId == playerVillages[pvi][0][0]){
-                            playerVillages[pvi][1] = --attacksLeft
-                        }
-                    }
-                    localStorage.setItem("playerVillages", JSON.stringify(playerVillages));
-                    $("#unit_input_spy").val("1")
-                    $("#target_attack").click()
-                    return 0;
-                } else {
-                    goToCommandPage();
+        if(isEnough("units_entry_all_spy" ,1)){
+            for(let pvi=0; pvi < playerVillages.length; pvi++){
+                if($.cookie("global_village_id") == playerVillages[pvi][0]){
+                    playerVillages[pvi][1].autoExpansionDailyAttacks = --attacksLeft
                 }
             }
+            localStorage.setItem("MajQs.playerVillages", JSON.stringify(playerVillages));
+
+            $("#place_target").find('input').first().val(target)
+            $("#unit_input_spy").val("1")
+            $("#target_attack").click()
+        } else {
+            coordMap.delete($.cookie("global_village_id"))
+            localStorage.setItem("MajQs.coordinatesForAutoExpansion", JSON.stringify(Array.from(coordMap)));
+            if(coordMap.size > 0){
+                goToCommandPageFor(coordMap.entries().next().value[0])
+            } else{
+                goToNextLevel(defaultLevel)
+            }
         }
+
         return 0;
     }
 
     var spyCountText = $("#units_entry_all_spy").text()
     if ($('.error_box').length > 0
-        || coordinatesForAutoExpansion.length == 0
         || coordinatesForAutoExpansion == null
+        || coordinatesForAutoExpansion.length == 0
         || attacksLeft <= 0
         || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) == 0)
     {
-//        goToNextLevel(switchVillageLevel)
+        localStorage.removeItem("MajQs.coordinatesForAutoExpansion");
         goToNextLevel(defaultLevel)
     } else {
-        process();
+        var coordMap = new Map(coordinatesForAutoExpansion)
+        var villageTargets = coordMap.get($.cookie("global_village_id"))
+        if(villageTargets != null){
+            let target = villageTargets.shift()
+            if(villageTargets.length == 0){
+                coordMap.delete($.cookie("global_village_id"))
+            }
+            localStorage.setItem("MajQs.coordinatesForAutoExpansion", JSON.stringify(Array.from(coordMap)));
+            process(target);
+        }else{
+            goToCommandPageFor(coordMap.entries().next().value[0])
+        }
     }
-
     return 0;
 }
 

@@ -19,8 +19,8 @@ var conf = {
       }
     },
     autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
-      maxDistance: 0,
-      maxVillagePoints: 500,                    // aby uniknąć wiosek graczy którzy usuneli konto itp.
+      maxDistance: 20,
+      maxVillagePoints: 1200,                    // aby uniknąć wiosek graczy którzy usuneli konto itp.
       dailyNumberOfAttacksFromVillage: 10       // ilość ataków z jednej wioski gracza na dzień
     }
   },
