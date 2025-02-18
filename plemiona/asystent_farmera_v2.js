@@ -63,8 +63,9 @@ function processCollectAFStatistics() {
 
         function collectCoordinatesForWrecker(){
             if (($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                        // defeated
-                || $(rows[index]).find('td').eq(6).text() <= 1)                                                             // or wall
-                && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // no attack is coming
+                || $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('yellow') > -1                   // or losses
+                || $(rows[index]).find('td').eq(6).text() <= 2)                                                             // or wall 2
+                && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // and no attack is coming
                 && playerVillages != null)
             {
                 var coords = coordinates.split("|")
