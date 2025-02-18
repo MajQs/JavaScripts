@@ -43,3 +43,22 @@ $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/util
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/rozkazy_v2.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/asystent_farmera_v2.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/zbierak_v2.js');
+
+// Page timer
+// return to AF when you stay too long on the same page
+var timer = 10 ;
+function pageTimer() {
+    console.log("TIMER: min left = " + timer );
+    autoTagIncomingAttacks()
+    schedulerCheck()
+    setTimeout(function() {
+        timer--;
+        if (timer >= 0) {
+            completeQuest()
+            pageTimer()
+        } else {
+            goToNextLevel(defaultLevel)
+        }
+    }, 60000);
+}
+pageTimer()

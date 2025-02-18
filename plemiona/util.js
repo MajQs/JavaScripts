@@ -193,26 +193,6 @@ function completeQuest(){
     }
 }
 
-// Page timer
-// return to AF when you stay too long on the same page
-var timer = 10 ;
-function pageTimer() {
-    console.log("TIMER: min left = " + timer );
-    autoTagIncomingAttacks()
-    schedulerCheck()
-    setTimeout(function() {
-        timer--;
-        if (timer >= 0) {
-            completeQuest()
-            pageTimer()
-        } else {
-            goToNextLevel(defaultLevel)
-        }
-    }, 60000);
-}
-pageTimer()
-
-
 const defaultLevel = 0
 const collectAFStatisticsLevel = 1
 const collectServerDataLevel = 2
