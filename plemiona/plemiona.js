@@ -61,4 +61,6 @@ function pageTimer() {
         }
     }, 60000);
 }
-pageTimer()
+setTimeout(function() {
+    pageTimer()
+}, 1000);

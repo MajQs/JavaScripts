@@ -176,8 +176,9 @@ function schedulerSubmitLoop(){
     }else{
         setTimeout(function() {
             schedulerSubmitLoop()
-        }, 2000)
+        }, 10)
     }
+    return 0
 }
 
 if (isCommand()) {
