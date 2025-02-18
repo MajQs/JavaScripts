@@ -337,7 +337,7 @@ if (isIncomingsAttacks()) {
 }
 
 function schedulerCheck() {
-    if(localStorage.getItem("MajQs.scheduledItem") != null){
+    if(localStorage.getItem("MajQs.scheduledItem") == null){
         var today = new Date();
         for(let i=0; i < conf.scheduler.length; i++){
             var date = new Date(conf.scheduler[i][0]);
@@ -348,4 +348,5 @@ function schedulerCheck() {
             }
         }
     }
+    return 0
 }
