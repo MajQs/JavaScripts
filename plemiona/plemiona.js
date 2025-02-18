@@ -32,7 +32,10 @@ var conf = {
   freeze: {                                 // ZAMRAŻARKA - wystarczy podać część nazwy wioski
     offOnVillages: ["M001", "village 2"],
     deffOnVillages: ["village 1"]
-  }
+  },
+  scheduler: [
+    ["2025-02-18T22:06:01Z", "57078", "676|648", "OFF"]
+  ]
 }
 
 // === SCRIPT ===

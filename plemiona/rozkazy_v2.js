@@ -137,6 +137,19 @@ function processAutoExpansion() {
     return 0;
 }
 
+function processScheduler() {
+    var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
+
+    if($.cookie("global_village_id") != action[1]){
+        goToCommandPageFor(action[1])
+    } else {
+        $("#unit_input_spy").val("1")
+        $("#place_target").find('input').first().val(action[2])
+        $("#target_attack").click()
+    }
+    return 0
+}
+
 function isCommand() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
@@ -151,6 +164,22 @@ function isCommandConfirm() {
     return params.get('screen') === "place" && $("#troop_confirm_submit").length > 0
 }
 
+function schedulerSubmitLoop(){
+    var today = new Date();
+    var date = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
+    var diffMs = date - today
+
+    if(diffMs <= 10){
+        localStorage.removeItem("MajQs.scheduledItem")
+        localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
+        $("#troop_confirm_submit").click()
+    }else{
+        setTimeout(function() {
+            schedulerSubmitLoop()
+        }, 2000)
+    }
+}
+
 if (isCommand()) {
     console.log("Command page..." );
     setTimeout(function() {
@@ -158,6 +187,8 @@ if (isCommand()) {
             processWrecker();
         } else if(shouldProcessLevel(autoExpansionLevel)){
             processAutoExpansion()
+        } else if(shouldProcessLevel(schedulerLevel)){
+            processScheduler()
         }
     }, 2000)
 }
@@ -167,6 +198,8 @@ if (isCommandConfirm()) {
     setTimeout(function() {
         if(shouldProcessLevel(wreckerLevel) || shouldProcessLevel(autoExpansionLevel)){
             $("#troop_confirm_submit").click()
+        }else if(shouldProcessLevel(schedulerLevel)){
+            schedulerSubmitLoop()
         }
     }, 2000)
 }

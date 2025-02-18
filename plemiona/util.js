@@ -199,6 +199,7 @@ var timer = 10 ;
 function pageTimer() {
     console.log("TIMER: min left = " + timer );
     autoTagIncomingAttacks()
+    schedulerCheck()
     setTimeout(function() {
         timer--;
         if (timer >= 0) {
@@ -217,6 +218,7 @@ const collectAFStatisticsLevel = 1
 const collectServerDataLevel = 2
 const wreckerLevel = 3
 const autoExpansionLevel = 4
+const schedulerLevel = 5
 const switchVillageLevel = 99
 
 if(localStorage.getItem("MajQs.scriptLevel") == switchVillageLevel){
@@ -248,6 +250,9 @@ function goToNextLevel(level){
             goToCommandPage();
             break;
         case autoExpansionLevel:
+            goToCommandPage();
+            break;
+        case schedulerLevel:
             goToCommandPage();
             break;
         case switchVillageLevel:
@@ -329,4 +334,18 @@ if (isIncomingsAttacks()) {
             goToNextLevel(defaultLevel)
         }
     }, 1500)
+}
+
+function schedulerCheck() {
+    if(localStorage.getItem("MajQs.scheduledItem") != null){
+        var today = new Date();
+        for(let i=0; i < conf.scheduler.length; i++){
+            var date = new Date(conf.scheduler[i][0]);
+            var diffMins = Math.round((((date - today) % 86400000) % 3600000) / 60000); // minutes
+            if(diffMins > 0 && diffMins <= 3){
+                localStorage.setItem("MajQs.scheduledItem", i)
+                goToNextLevel(schedulerLevel)
+            }
+        }
+    }
 }
