@@ -165,19 +165,15 @@ function isCommandConfirm() {
 }
 
 function schedulerSubmitLoop(){
-    var today = new Date();
-    var date = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
-    var diffMs = date - today
+    var serverTime = new Date(Timing.getCurrentServerTime());
+    var actionDate = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
+    var diffMs = actionDate - serverTime
 
-    if(diffMs <= 10){
+    setTimeout(function() {
         localStorage.removeItem("MajQs.scheduledItem")
         localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
         $("#troop_confirm_submit").click()
-    }else{
-        setTimeout(function() {
-            schedulerSubmitLoop()
-        }, 10)
-    }
+    }, diffMs)
     return 0
 }
 
