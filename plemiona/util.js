@@ -32,6 +32,39 @@ function goToCommandPageFor(village) {
     window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=command';
 }
 
+function getPlayerVillages(){
+    var playerVillages = JSON.parse(localStorage.getItem("MajQs.playerVillages"))
+    if(playerVillages == null){
+        return new Map()
+    }else {
+        return new Map(playerVillages)
+    }
+}
+
+function getWorldSetup(){
+    ws = JSON.parse(localStorage.getItem("MajQs.worldSetup"))
+    if(ws == null){
+        var dt;
+        $.ajax({
+            'async':false,
+            'url':'/interface.php?func=get_config',
+            'dataType':'xml',
+            'success':function(data){dt=data;}
+        });
+
+        var worldSetup = {
+            speed:Number($(dt).find("config speed").text()),
+            unit_speed:Number($(dt).find("config unit_speed").text()),
+            archer:Number($(dt).find("game archer").text()),
+            knight:Number($(dt).find("game knight").text())
+        };
+        localStorage.setItem("MajQs.worldSetup", JSON.stringify(worldSetup))
+        return worldSetup
+    } else{
+        return ws
+    }
+}
+
 function sortAndSaveCoordinates(name, coordMap){
     if(coordMap != null && coordMap.size > 0){
         var sortedByDistance = Array.from(coordMap.entries()).sort(function (a, b) {return a[1][0][1] - b[1][0][1]})
@@ -52,6 +85,7 @@ function sortAndSaveCoordinates(name, coordMap){
 
 function processCollectingServerData() {
     console.log("Processing Collecting Server Data..." );
+    getWorldSetup()
 
 	var Request = new XMLHttpRequest();
 	Request.onreadystatechange = function() {
@@ -316,14 +350,48 @@ if (isIncomingsAttacks()) {
     }, 1500)
 }
 
+function schedulerCalculateSendDate(){
+    var playerVillages = getPlayerVillages()
+    var worldSetup = getWorldSetup()
+    var scheduler = localStorage.getItem("MajQs.scheduler")
+    function getSlowestUnitFactor(units){
+        var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35] //"Pikinier","Miecznik","Topornik","Ĺucznik","Zwiadowca","LK","ĹNK","CK","Taran","Katapulta","Rycerz","Szlachcic"
+        var slowestUnitFactor = 0
+        for(let i=0; i< units.length; i++){
+            if(units[i] > 0 && unitSpeeds[i] > slowestUnitFactor){
+                slowestUnitFactor = unitSpeeds[i]
+            }
+        }
+        return slowestUnitFactor
+    }
+
+    if(scheduler == null || scheduler.length != conf.scheduler.length){
+        scheduler = []
+        for(let i=0; i < conf.scheduler.length; i++){
+            var entryDate = new Date(conf.scheduler[i][0]);
+            var playerVillage = playerVillages.get(conf.scheduler[i][1])
+            var targetCoords = conf.scheduler[i][2].split("|")
+            var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
+            var sendDate = entryDate - (distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][3]) * 60000)
+            scheduler.push({
+                "item": i,
+                "sendDateUTC": new Date(sendDate)
+            })
+        }
+        localStorage.setItem("MajQs.scheduler", JSON.stringify(scheduler))
+    }
+    return scheduler
+}
+
 function schedulerCheck() {
     if(!shouldProcessLevel(schedulerLevel)){
-        var today = new Date();
-        for(let i=0; i < conf.scheduler.length; i++){
-            var date = new Date(conf.scheduler[i][0]);
-            var diffMins = Math.round((((date - today) % 86400000) % 3600000) / 60000); // minutes
+        var scheduler = schedulerCalculateSendDate()
+        var now = new Date();
+        for(let i=0; i < scheduler.length; i++){
+            var sendDate = new Date(scheduler[i].sendDate);
+            var diffMins = Math.round((((sendDate - now) % 86400000) % 3600000) / 60000); // minutes
             if(diffMins > 0 && diffMins <= 2){
-                localStorage.setItem("MajQs.scheduledItem", i)
+                localStorage.setItem("MajQs.scheduledItem", scheduler[i].item)
                 goToNextLevel(schedulerLevel)
             }
         }
