@@ -317,12 +317,12 @@ if (isIncomingsAttacks()) {
 }
 
 function schedulerCheck() {
-    if(localStorage.getItem("MajQs.scheduledItem") == null){
+    if(!shouldProcessLevel(schedulerLevel)){
         var today = new Date();
         for(let i=0; i < conf.scheduler.length; i++){
             var date = new Date(conf.scheduler[i][0]);
             var diffMins = Math.round((((date - today) % 86400000) % 3600000) / 60000); // minutes
-            if(diffMins > 0 && diffMins <= 3){
+            if(diffMins > 0 && diffMins <= 2){
                 localStorage.setItem("MajQs.scheduledItem", i)
                 goToNextLevel(schedulerLevel)
             }

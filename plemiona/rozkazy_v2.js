@@ -164,14 +164,13 @@ function isCommandConfirm() {
     return params.get('screen') === "place" && $("#troop_confirm_submit").length > 0
 }
 
-function schedulerSubmitLoop(){
-    var serverTime = new Date(Timing.getCurrentServerTime());
-    var actionDate = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
-    var diffMs = actionDate - serverTime
+function schedulerSubmit(){
+    actionDate = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
+    localStorage.removeItem("MajQs.scheduledItem")
+    localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
+    diffMs = actionDate - Timing.getCurrentServerTime();
     setTimeout(function() {
-        localStorage.removeItem("MajQs.scheduledItem")
-        localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
         $("#troop_confirm_submit").click()
     }, diffMs)
     return 0
@@ -196,7 +195,7 @@ if (isCommandConfirm()) {
         if(shouldProcessLevel(wreckerLevel) || shouldProcessLevel(autoExpansionLevel)){
             $("#troop_confirm_submit").click()
         }else if(shouldProcessLevel(schedulerLevel)){
-            schedulerSubmitLoop()
+            schedulerSubmit()
         }
     }, 2000)
 }
