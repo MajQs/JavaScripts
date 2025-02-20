@@ -388,7 +388,7 @@ function schedulerCheck() {
         var scheduler = schedulerCalculateSendDate()
         var now = new Date();
         for(let i=0; i < scheduler.length; i++){
-            var sendDate = new Date(scheduler[i].sendDate);
+            var sendDate = new Date(scheduler[i].sendDateUTC);
             var diffMins = Math.round((((sendDate - now) % 86400000) % 3600000) / 60000); // minutes
             if(diffMins > 0 && diffMins <= 2){
                 localStorage.setItem("MajQs.scheduledItem", scheduler[i].item)
