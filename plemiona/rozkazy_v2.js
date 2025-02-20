@@ -165,7 +165,7 @@ function isCommandConfirm() {
 }
 
 function schedulerSubmit(){
-    sendDate = new Date(localStorage.getItem("MajQs.scheduler")[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
+    sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
 //    actionDate = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
     localStorage.removeItem("MajQs.scheduledItem")
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
