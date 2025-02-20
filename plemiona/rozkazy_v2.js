@@ -165,11 +165,12 @@ function isCommandConfirm() {
 }
 
 function schedulerSubmit(){
-    actionDate = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
+    sendDate = new Date(localStorage.get("MajQs.scheduler")[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
+//    actionDate = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
     localStorage.removeItem("MajQs.scheduledItem")
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
-    diffMs = actionDate - Timing.getCurrentServerTime();
+    diffMs = sendDate - Timing.getCurrentServerTime();
     setTimeout(function() {
         $("#troop_confirm_submit").click()
     }, diffMs)
