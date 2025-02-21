@@ -147,7 +147,7 @@ function processScheduler() {
 
         function setUnit(name, count){
             if(count == "all"){
-                $("#unit_input_all_" + name).click()
+                $("#units_entry_all_" + name).click()
             }else{
                 $("#unit_input_" + name).val(count)
             }
