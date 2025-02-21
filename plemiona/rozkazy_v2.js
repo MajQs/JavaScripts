@@ -140,13 +140,41 @@ function processAutoExpansion() {
 function processScheduler() {
     var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
 
-    if($.cookie("global_village_id") != action[1]){
-        goToCommandPageFor(action[1])
+    if($('.error_box').length > 0){
+        localStorage.removeItem("MajQs.scheduledItem")
+        goToNextLevel(defaultLevel)
     } else {
-        $("#unit_input_spy").val("1")
-        $("#place_target").find('input').first().val(action[2])
-        $("#target_attack").click()
+
+        function setUnit(name, count){
+            if(count == "all"){
+                $("#unit_input_all_" + name).click()
+            }else{
+                $("#unit_input_" + name).val(count)
+            }
+        }
+
+        playerVillageId = villageNameToId(action[1])
+        if($.cookie("global_village_id") != playerVillageId){
+            goToCommandPageFor(playerVillageId)
+        } else {
+            setUnit("spear", action[3][0][0])
+            setUnit("sword", action[3][1][0])
+            setUnit("axe", action[3][2][0])
+            setUnit("archer", action[3][3][0])
+            setUnit("spy", action[3][4][0])
+            setUnit("light", action[3][5][0])
+            setUnit("marcher", action[3][6][0])
+            setUnit("heavy", action[3][7][0])
+            setUnit("ram", action[3][8][0])
+            setUnit("catapult", action[3][9][0])
+            setUnit("knight", action[3][10][0])
+            setUnit("snob", action[3][11][0])
+
+            $("#place_target").find('input').first().val(action[2])
+            $("#target_attack").click()
+        }
     }
+
     return 0
 }
 
@@ -165,8 +193,12 @@ function isCommandConfirm() {
 }
 
 function schedulerSubmit(){
+    var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
+    for(let i=1; i < action[3].length; i++){
+        $("#troop_confirm_train").click()
+    }
+
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
-//    actionDate = new Date(conf.scheduler[localStorage.getItem("MajQs.scheduledItem")][0]);
     localStorage.removeItem("MajQs.scheduledItem")
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
