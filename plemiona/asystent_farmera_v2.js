@@ -1,6 +1,6 @@
 function processCollectAFStatistics() {
     console.log("Processing collecting AF statistics..." );
-    var playerVillages = JSON.parse(localStorage.getItem("MajQs.playerVillages"));
+    var playerVillages = Array.from(getPlayerVillages())
     var coordinatesForWrecker
     var afStatistics
 
