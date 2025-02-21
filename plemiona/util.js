@@ -353,7 +353,7 @@ if (isIncomingsAttacks()) {
 function schedulerCalculateSendDate(){
     var playerVillages = getPlayerVillages()
     var worldSetup = getWorldSetup()
-    var scheduler = localStorage.getItem("MajQs.scheduler")
+    var scheduler = []
     function getSlowestUnitFactor(attacks){
         var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
         var slowestUnitFactor = 0
@@ -371,23 +371,22 @@ function schedulerCalculateSendDate(){
       p = 1000;
       return new Date(Math.round(date.getTime() / p ) * p);
     }
-    if(scheduler == null || scheduler.length != conf.scheduler.length){
-        scheduler = []
-        for(let i=0; i < conf.scheduler.length; i++){
-            var entryDate = new Date(conf.scheduler[i][0]);
-            var playerVillage = playerVillages.get(villageNameToId(conf.scheduler[i][1]))
-            if(playerVillage != null){
-                var targetCoords = conf.scheduler[i][2].split("|")
-                var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
-                var sendDate = entryDate - roundToSeconds(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][3]) * 60000)
-                scheduler.push({
-                    "item": i,
-                    "sendDateUTC": new Date(sendDate)
-                })
-            }
+
+    for(let i=0; i < conf.scheduler.length; i++){
+        var entryDate = new Date(conf.scheduler[i][0]);
+        var playerVillage = playerVillages.get(villageNameToId(conf.scheduler[i][1]))
+        if(playerVillage != null){
+            var targetCoords = conf.scheduler[i][2].split("|")
+            var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
+            var sendDate = entryDate - roundToSeconds(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][3]) * 60000)
+            scheduler.push({
+                "item": i,
+                "sendDateUTC": new Date(sendDate)
+            })
         }
-        localStorage.setItem("MajQs.scheduler", JSON.stringify(scheduler))
     }
+    localStorage.setItem("MajQs.scheduler", JSON.stringify(scheduler))
+
     return scheduler
 }
 
