@@ -34,13 +34,9 @@ var conf = {
     deffOnVillages: ["village 1"]
   },
   scheduler: [
-    // data wejścia, z, do, lista ataków [[pic, miecz, top, łuk, skan, LK, łNK, CK, tar, kat, ryc, szl]]
-    // wpisać "all" jak wysłać wszystkie wojska danego typu
-    // przykład OFFa [[0,0,"all",0,0,"all",0,0,0,0,1,0]]
-    // przykład karety, pozostawienie ataków 2, 3 i 4 pustymi powoduje automatyczne uzupełnienie wojskiem
-    //  [[0,0,3000,0,0,1500,0,0,0,0,1,1],[],[],[]]
-    // przykład fejk karety
-    // w przyszłości...
+    // [data wejścia, z, do, lista ataków [[pic, miecz, top, łuk, skan, LK, łNK, CK, tar, kat, ryc, szl]]]
+    // przykład OFFa ["2025-02-18T22:06:01", "A001", "676|648", [[0,0,"all",0,0,"all",0,0,0,0,1,0]]]
+    // przykład karety ["2025-02-18T22:06:01", "A001", "676|648", [[0,0,3000,0,0,1500,0,0,0,0,1,1],[],[],[]]] //pozostawienie ataków 2, 3 i 4 pustymi powoduje automatyczne uzupełnienie wojskiem
     ["2025-02-18T22:06:01", "A001", "676|648", [[0,0,0,0,9,0,0,0,0,0,0,0]]]
   ]
 }

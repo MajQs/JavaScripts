@@ -132,6 +132,8 @@ function nextVillage(){
 function processFarm() {
     console.log("Processing Farm..." );
     let rows = $(`#plunder_list tr`).slice(2);
+    let firstColumnElements = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children();
+    let strongElement = firstColumnElements.filter('strong');
 
     var minDelay = conf.farm.speedInMilliseconds - 250
     if(minDelay < 250){
@@ -141,9 +143,6 @@ function processFarm() {
     function processRowWithDelay(index) {
         // go to next page
         if (index >= rows.length) {
-            let firstColumnElements = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children();
-            let strongElement = firstColumnElements.filter('strong');
-
             if (strongElement.length > 0) {
                 let nextAnchor = strongElement.next('a');
                 if (nextAnchor.length > 0) {
