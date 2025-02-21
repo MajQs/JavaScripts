@@ -360,7 +360,7 @@ function schedulerCalculateSendDate(){
         for(let ai=0; ai< attacks.length; ai++){
             units = attacks[ai]
             for(let i=0; i< units.length; i++){
-                if(units[i] > 0 && unitSpeeds[i] > slowestUnitFactor){
+                if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
                     slowestUnitFactor = unitSpeeds[i]
                 }
             }
