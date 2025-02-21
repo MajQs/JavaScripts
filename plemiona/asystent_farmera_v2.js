@@ -151,10 +151,8 @@ function processFarm() {
                 } else {
                     if(conf.farm.repeatWhenNoMoreVillagesLeft === 0){
                         saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-                        nextVillage()
-                    }else{
-                        firstColumnElements[0].click() // back to [1]
                     }
+                    firstColumnElements[0].click() // back to [1]
                 }
             }
             return 0;
@@ -162,7 +160,7 @@ function processFarm() {
 
         if($(rows[index]).find('td').eq(7).text() > conf.farm.maxDistance){
             saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-            nextVillage()
+            firstColumnElements[0].click() // back to [1]
             return 0;
         }
 
@@ -174,7 +172,7 @@ function processFarm() {
                 var aButton = $(rows[index]).find('td').eq(8).find('a').first();
                 if (aButton.is('.farm_icon_disabled')) {
                     saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-                    nextVillage()
+                    firstColumnElements[0].click() // back to [1]
                 }else{
                     console.log("pressing A")
                     aButton.click();
@@ -229,7 +227,7 @@ function processFarm() {
         setTimeout(function() {
             if ($('div.autoHideBox.error').length > 0 || isVillageWithFrozenOff()) {
                 saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-                nextVillage()
+                firstColumnElements[0].click() // back to [1]
             }else {
                 processRowWithDelay(index + 1);
             }
@@ -238,7 +236,7 @@ function processFarm() {
 
     if ($('div.autoHideBox.error').length > 0 || isVillageWithFrozenOff()) {
         saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-        nextVillage()
+        firstColumnElements[0].click() // back to [1]
     }else {
         // start farm
         processRowWithDelay(0);
@@ -275,7 +273,11 @@ if (isAF()) {
             if(isVillageAlreadyNotVisited()){
                 processFarm();
             } else {
-                goToMassScavengePage()
+                if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
+                    goToMassScavengePage()
+                } else {
+                    nextVillage()
+                }
             }
         }
     }, 1500)
