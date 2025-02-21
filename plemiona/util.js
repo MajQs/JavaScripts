@@ -367,7 +367,10 @@ function schedulerCalculateSendDate(){
         }
         return slowestUnitFactor
     }
-
+    function roundToSeconds(date) {
+      p = 1000;
+      return new Date(Math.round(date.getTime() / p ) * p);
+    }
     if(scheduler == null || scheduler.length != conf.scheduler.length){
         scheduler = []
         for(let i=0; i < conf.scheduler.length; i++){
@@ -376,7 +379,7 @@ function schedulerCalculateSendDate(){
             if(playerVillage != null){
                 var targetCoords = conf.scheduler[i][2].split("|")
                 var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
-                var sendDate = entryDate - (distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][3]) * 60000)
+                var sendDate = entryDate - roundToSeconds(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][3]) * 60000)
                 scheduler.push({
                     "item": i,
                     "sendDateUTC": new Date(sendDate)
