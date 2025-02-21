@@ -354,12 +354,15 @@ function schedulerCalculateSendDate(){
     var playerVillages = getPlayerVillages()
     var worldSetup = getWorldSetup()
     var scheduler = localStorage.getItem("MajQs.scheduler")
-    function getSlowestUnitFactor(units){
-        var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35] //"Pikinier","Miecznik","Topornik","Ĺucznik","Zwiadowca","LK","ĹNK","CK","Taran","Katapulta","Rycerz","Szlachcic"
+    function getSlowestUnitFactor(attacks){
+        var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
         var slowestUnitFactor = 0
-        for(let i=0; i< units.length; i++){
-            if(units[i] > 0 && unitSpeeds[i] > slowestUnitFactor){
-                slowestUnitFactor = unitSpeeds[i]
+        for(let ai=0; ai< attacks.length; ai++){
+            units = attacks[ai]
+            for(let i=0; i< units.length; i++){
+                if(units[i] > 0 && unitSpeeds[i] > slowestUnitFactor){
+                    slowestUnitFactor = unitSpeeds[i]
+                }
             }
         }
         return slowestUnitFactor
@@ -404,7 +407,7 @@ function schedulerCheck() {
 function villageNameToId(villageName){
     var playerVillages = Array.from(getPlayerVillages())
     for(let pvi = 0; pvi < playerVillages.length; pvi++){
-        if(playerVillages[pvi][1].name.indexOf(villageName) > 0){
+        if(playerVillages[pvi][1].name.indexOf(villageName) > -1){
             return playerVillages[pvi][0]
         }
     }
