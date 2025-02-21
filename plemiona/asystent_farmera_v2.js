@@ -140,6 +140,11 @@ function processFarm() {
         minDelay = 250
     }
 
+    function goBackToOneOrNextVillage(){
+        firstColumnElements[0].click() // back to [1]
+        nextVillage()
+    }
+
     function processRowWithDelay(index) {
         // go to next page
         if (index >= rows.length) {
@@ -151,7 +156,7 @@ function processFarm() {
                     if(conf.farm.repeatWhenNoMoreVillagesLeft === 0){
                         saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
                     }
-                    firstColumnElements[0].click() // back to [1]
+                    goBackToOneOrNextVillage()
                 }
             }
             return 0;
@@ -159,7 +164,7 @@ function processFarm() {
 
         if($(rows[index]).find('td').eq(7).text() > conf.farm.maxDistance){
             saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-            firstColumnElements[0].click() // back to [1]
+            goBackToOneOrNextVillage()
             return 0;
         }
 
@@ -171,7 +176,7 @@ function processFarm() {
                 var aButton = $(rows[index]).find('td').eq(8).find('a').first();
                 if (aButton.is('.farm_icon_disabled')) {
                     saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-                    firstColumnElements[0].click() // back to [1]
+                    goBackToOneOrNextVillage()
                 }else{
                     console.log("pressing A")
                     aButton.click();
@@ -235,7 +240,7 @@ function processFarm() {
 
     if ($('div.autoHideBox.error').length > 0 || isVillageWithFrozenOff()) {
         saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-        firstColumnElements[0].click() // back to [1]
+        goBackToOneOrNextVillage()
     }else {
         // start farm
         processRowWithDelay(0);
