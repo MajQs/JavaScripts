@@ -142,7 +142,9 @@ function processFarm() {
 
     function goBackToOneOrNextVillage(){
         firstColumnElements[0].click() // back to [1]
-        nextVillage()
+        setTimeout(function() {
+            nextVillage()
+        }, 2000);
     }
 
     function processRowWithDelay(index) {
@@ -277,7 +279,7 @@ if (isAF()) {
             if(isVillageAlreadyNotVisited()){
                 processFarm();
             } else {
-                if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
+                if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")) >= getPlayerVillages().size ){
                     goToMassScavengePage()
                 } else {
                     nextVillage()
