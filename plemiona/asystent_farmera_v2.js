@@ -279,7 +279,7 @@ if (isAF()) {
             if(isVillageAlreadyNotVisited()){
                 processFarm();
             } else {
-                if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")) >= getPlayerVillages().size ){
+                if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
                     goToMassScavengePage()
                 } else {
                     nextVillage()
