@@ -62,10 +62,10 @@ function processCollectAFStatistics() {
         }
 
         function collectCoordinatesForWrecker(){
-            if (($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red') > -1                        // defeated
-                || $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('yellow') > -1                   // or losses
-                || $(rows[index]).find('td').eq(6).text() <= 2)                                                             // or wall <= 2
-                && $(rows[index]).find('td').eq(3).find('img').length == 0                                                  // and no attack is coming
+            if (($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('red.png') > -1                        // defeated
+                || $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('yellow.pmg') > -1                   // or losses
+                || $(rows[index]).find('td').eq(6).text() <= 2)                                                                 // or wall <= 2
+                && $(rows[index]).find('td').eq(3).find('img').length == 0                                                      // and no attack is coming
                 && playerVillages != null)
             {
                 var coords = coordinates.split("|")
@@ -145,6 +145,7 @@ function processFarm() {
         setTimeout(function() {
             nextVillage()
         }, 2000);
+        return 0
     }
 
     function processRowWithDelay(index) {
@@ -233,7 +234,7 @@ function processFarm() {
         setTimeout(function() {
             if ($('div.autoHideBox.error').length > 0 || isVillageWithFrozenOff()) {
                 saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
-                firstColumnElements[0].click() // back to [1]
+                goBackToOneOrNextVillage()
             }else {
                 processRowWithDelay(index + 1);
             }
