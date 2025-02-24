@@ -170,6 +170,7 @@ function processScheduler() {
             setUnit("knight", action[3][0][10])
             setUnit("snob", action[3][0][11])
 
+            $('select[name="building"]').val('wall')
             $("#place_target").find('input').first().val(action[2])
             $("#target_attack").click()
         }

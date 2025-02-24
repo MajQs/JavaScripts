@@ -125,7 +125,7 @@ function nextVillage(){
     if(nextVillage.length > 0){
         nextVillage.click()
     }else{
-        goToMassScavengePage()
+        goToScavengePage()
     }
 }
 
@@ -281,7 +281,7 @@ if (isAF()) {
                 processFarm();
             } else {
                 if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
-                    goToMassScavengePage()
+                    goToScavengePage()
                 } else {
                     nextVillage()
                 }
