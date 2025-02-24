@@ -316,7 +316,6 @@ function isVillageWithFrozenDeff(){
     return false
 }
 
-
 // *** autoTagIncomingAttacks ***
 function autoTagIncomingAttacks(){
     var incomingsAmount = localStorage.getItem("MajQs.incomingsAmount");
@@ -396,7 +395,7 @@ function schedulerCheck() {
         var now = new Date();
         for(let i=0; i < scheduler.length; i++){
             var sendDate = new Date(scheduler[i].sendDateUTC);
-            var diffMins = Math.round((((sendDate - now) % 86400000) % 3600000) / 60000); // minutes
+            var diffMins = (sendDate - now) / 60000 //Math.round((((sendDate - now) % 86400000) % 3600000) / 60000); // minutes
             if(diffMins > 0 && diffMins <= 3){
                 localStorage.setItem("MajQs.scheduledItem", scheduler[i].item)
                 goToNextLevel(schedulerLevel)
