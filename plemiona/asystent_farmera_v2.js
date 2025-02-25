@@ -125,7 +125,10 @@ function nextVillage(){
     if(nextVillage.length > 0){
         nextVillage.click()
     }else{
-        goToScavengePage()
+        playerVillages = getPlayerVillages()
+        JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList"))
+            .forEach((villageId) => playerVillages.delete(villageId));
+        goToAfPageFor(playerVillages.entries().next().value[0])
     }
 }
 

@@ -21,6 +21,11 @@ function goToAfPage() {
     window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=am_farm';
 }
 
+function goToAfPageFor(village) {
+    var url = new URL(window.location.href);
+    window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=am_farm';
+}
+
 function goToCommandPage() {
     var url = new URL(window.location.href);
     var village = new URLSearchParams(url.search).get('village');
