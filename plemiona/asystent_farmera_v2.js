@@ -128,7 +128,11 @@ function nextVillage(){
         playerVillages = getPlayerVillages()
         JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList"))
             .forEach((villageId) => playerVillages.delete(villageId));
-        goToAfPageFor(playerVillages.entries().next().value[0])
+        if(playerVillages.size > 0){
+            goToAfPageFor(playerVillages.entries().next().value[0])
+        } else {
+            goToScavengePage()
+        }
     }
 }
 
