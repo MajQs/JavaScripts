@@ -148,10 +148,12 @@ function processFarm() {
     }
 
     function goBackToOneOrNextVillage(){
-        firstColumnElements[0].click() // back to [1]
-        setTimeout(function() {
+        if(firstColumnElements[0].tagName == 'STRONG'){
             nextVillage()
-        }, 2000);
+        } else {
+            localStorage.setItem("MajQs.farmVillageDoneTemp" , $.cookie("global_village_id"))
+            firstColumnElements[0].click() // back to [1]
+        }
         return 0
     }
 

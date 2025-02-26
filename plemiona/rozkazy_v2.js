@@ -171,8 +171,12 @@ function processScheduler() {
             setUnit("snob", action[3][0][11])
 
             $('select[name="building"]').val('wall')
+
             $("#place_target").find('input').first().val(action[2])
-            $("#target_attack").click()
+
+            setTimeout(function() {
+                $("#target_attack").click()
+            }, 1000)
         }
     }
 
