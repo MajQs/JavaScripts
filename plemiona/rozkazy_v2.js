@@ -170,8 +170,6 @@ function processScheduler() {
             setUnit("knight", action[3][0][10])
             setUnit("snob", action[3][0][11])
 
-            $('select[name="building"]').val('wall')
-
             $("#place_target").find('input').first().val(action[2])
 
             setTimeout(function() {
@@ -202,6 +200,8 @@ function schedulerSubmit(){
     for(let i=1; i < action[3].length; i++){
         $("#troop_confirm_train").click()
     }
+
+    $('select[name="building"]').val('wall')
 
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
     localStorage.removeItem("MajQs.scheduledItem")
