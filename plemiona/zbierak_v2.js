@@ -54,26 +54,26 @@ function processScavenge() {
     function processLevel(level) {
         if (level < 0) {
             goToMassScavengePage()
-        }
+        } else {
+            var divLevel = container.find('.scavenge-option')[level]
+            if ($(divLevel).find('.free_send_button').length > 0) {
+                $.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
 
-        var divLevel = container.find('.scavenge-option')[level]
-        if ($(divLevel).find('.free_send_button').length > 0) {
-            $.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
-
-            setTimeout(function() {
-                if($('.autoHideBox.error').length > 0){
-                    goToMassScavengePage()
-                }
-            }, 500);
-
-            setTimeout(function() {
-                $(divLevel).find('.free_send_button')[0].click();
                 setTimeout(function() {
-                    processLevel(level - 1)
+                    if($('.autoHideBox.error').length > 0){
+                        goToMassScavengePage()
+                    }
                 }, 500);
-            }, 4500);
-        }else {
-            processLevel(level - 1)
+
+                setTimeout(function() {
+                    $(divLevel).find('.free_send_button')[0].click();
+                    setTimeout(function() {
+                        processLevel(level - 1)
+                    }, 500);
+                }, 4500);
+            }else {
+                processLevel(level - 1)
+            }
         }
         return 0;
     }
@@ -147,7 +147,7 @@ function getLeftTime(){
 if (isScavenge()) {
     console.log("Scavenger page..." );
     setTimeout(function() {
-        settings.archers = conf.scavenger.archers
+        settings.archers = getWorldSetup().archer
         settings_spear.conditional_safeguard = conf.scavenger.spearSafeguard
         if(isVillageWithFrozenOff()){
             settings_axe.max_unit_number = 0

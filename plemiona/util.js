@@ -1,3 +1,22 @@
+// Page timer
+// return to AF when you stay too long on the same page
+function pageTimer() {
+    console.log("TIMER: min left = " + timer );
+    autoTagIncomingAttacks()
+    schedulerCheck()
+    setTimeout(function() {
+        timer--;
+        if (timer >= 0) {
+            completeQuest()
+            pageTimer()
+        } else {
+            goToNextLevel(defaultLevel)
+        }
+    }, 60000);
+}
+setTimeout(function() {
+    pageTimer()
+}, 1000);
 
 function getRandomDelay(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -328,7 +347,7 @@ function autoTagIncomingAttacks(){
         incomingsAmount = 0
     }
     var currentIncomingsAmount = $("#incomings_amount").text()
-    if(incomingsAmount != currentIncomingsAmount){
+    if(incomingsAmount != currentIncomingsAmount && !shouldProcessLevel(schedulerLevel)){
         localStorage.setItem("MajQs.incomingsAmount", currentIncomingsAmount);
         $("#incomings_amount").click()
     }
@@ -400,7 +419,7 @@ function schedulerCheck() {
         var now = new Date();
         for(let i=0; i < scheduler.length; i++){
             var sendDate = new Date(scheduler[i].sendDateUTC);
-            var diffMins = (sendDate - now) / 60000 //Math.round((((sendDate - now) % 86400000) % 3600000) / 60000); // minutes
+            var diffMins = (sendDate - now) / 60000
             if(diffMins > 0 && diffMins <= 3){
                 localStorage.setItem("MajQs.scheduledItem", scheduler[i].item)
                 goToNextLevel(schedulerLevel)

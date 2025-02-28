@@ -25,7 +25,6 @@ var conf = {
     }
   },
   scavenger: {                              // ZBIERAK -> nie bierze LK pod uwagę
-  	archers: 0,                                 // świat z łucznikami? (1 - yes, 0 - no)
     spearSafeguard: 50,                         // ile pozostawić pik
     durationInMinutes: 30                       // minuty spędzone na zbieraku (+- 3min)
   },
@@ -34,10 +33,9 @@ var conf = {
     deffOnVillages: ["village 1"]
   },
   scheduler: [
-    // [data wejścia, z, do, lista ataków [[pic, miecz, top, łuk, skan, LK, łNK, CK, tar, kat, ryc, szl]]]
-    // przykład OFFa ["2025-02-18T22:06:01", "A001", "676|648", [[0,0,"all",0,0,"all",0,0,0,0,1,0]]]
-    // przykład karety ["2025-02-18T22:06:01", "A001", "676|648", [[0,0,3000,0,0,1500,0,0,0,0,1,1],[],[],[]]] //pozostawienie ataków 2, 3 i 4 pustymi powoduje automatyczne uzupełnienie wojskiem
-    ["2025-02-18T22:06:01", "A001", "676|648", [[0,0,0,0,9,0,0,0,0,0,0,0]]]
+    //Opis: [data wejścia, z, do, lista ataków [[pic, miecz, top, łuk, skan, LK, łNK, CK, tar, kat, ryc, szl]]]
+    //["2025-02-26T22:50:01.000", "M010", "393|564", [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]],              //off
+    //["2025-02-26T22:50:02.000", "M005", "393|564", [[0,0,3000,0,0,1000,"all",0,"all","all","all",1],[],[],[]]]        //kareta
   ]
 }
 
@@ -47,23 +45,7 @@ $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/rozk
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/asystent_farmera_v2.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/zbierak_v2.js');
 
-// Page timer
-// return to AF when you stay too long on the same page
-var timer = 10 ;
-function pageTimer() {
-    console.log("TIMER: min left = " + timer );
-    autoTagIncomingAttacks()
-    schedulerCheck()
-    setTimeout(function() {
-        timer--;
-        if (timer >= 0) {
-            completeQuest()
-            pageTimer()
-        } else {
-            goToNextLevel(defaultLevel)
-        }
-    }, 60000);
-}
+var timer = 5;
 setTimeout(function() {
-    pageTimer()
-}, 1000);
+    location.reload();
+}, (timer+1)*60*1000);

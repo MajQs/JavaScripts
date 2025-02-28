@@ -207,10 +207,25 @@ function schedulerSubmit(){
     localStorage.removeItem("MajQs.scheduledItem")
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
-    diffMs = sendDate - Timing.getCurrentServerTime();
+    function calculateWaitMs(){
+        n = 20
+        i = n
+        ms = 0
+        interval = 1000
+
+        function calculate(){
+            ms += Timing.getCurrentServerTime() + (i * interval)
+            i--
+            setTimeout(function() {
+                calculate()
+            }, interval);
+        }
+        return sendDate - (ms / n)
+    }
+
     setTimeout(function() {
         $("#troop_confirm_submit").click()
-    }, diffMs)
+    }, calculateWaitMs())
     return 0
 }
 
