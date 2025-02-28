@@ -414,7 +414,7 @@ function schedulerCalculateSendDate(){
 }
 
 function schedulerCheck() {
-    if(!shouldProcessLevel(schedulerLevel)){
+    if(!shouldProcessLevel(schedulerLevel) && localStorage.getItem("MajQs.scheduledItem") == null){
         var scheduler = schedulerCalculateSendDate()
         var now = new Date();
         for(let i=0; i < scheduler.length; i++){

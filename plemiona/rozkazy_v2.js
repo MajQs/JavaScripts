@@ -204,11 +204,10 @@ function schedulerSubmit(){
     $('select[name="building"]').val('wall')
 
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
-    localStorage.removeItem("MajQs.scheduledItem")
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
     function calculateWaitMs(){
-        n = 20
+        n = 10
         i = n
         ms = 0
         interval = 1000
@@ -220,6 +219,8 @@ function schedulerSubmit(){
                 calculate()
             }, interval);
         }
+        calculate()
+
         return sendDate - (ms / n)
     }
 
@@ -251,4 +252,8 @@ if (isCommandConfirm()) {
             schedulerSubmit()
         }
     }, 2000)
+}
+
+if(!isCommand() && !isCommandConfirm() ){
+    localStorage.removeItem("MajQs.scheduledItem")
 }
