@@ -212,21 +212,24 @@ function schedulerSubmit(){
         ms = 0
         interval = 1000
 
-        function calculate(){
-            ms += Timing.getCurrentServerTime() + (i * interval)
-            i--
-            setTimeout(function() {
-                calculate()
-            }, interval);
+        function calc(){
+            if(i > 0){
+                ms += Timing.getCurrentServerTime() + (i * interval)
+                i--
+                setTimeout(function() {
+                    return calc()
+                }, interval);
+            }else{
+                setTimeout(function() {
+                    $("#troop_confirm_submit").click()
+                }, sendDate - (ms / n))
+            }
         }
-        calculate()
+        calc()
 
-        return sendDate - (ms / n)
+        return 0
     }
-
-    setTimeout(function() {
-        $("#troop_confirm_submit").click()
-    }, calculateWaitMs())
+    calculateWaitMs()
     return 0
 }
 
