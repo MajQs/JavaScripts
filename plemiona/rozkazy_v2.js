@@ -206,23 +206,47 @@ function schedulerSubmit(){
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
+//    function calculateWaitMs(){
+//        n = 10
+//        i = n
+//        ms = 0
+//        interval = 1000
+//
+//        function calc(){
+//            if(i > 0){
+//                ms += Timing.getCurrentServerTime() + (i * interval)
+//                i--
+//                setTimeout(function() {
+//                    return calc()
+//                }, interval);
+//            }else{
+//                setTimeout(function() {
+//                    $("#troop_confirm_submit").click()
+//                }, sendDate - (ms / n))
+//            }
+//        }
+//        calc()
+//
+//        return 0
+//    }
     function calculateWaitMs(){
         n = 10
         i = n
-        ms = 0
+        ms = []
         interval = 1000
 
         function calc(){
             if(i > 0){
-                ms += Timing.getCurrentServerTime() + (i * interval)
+                ms.push(sendDate - Timing.getCurrentServerTime() + (i * interval))
                 i--
                 setTimeout(function() {
                     return calc()
                 }, interval);
             }else{
+                ms.sort()
                 setTimeout(function() {
                     $("#troop_confirm_submit").click()
-                }, sendDate - (ms / n))
+                }, ms[0])
             }
         }
         calc()
