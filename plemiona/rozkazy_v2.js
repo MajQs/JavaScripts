@@ -170,7 +170,7 @@ function processScheduler() {
             setUnit("knight", action[5][0][10])
             setUnit("snob", action[5][0][11])
 
-            $("#place_target").find('input').first().val(action[2])
+            $("#place_target").find('input').first().val(action[3])
 
             setTimeout(function() {
                 if(action[0] == "Napad"){
