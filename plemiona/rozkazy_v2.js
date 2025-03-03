@@ -229,31 +229,38 @@ function schedulerSubmit(){
 //
 //        return 0
 //    }
-    function calculateWaitMs(){
-        n = 10
-        i = n
-        ms = []
-        interval = 1000
 
-        function calc(){
-            if(i > 0){
-                ms.push(sendDate - Timing.getCurrentServerTime() + (i * interval))
-                i--
-                setTimeout(function() {
-                    return calc()
-                }, interval);
-            }else{
-                ms.sort()
-                setTimeout(function() {
-                    $("#troop_confirm_submit").click()
-                }, ms[0])
-            }
-        }
-        calc()
+//    function calculateWaitMs(){
+//        n = 60
+//        i = n
+//        ms = []
+//        interval = 1000
+//
+//        function calc(){
+//            if(i > 0){
+//                ms.push(Timing.getCurrentServerTime() + (i * interval))
+//                i--
+//                setTimeout(function() {
+//                    calc()
+//                }, interval);
+//            }else{
+//                ms.sort()
+//                setTimeout(function() {
+//                    $("#troop_confirm_submit").click()
+//                }, ms[0])
+//            }
+//        }
+//        calc()
+//
+//        return 0
+//    }
+//    calculateWaitMs()
 
-        return 0
-    }
-    calculateWaitMs()
+    diffMs = sendDate - Timing.getCurrentServerTime();
+    setTimeout(function() {
+        $("#troop_confirm_submit").click()
+    }, diffMs)
+
     return 0
 }
 
