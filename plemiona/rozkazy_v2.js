@@ -200,6 +200,9 @@ function isCommandConfirm() {
 }
 
 function schedulerSubmit(){
+
+    Timing.resetTickHandlers()
+
     var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
     for(let i=1; i < action[3].length; i++){
         $("#troop_confirm_train").click()
