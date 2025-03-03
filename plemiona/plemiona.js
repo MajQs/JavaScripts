@@ -33,19 +33,21 @@ var conf = {
     deffOnVillages: ["village 1"]
   },
   scheduler: [
-    //Opis: [data wejścia, z, do, lista ataków [[pic, miecz, top, łuk, skan, LK, łNK, CK, tar, kat, ryc, szl]]]
-    //["2025-02-26T22:50:01.000", "M010", "393|564", [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]],              //off
-    //["2025-02-26T22:50:02.000", "M005", "393|564", [[0,0,3000,0,0,1000,"all",0,"all","all","all",1],[],[],[]]]        //kareta
+    //Opis: ["Napad"/"Pomoc", data wejścia, z, do, cel katapult ,lista ataków [[pic, miecz, top, łuk, skan, LK, łNK, CK, tar, kat, ryc, szl]]]
+    //["Napad", "2025-02-26T22:50:01.000", "M010", "393|564", "Mur",     [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]],              //off
+    //["Napad", "2025-02-26T22:50:01.000", "M010", "393|564", "Zagroda", [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]],              //burzak
+    //["Napad", "2025-02-26T22:50:02.000", "M005", "393|564", "Mur",     [[0,0,3000,0,0,1000,"all",0,"all","all","all",1],[],[],[]]]        //kareta
+    //["Pomoc", "2025-02-26T22:50:02.000", "M005", "393|564", "",        [["all","all",0,0,0,0,0,"all",0,0,0,0]]]                           //klin
   ]
 }
 
 // === SCRIPT ===
+var timer = 5;
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/util.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/rozkazy_v2.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/asystent_farmera_v2.js');
 $.getScript('https://cdn.jsdelivr.net/gh/MajQs/JavaScripts@582d160/plemiona/zbierak_v2.js');
 
-var timer = 5;
 setTimeout(function() {
     location.reload();
 }, (timer+1)*60*1000);

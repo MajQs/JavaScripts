@@ -396,12 +396,12 @@ function schedulerCalculateSendDate(){
     }
 
     for(let i=0; i < conf.scheduler.length; i++){
-        var entryDate = new Date(conf.scheduler[i][0]);
-        var playerVillage = playerVillages.get(villageNameToId(conf.scheduler[i][1]))
+        var entryDate = new Date(conf.scheduler[i][1]);
+        var playerVillage = playerVillages.get(villageNameToId(conf.scheduler[i][2]))
         if(playerVillage != null){
-            var targetCoords = conf.scheduler[i][2].split("|")
+            var targetCoords = conf.scheduler[i][3].split("|")
             var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
-            var sendDate = entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][3]) * 60000))
+            var sendDate = entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][5]) * 60000))
             scheduler.push({
                 "item": i,
                 "sendDateUTC": new Date(sendDate)

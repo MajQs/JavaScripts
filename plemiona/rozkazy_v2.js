@@ -153,27 +153,31 @@ function processScheduler() {
             }
         }
 
-        playerVillageId = villageNameToId(action[1])
+        playerVillageId = villageNameToId(action[2])
         if($.cookie("global_village_id") != playerVillageId){
             goToCommandPageFor(playerVillageId)
         } else {
-            setUnit("spear", action[3][0][0])
-            setUnit("sword", action[3][0][1])
-            setUnit("axe", action[3][0][2])
-            setUnit("archer", action[3][0][3])
-            setUnit("spy", action[3][0][4])
-            setUnit("light", action[3][0][5])
-            setUnit("marcher", action[3][0][6])
-            setUnit("heavy", action[3][0][7])
-            setUnit("ram", action[3][0][8])
-            setUnit("catapult", action[3][0][9])
-            setUnit("knight", action[3][0][10])
-            setUnit("snob", action[3][0][11])
+            setUnit("spear", action[5][0][0])
+            setUnit("sword", action[5][0][1])
+            setUnit("axe", action[5][0][2])
+            setUnit("archer", action[5][0][3])
+            setUnit("spy", action[5][0][4])
+            setUnit("light", action[5][0][5])
+            setUnit("marcher", action[5][0][6])
+            setUnit("heavy", action[5][0][7])
+            setUnit("ram", action[5][0][8])
+            setUnit("catapult", action[5][0][9])
+            setUnit("knight", action[5][0][10])
+            setUnit("snob", action[5][0][11])
 
             $("#place_target").find('input').first().val(action[2])
 
             setTimeout(function() {
-                $("#target_attack").click()
+                if(action[0] == "Napad"){
+                    $("#target_attack").click()
+                } else if(action[0] == "Pomoc"){
+                    $("#target_support").click()
+                }
             }, 1000)
         }
     }
@@ -200,8 +204,28 @@ function schedulerSubmit(){
     for(let i=1; i < action[3].length; i++){
         $("#troop_confirm_train").click()
     }
-
-    $('select[name="building"]').val('wall')
+    const catTargetMap = new Map([
+      ["Ratusz", 'main'],
+      ["Koszary", 'barracks'],
+      ["Stajnia", 'stable'],
+      ["Warsztat", 'garage'],
+      ["Kościół", 'church'],
+      ["Pałac", 'snob'],
+      ["Kuźnia", 'smith'],
+      ["Plac", 'place'],
+      ["Piedestał", 'statue'],
+      ["Rynek", 'market'],
+      ["Tartak", 'wood'],
+      ["Cegielnia", 'stone'],
+      ["Huta żelaza", 'iron'],
+      ["Zagroda", 'farm'],
+      ["Spichlerz", 'storage'],
+      ["Mur", 'wall'],
+    ]);
+    var catTarget = catTargetMap.get(action[4])
+    if(catTarget != null){
+        $('select[name="building"]').val(action[4] )
+    }
 
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
