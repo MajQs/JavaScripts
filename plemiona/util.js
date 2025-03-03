@@ -420,7 +420,7 @@ function schedulerCheck() {
         for(let i=0; i < scheduler.length; i++){
             var sendDate = new Date(scheduler[i].sendDateUTC);
             var diffMins = (sendDate - now) / 60000
-            if(diffMins > 0 && diffMins <= 3){
+            if(diffMins > 0 && diffMins <= 2){
                 localStorage.setItem("MajQs.scheduledItem", scheduler[i].item)
                 goToNextLevel(schedulerLevel)
             }

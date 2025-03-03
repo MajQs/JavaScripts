@@ -258,12 +258,12 @@ function schedulerSubmit(){
 
     function greed(){
         setTimeout(function() {
-            if(Timing.getCurrentServerTime() >= sendDate){
+            if( (Timing.getCurrentServerTime() + Timing.getEstimatedLatency()) >= sendDate){
                 $("#troop_confirm_submit").click()
             } else {
                 greed()
             }
-        }, 20)
+        }, 10)
     }
     greed()
 
