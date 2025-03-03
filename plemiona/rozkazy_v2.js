@@ -256,10 +256,21 @@ function schedulerSubmit(){
 //    }
 //    calculateWaitMs()
 
-    diffMs = sendDate - Timing.getCurrentServerTime();
-    setTimeout(function() {
-        $("#troop_confirm_submit").click()
-    }, diffMs)
+    function greed(){
+        setTimeout(function() {
+            if(Timing.getCurrentServerTime() >= sendDate){
+                $("#troop_confirm_submit").click()
+            } else {
+                greed()
+            }
+        }, 20)
+    }
+    greed()
+
+//    diffMs = sendDate - Timing.getCurrentServerTime();
+//    setTimeout(function() {
+//        $("#troop_confirm_submit").click()
+//    }, diffMs)
 
     return 0
 }
