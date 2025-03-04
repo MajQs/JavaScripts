@@ -227,7 +227,7 @@ function schedulerSubmit(){
     ]);
     var catTarget = catTargetMap.get(action[4])
     if(catTarget != null){
-        $('select[name="building"]').val(action[4] )
+        $('select[name="building"]').val(catTarget)
     }
 
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
