@@ -206,6 +206,8 @@ function schedulerSubmit(){
     var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
     for(let i=1; i < action[5].length; i++){
         $("#troop_confirm_train").click()
+    }
+    for(let i=1; i < action[5].length; i++){
         if(action[5][i].length > 0){
           $('input[name="train['+(i+1)+'][spear]"]').val(action[5][i][0])
           $('input[name="train['+(i+1)+'][sword]"]').val(action[5][i][1])
@@ -221,6 +223,7 @@ function schedulerSubmit(){
           $('input[name="train['+(i+1)+'][snob]"]').val(action[5][i][11])
         }
     }
+
 
     const catTargetMap = new Map([
       ["Ratusz", 'main'],
