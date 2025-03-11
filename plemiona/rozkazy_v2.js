@@ -206,7 +206,22 @@ function schedulerSubmit(){
     var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
     for(let i=1; i < action[5].length; i++){
         $("#troop_confirm_train").click()
+        if(action[5][i].length > 0){
+          $('input[name="train['+(i+1)+'][spear]"]').val(action[5][i][0])
+          $('input[name="train['+(i+1)+'][sword]"]').val(action[5][i][1])
+          $('input[name="train['+(i+1)+'][axe]"]').val(action[5][i][2])
+          $('input[name="train['+(i+1)+'][archer]"]').val(action[5][i][3])
+          $('input[name="train['+(i+1)+'][spy]"]').val(action[5][i][4])
+          $('input[name="train['+(i+1)+'][light]"]').val(action[5][i][5])
+          $('input[name="train['+(i+1)+'][marcher]"]').val(action[5][i][6])
+          $('input[name="train['+(i+1)+'][heavy]"]').val(action[5][i][7])
+          $('input[name="train['+(i+1)+'][ram]"]').val(action[5][i][8])
+          $('input[name="train['+(i+1)+'][catapult]"]').val(action[5][i][9])
+          $('input[name="train['+(i+1)+'][knight]"]').val(action[5][i][10])
+          $('input[name="train['+(i+1)+'][snob]"]').val(action[5][i][11])
+        }
     }
+
     const catTargetMap = new Map([
       ["Ratusz", 'main'],
       ["Koszary", 'barracks'],
@@ -233,56 +248,6 @@ function schedulerSubmit(){
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
-//    function calculateWaitMs(){
-//        n = 10
-//        i = n
-//        ms = 0
-//        interval = 1000
-//
-//        function calc(){
-//            if(i > 0){
-//                ms += Timing.getCurrentServerTime() + (i * interval)
-//                i--
-//                setTimeout(function() {
-//                    return calc()
-//                }, interval);
-//            }else{
-//                setTimeout(function() {
-//                    $("#troop_confirm_submit").click()
-//                }, sendDate - (ms / n))
-//            }
-//        }
-//        calc()
-//
-//        return 0
-//    }
-
-//    function calculateWaitMs(){
-//        n = 60
-//        i = n
-//        ms = []
-//        interval = 1000
-//
-//        function calc(){
-//            if(i > 0){
-//                ms.push(Timing.getCurrentServerTime() + (i * interval))
-//                i--
-//                setTimeout(function() {
-//                    calc()
-//                }, interval);
-//            }else{
-//                ms.sort()
-//                setTimeout(function() {
-//                    $("#troop_confirm_submit").click()
-//                }, ms[0])
-//            }
-//        }
-//        calc()
-//
-//        return 0
-//    }
-//    calculateWaitMs()
-
     function greed(){
         setTimeout(function() {
             if( (Timing.getCurrentServerTime() + Timing.getEstimatedLatency()) >= sendDate){
@@ -293,11 +258,6 @@ function schedulerSubmit(){
         }, 10)
     }
     greed()
-
-//    diffMs = sendDate - Timing.getCurrentServerTime();
-//    setTimeout(function() {
-//        $("#troop_confirm_submit").click()
-//    }, diffMs)
 
     return 0
 }
