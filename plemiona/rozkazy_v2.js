@@ -223,7 +223,7 @@ function schedulerSubmit(){
           $('input[name="train['+(i+1)+'][snob]"]').val(action[5][i][11])
         }
     }
-
+    Place.confirmScreen.updateUnitsSum()
 
     const catTargetMap = new Map([
       ["Ratusz", 'main'],
