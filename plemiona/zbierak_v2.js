@@ -68,8 +68,8 @@ function processScavenge() {
                         || $('input[name="archer"]').val() > 0
                         || $('input[name="light"]').val() > 0
                         || $('input[name="marcher"]').val() > 0
-                        || $('input[name="heavy"]').val()) > 0
-                        || n == 0
+                        || $('input[name="heavy"]').val() > 0
+                        || n == 0)
                     {
                         $(divLevel).find('.free_send_button')[0].click();
                         setTimeout(function() {
