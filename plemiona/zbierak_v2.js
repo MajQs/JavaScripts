@@ -57,20 +57,39 @@ function processScavenge() {
         } else {
             var divLevel = container.find('.scavenge-option')[level]
             if ($(divLevel).find('.free_send_button').length > 0) {
+
                 $.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
 
-                setTimeout(function() {
-                    if($('.autoHideBox.error').length > 0){
-                        goToMassScavengePage()
-                    }
-                }, 500);
+                let n = 30
+                function waitForScript(){
+                    if ($('input[name="spear"]').val() > 0
+                        || $('input[name="sword"]').val() > 0
+                        || $('input[name="axe"]').val() > 0
+                        || $('input[name="archer"]').val() > 0
+                        || $('input[name="light"]').val() > 0
+                        || $('input[name="marcher"]').val() > 0
+                        || $('input[name="heavy"]').val()) > 0
+                        || n == 0
+                    {
+                        $(divLevel).find('.free_send_button')[0].click();
+                        setTimeout(function() {
+                            if($('.autoHideBox.error').length > 0){
+                                goToMassScavengePage()
+                            }
+                        }, 50);
 
-                setTimeout(function() {
-                    $(divLevel).find('.free_send_button')[0].click();
+                        setTimeout(function() {
+                            processLevel(level - 1)
+                        }, 100);
+                    }
+
                     setTimeout(function() {
-                        processLevel(level - 1)
-                    }, 500);
-                }, 4500);
+                        n--
+                        waitForScript()
+                    }, 100);
+                }
+                waitForScript()
+
             }else {
                 processLevel(level - 1)
             }
@@ -174,7 +193,7 @@ if (isScavenge()) {
             settings_heavy.max_unit_number = 0
         }
         processScavenge()
-    }, 1500)
+    }, 500)
 }
 
 function processMassScavengerLoop() {
@@ -193,7 +212,7 @@ if (isMassScavenge()) {
     setTimeout(function() {
         timer = getLeftTime();
         processMassScavengerLoop()
-    }, 1500)
+    }, 500)
 }
 
 if(!isMassScavenge() && !isScavenge()){
