@@ -124,28 +124,36 @@ function processMassScavenger(){
     }
 
     if(villages != null){
-        for(let i=0; i< villages.length; i++){
-            if(villages.eq(i).find(".option.option-1.option-active").length == 0
-                && villages.eq(i).find(".option.option-2.option-active").length == 0
-                && villages.eq(i).find(".option.option-3.option-active").length == 0
-                && villages.eq(i).find(".option.option-4.option-active").length == 0)
-            {
-                if(isVillageAlreadyNotVisited(i)){
-                    window.location.href = villages.eq(i).find("td a").first().attr('href')
+        function findAndProcessVillage(){
+            let found = false;
+            for(let i=0; i< villages.length; i++){
+                if(villages.eq(i).find(".option.option-1.option-active").length == 0
+                    && villages.eq(i).find(".option.option-2.option-active").length == 0
+                    && villages.eq(i).find(".option.option-3.option-active").length == 0
+                    && villages.eq(i).find(".option.option-4.option-active").length == 0)
+                {
+                    if(isVillageAlreadyNotVisited(i)){
+                        found = true
+                        window.location.href = villages.eq(i).find("td a").first().attr('href')
+                    }
                 }
             }
+            return found
         }
 
-        let firstColumnElements = $('div.premium-required table tr').eq(0).find('td').eq(0).children();
-        let strongElement = firstColumnElements.filter('strong');
-        if (strongElement.length > 0) {
-            let nextAnchor = strongElement.next('a');
-            if (nextAnchor.length > 0) {
-                nextAnchor[0].click(); // next page
-            } else {
-                setTimeout(function() {
-                    firstColumnElements[0].click() // back to [1]
-                }, 15 * 60000);
+        let found = findAndProcessVillage()
+        if(!found){
+            let firstColumnElements = $('div.premium-required table tr').eq(0).find('td').eq(0).children();
+            let strongElement = firstColumnElements.filter('strong');
+            if (strongElement.length > 0) {
+                let nextAnchor = strongElement.next('a');
+                if (nextAnchor.length > 0) {
+                    nextAnchor[0].click(); // next page
+                } else {
+                    setTimeout(function() {
+                        firstColumnElements[0].click() // back to [1]
+                    }, 15 * 60000);
+                }
             }
         }
     }
