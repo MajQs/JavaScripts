@@ -116,6 +116,19 @@ function processMassScavenger(){
                 }
             }
         }
+
+        let firstColumnElements = $('div.premium-required table tr').eq(0).find('td').eq(0).children();
+        let strongElement = firstColumnElements.filter('strong');
+        if (strongElement.length > 0) {
+            let nextAnchor = strongElement.next('a');
+            if (nextAnchor.length > 0) {
+                nextAnchor[0].click(); // next page
+            } else {
+                setTimeout(function() {
+                    firstColumnElements[0].click() // back to [1]
+                }, 15 * 60000);
+            }
+        }
     }
 }
 
