@@ -48,7 +48,7 @@ var settings_heavy = {
 
 function processScavenge() {
     console.log("Processing Scavenger..." );
-    saveParameterToLocalStorage("MajQs.scavengerVillageDoneList", [$.cookie("global_village_id")])
+//    saveParameterToLocalStorage("MajQs.scavengerVillageDoneList", [$.cookie("global_village_id")])
 
     var container = $('.options-container');
     function processLevel(level) {
@@ -81,12 +81,13 @@ function processScavenge() {
                         setTimeout(function() {
                             processLevel(level - 1)
                         }, 100);
+                    } else {
+                        setTimeout(function() {
+                            console.log("n = " + n );
+                            n--
+                            waitForScript()
+                        }, 100);
                     }
-
-                    setTimeout(function() {
-                        n--
-                        waitForScript()
-                    }, 100);
                 }
                 waitForScript()
 
