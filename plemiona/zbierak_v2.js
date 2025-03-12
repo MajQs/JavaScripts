@@ -48,7 +48,7 @@ var settings_heavy = {
 
 function processScavenge() {
     console.log("Processing Scavenger..." );
-//    saveParameterToLocalStorage("MajQs.scavengerVillageDoneList", [$.cookie("global_village_id")])
+    saveParameterToLocalStorage("MajQs.scavengerVillageDoneList", [$.cookie("global_village_id")])
 
     var container = $('.options-container');
     function processLevel(level) {
