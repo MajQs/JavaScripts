@@ -76,11 +76,11 @@ function processScavenge() {
                             if($('.autoHideBox.error').length > 0){
                                 goToMassScavengePage()
                             }
-                        }, 50);
+                        }, 100);
 
                         setTimeout(function() {
                             processLevel(level - 1)
-                        }, 100);
+                        }, 500);
                     } else {
                         setTimeout(function() {
                             console.log("n = " + n );
