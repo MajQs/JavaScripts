@@ -191,11 +191,13 @@ if (isScavenge()) {
         settings.archers = getWorldSetup().archer
         settings_spear.conditional_safeguard = conf.scavenger.spearSafeguard
         if(isVillageWithFrozenOff()){
+            console.log("Off frozen!");
             settings_axe.max_unit_number = 0
             settings_light.max_unit_number = 0
             settings_marcher.max_unit_number = 0
         }
         if(isVillageWithFrozenDeff()) {
+           console.log("Deff frozen!");
             settings_spear.max_unit_number = 0
             settings_sword.max_unit_number = 0
             settings_archer.max_unit_number = 0
