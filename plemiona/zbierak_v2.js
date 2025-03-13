@@ -71,16 +71,21 @@ function processScavenge() {
                         || $('input[name="heavy"]').val() > 0
                         || n == 0)
                     {
-                        $(divLevel).find('.free_send_button')[0].click();
-                        setTimeout(function() {
-                            if($('.autoHideBox.error').length > 0){
-                                goToMassScavengePage()
-                            }
-                        }, 100);
 
                         setTimeout(function() {
-                            processLevel(level - 1)
-                        }, 500);
+                            $(divLevel).find('.free_send_button')[0].click();
+
+                            setTimeout(function() {
+                                if($('.autoHideBox.error').length > 0){
+                                    goToMassScavengePage()
+                                }
+                            }, 100);
+
+                            setTimeout(function() {
+                                processLevel(level - 1)
+                            }, 500);
+                        }, 100);
+
                     } else {
                         setTimeout(function() {
                             console.log("n = " + n );
