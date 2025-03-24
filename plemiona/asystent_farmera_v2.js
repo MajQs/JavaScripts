@@ -71,13 +71,13 @@ function processCollectAFStatistics() {
                 var coords = coordinates.split("|")
                 for (let pvi = playerVillages.length-1; pvi >= 0; pvi--) {
                     var distance = Math.sqrt(Math.pow(coords[0]-playerVillages[pvi][1].X,2)+Math.pow(coords[1]-playerVillages[pvi][1].Y,2))
-                    if(distance <= conf.farm.wrecker.maxDistance        // is in rage of max distance
+                    if(distance <= SETTINGS.farm.wrecker.maxDistance        // is in range of max distance
                         && playerVillages[pvi][1].isWrecker)            // is wrecker
                     {
                         function isVillageWithNotFrozenOff(name){
                             let result = true
-                            for (let foovi = conf.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
-                                if(name.indexOf(conf.freeze.offOnVillages[foovi]) >= 0){
+                            for (let foovi = SETTINGS.freeze.offOnVillages.length-1; foovi >= 0; foovi--) {
+                                if(name.indexOf(SETTINGS.freeze.offOnVillages[foovi]) >= 0){
                                     result = false
                                 }
                             }
@@ -142,7 +142,7 @@ function processFarm() {
     let firstColumnElements = $(`#plunder_list_nav tr`).eq(0).find('td').eq(0).children();
     let strongElement = firstColumnElements.filter('strong');
 
-    var minDelay = conf.farm.speedInMilliseconds - 250
+    var minDelay = SETTINGS.farm.speedInMilliseconds - 250
     if(minDelay < 250){
         minDelay = 250
     }
@@ -165,7 +165,7 @@ function processFarm() {
                 if (nextAnchor.length > 0) {
                     nextAnchor[0].click(); // next page
                 } else {
-                    if(conf.farm.repeatWhenNoMoreVillagesLeft === 0){
+                    if(SETTINGS.farm.repeatWhenNoMoreVillagesLeft === 0){
                         saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
                     }
                     goBackToOneOrNextVillage()
@@ -174,7 +174,7 @@ function processFarm() {
             return 0;
         }
 
-        if($(rows[index]).find('td').eq(7).text() > conf.farm.maxDistance){
+        if($(rows[index]).find('td').eq(7).text() > SETTINGS.farm.maxDistance){
             saveParameterToLocalStorage("MajQs.farmVillageDoneList", [$.cookie("global_village_id")])
             goBackToOneOrNextVillage()
             return 0;
@@ -247,7 +247,7 @@ function processFarm() {
             }else {
                 processRowWithDelay(index + 1);
             }
-        }, getRandomDelay(minDelay, conf.farm.speedInMilliseconds + 250));
+        }, getRandomDelay(minDelay, SETTINGS.farm.speedInMilliseconds + 250));
     }
 
     if ($('div.autoHideBox.error').length > 0 || isVillageWithFrozenOff()) {
@@ -286,7 +286,7 @@ if (isAF()) {
         if(shouldProcessLevel(collectAFStatisticsLevel)){
             processCollectAFStatistics();
         } else {
-            if(isVillageAlreadyNotVisited()){
+            if(isVillageAlreadyNotVisited() && SETTINGS.farm.maxDistance != 0){
                 processFarm();
             } else {
                 if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
@@ -296,7 +296,7 @@ if (isAF()) {
                 }
             }
         }
-    }, 1500)
+    }, 1000)
 } else {
     localStorage.removeItem("MajQs.farmVillageDoneList");
 }

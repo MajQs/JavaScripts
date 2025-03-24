@@ -8,19 +8,19 @@ function processWrecker() {
             return unit.substr(unit.indexOf('(') + 1, unit.indexOf(')') - 1 ) >= count
         }
 
-        if(isEnough("units_entry_all_light" , conf.farm.wrecker.units.light)
-            && isEnough("units_entry_all_ram" , conf.farm.wrecker.units.ram)
+        if(isEnough("units_entry_all_light" , SETTINGS.farm.wrecker.units.light)
+            && isEnough("units_entry_all_ram" , SETTINGS.farm.wrecker.units.ram)
             && isEnough("units_entry_all_spy" ,1))
         {
              $("#place_target").find('input').first().val(target)
 
-             $("#unit_input_light").val(conf.farm.wrecker.units.light)
-             $("#unit_input_ram").val(conf.farm.wrecker.units.ram)
+             $("#unit_input_light").val(SETTINGS.farm.wrecker.units.light)
+             $("#unit_input_ram").val(SETTINGS.farm.wrecker.units.ram)
              $("#unit_input_spy").val("1")
 
              var catapultsCountText = $("#units_entry_all_catapult").text()
-             if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= conf.farm.wrecker.units.catapult){
-                 $("#unit_input_catapult").val(conf.farm.wrecker.units.catapult)
+             if(catapultsCountText.substr(catapultsCountText.indexOf('(') + 1, catapultsCountText.indexOf(')') - 1 ) >= SETTINGS.farm.wrecker.units.catapult){
+                 $("#unit_input_catapult").val(SETTINGS.farm.wrecker.units.catapult)
              }
 
              $("#target_attack").click()
@@ -138,7 +138,7 @@ function processAutoExpansion() {
 }
 
 function processScheduler() {
-    var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
+    var action = SETTINGS.scheduler[localStorage.getItem("MajQs.scheduledItem")]
 
     if($('.error_box').length > 0){
         localStorage.removeItem("MajQs.scheduledItem")
@@ -203,7 +203,7 @@ function schedulerSubmit(){
 
     Timing.resetTickHandlers()
 
-    var action = conf.scheduler[localStorage.getItem("MajQs.scheduledItem")]
+    var action = SETTINGS.scheduler[localStorage.getItem("MajQs.scheduledItem")]
     for(let i=1; i < action[5].length; i++){
         $("#troop_confirm_train").click()
     }

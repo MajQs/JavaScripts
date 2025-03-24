@@ -5,7 +5,7 @@
 //  deff -> avoid units(spear, sword, archer, ck) on scavenger
 
 // === PARAMS ===
-var conf = {
+var SETTINGS = {
   farm: {                               // FARMA -> wysyła A z AF (pełna wygrana lub poziom muru 0)
     maxDistance: 99,
     speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
@@ -26,6 +26,7 @@ var conf = {
   },
   scavenger: {                              // ZBIERAK -> nie bierze LK pod uwagę
     spearSafeguard: 50,                         // ile pozostawić pik
+    swordSafeguard: 0,                          // ile pozostawić mieczy
     durationInMinutes: 30                       // minuty spędzone na zbieraku (+- 3min)
   },
   freeze: {                                 // ZAMRAŻARKA - wystarczy podać część nazwy wioski

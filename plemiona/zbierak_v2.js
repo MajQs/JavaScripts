@@ -187,14 +187,15 @@ function getLeftTime(){
     }
     let margin = 3
     let pass = (Date.now() - startTime)/60/1000
-    return Math.round(conf.scavenger.durationInMinutes - getRandomDelay(pass - margin , pass + margin))
+    return Math.round(SETTINGS.scavenger.durationInMinutes - getRandomDelay(pass - margin , pass + margin))
 }
 
 if (isScavenge()) {
     console.log("Scavenger page..." );
     setTimeout(function() {
         settings.archers = getWorldSetup().archer
-        settings_spear.conditional_safeguard = conf.scavenger.spearSafeguard
+        settings_spear.conditional_safeguard = SETTINGS.scavenger.spearSafeguard
+        settings_sword.conditional_safeguard = SETTINGS.scavenger.swordSafeguard
         if(isVillageWithFrozenOff()){
             console.log("Off frozen!");
             settings_axe.max_unit_number = 0

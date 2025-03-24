@@ -22,6 +22,117 @@ function getRandomDelay(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// *** SETTINGS ***
+function loadSettings(){
+    settings = JSON.parse(localStorage.getItem("MajQs.settings"))
+    if(settings == null){
+        var default_settings =
+        {
+            farm: {                               // FARMA -> wysyła A z AF (pełna wygrana lub poziom muru 0)
+                maxDistance: 99,
+                speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
+                repeatWhenNoMoreVillagesLeft: 1,        // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
+                wrecker: {                              // BURZYCIEL -> wymaga: (1 skan, lk, taran), opcjonalne: kat
+                    maxDistance: 15,                           // (10 = 5h przy prędkości jednostek: 0.625)
+                    units: {
+                        light: 4,
+                        ram: 4,
+                        catapult: 7
+                    }
+                },
+                autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
+                    maxDistance: 30,
+                    maxVillagePoints: 500,                    // aby uniknąć wiosek graczy którzy usuneli konto itp.
+                    dailyNumberOfAttacksFromVillage: 50       // ilość ataków z jednej wioski gracza na dzień
+                }
+            },
+            scavenger: {                              // ZBIERAK -> nie bierze LK pod uwagę
+                spearSafeguard: 50,                         // ile pozostawić pik
+                swordSafeguard: 0,                          // ile pozostawić mieczy
+                durationInMinutes: 30                       // minuty spędzone na zbieraku (+- 3min)
+            },
+            freeze: {                                 // ZAMRAŻARKA - wystarczy podać część nazwy wioski
+                offOnVillages: ["village1", "village2"],
+                deffOnVillages: ["village1"]
+            },
+            scheduler: []
+        }
+        return default_settings
+    } else{
+        return settings
+    }
+}
+var SETTINGS = loadSettings()
+
+var handleSettingsEvent = () => {
+	var startDialog = Dialog.show(
+		'Script', `<div id='dudialog'>
+			<fieldset><legend>Farm</legend><table>
+			<tr>
+				<td><label>Max distance:</label></td>
+				<td><input id='farm-maxDistance' value='${SETTINGS.farm.maxDistance}'/></td>
+			</tr>
+			<tr>
+				<td><label>Speed in Milliseconds:</label></td>
+				<td><input id='farm-speedInMilliseconds' value='${SETTINGS.farm.speedInMilliseconds}'/></td>
+			</tr>
+			</table></fieldset>
+		<button type="button" onclick="handleSaveButtonEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
+		</div>`
+	)
+}
+
+var handleSaveButtonEvent = () => {
+	console.log("Save config");
+	var new_conf = {
+	  farm: {
+		maxDistance: $("#farm-maxDistance").val(),
+		speedInMilliseconds: 700,
+		repeatWhenNoMoreVillagesLeft: 1,
+		wrecker: {
+		  maxDistance: 15,
+		  units: {
+			light: 4,
+			ram: 4,
+			catapult: 7
+		  }
+		},
+		autoExpansion: {
+		  maxDistance: 30,
+		  maxVillagePoints: 500,
+		  dailyNumberOfAttacksFromVillage: 50
+		}
+	  },
+	  scavenger: {
+		spearSafeguard: 50,
+		swordSafeguard: 0,
+		durationInMinutes: 30
+	  },
+	  freeze: {
+		offOnVillages: ["village 1", "village 2"],
+		deffOnVillages: ["village 1"]
+	  },
+	  scheduler: [
+
+	  ]
+	}
+
+	localStorage.setItem("MajQs.test", JSON.stringify(new_conf))
+}
+function settingsUI() {
+	const settings_image = document.createElement('img');
+	settings_image.setAttribute('id', 'MajQs-settings');
+	settings_image.setAttribute('src', "https://dspl.innogamescdn.com/asset/81e5cb4d/graphic/icons/settings.png");
+	settings_image.setAttribute('alt', 'settings');
+	settings_image.setAttribute("style", "top:10px; right:10px; width:30px; height:auto;");
+	settings_image.setAttribute('onclick', 'handleSettingsEvent()');
+	//settings_image.style.margin = 'auto';
+	//settings_image.style.display = 'block';
+	$('td .menu-side').eq(1).append(settings_image)
+}
+settingsUI()
+
+// *** PAGES ***
 function goToScavengePage() {
     var url = new URL(window.location.href);
     var village = new URLSearchParams(url.search).get('village');
@@ -171,7 +282,7 @@ function processCollectingServerData() {
                             "X": Village[i][2],
                             "Y": Village[i][3],
                             "isWrecker": isOff(Village[i][0]),
-                            "autoExpansionDailyAttacks": conf.farm.autoExpansion.dailyNumberOfAttacksFromVillage
+                            "autoExpansionDailyAttacks": SETTINGS.farm.autoExpansion.dailyNumberOfAttacksFromVillage
                         }
                         playerVillages.set(Village[i][0], villageData)
                     }
@@ -201,10 +312,10 @@ function processCollectingServerData() {
                 playerVillagesArray = Array.from(playerVillages)
                 while(i--) {
                     Village[i] = Villages[i].split(',');
-                    if(Village[i][4] == 0 && Village[i][5] <= conf.farm.autoExpansion.maxVillagePoints){       // barbarian village
+                    if(Village[i][4] == 0 && Village[i][5] <= SETTINGS.farm.autoExpansion.maxVillagePoints){       // barbarian village
                         for (let pvi = playerVillagesArray.length-1; pvi >= 0; pvi--) {
                             var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillagesArray[pvi][1].X,2)+Math.pow(Village[i][3]-playerVillagesArray[pvi][1].Y,2))
-                            if(distance <= conf.farm.autoExpansion.maxDistance){
+                            if(distance <= SETTINGS.farm.autoExpansion.maxDistance){
                                 //[playerVillageID, distance, barbarianVillage]
                                 coordinates = Village[i][2]+"|"+Village[i][3]
                                 var current = coordinatesForAutoExpansion.get(coordinates)
@@ -323,8 +434,8 @@ function saveParameterToLocalStorage(name, data){
 }
 
 function isVillageWithFrozenOff(){
-    for(let i=0; i < conf.freeze.offOnVillages.length; i++){
-        if($("#menu_row2_village").find('a').text().indexOf(conf.freeze.offOnVillages[i]) >= 0){
+    for(let i=0; i < SETTINGS.freeze.offOnVillages.length; i++){
+        if($("#menu_row2_village").find('a').text().indexOf(SETTINGS.freeze.offOnVillages[i]) >= 0){
             return true
         }
     }
@@ -332,8 +443,8 @@ function isVillageWithFrozenOff(){
 }
 
 function isVillageWithFrozenDeff(){
-    for(let i=0; i < conf.freeze.deffOnVillages.length; i++){
-        if($("#menu_row2_village").find('a').text().indexOf(conf.freeze.deffOnVillages[i]) >= 0){
+    for(let i=0; i < SETTINGS.freeze.deffOnVillages.length; i++){
+        if($("#menu_row2_village").find('a').text().indexOf(SETTINGS.freeze.deffOnVillages[i]) >= 0){
             return true
         }
     }
@@ -395,13 +506,13 @@ function schedulerCalculateSendDate(){
       return new Date(Math.round(date.getTime() / p ) * p);
     }
 
-    for(let i=0; i < conf.scheduler.length; i++){
-        var entryDate = new Date(conf.scheduler[i][1]);
-        var playerVillage = playerVillages.get(villageNameToId(conf.scheduler[i][2]))
+    for(let i=0; i < SETTINGS.scheduler.length; i++){
+        var entryDate = new Date(SETTINGS.scheduler[i][1]);
+        var playerVillage = playerVillages.get(villageNameToId(SETTINGS.scheduler[i][2]))
         if(playerVillage != null){
-            var targetCoords = conf.scheduler[i][3].split("|")
+            var targetCoords = SETTINGS.scheduler[i][3].split("|")
             var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
-            var sendDate = entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(conf.scheduler[i][5]) * 60000))
+            var sendDate = entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(SETTINGS.scheduler[i][5]) * 60000))
             scheduler.push({
                 "item": i,
                 "sendDateUTC": new Date(sendDate)
