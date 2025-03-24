@@ -47,7 +47,7 @@ function loadSettings(){
                 }
             },
             scavenger: {                              // ZBIERAK -> nie bierze LK pod uwagę
-                spearSafeguard: 50,                         // ile pozostawić pik
+                spearSafeguard: 0,                         // ile pozostawić pik
                 swordSafeguard: 0,                          // ile pozostawić mieczy
                 durationInMinutes: 30                       // minuty spędzone na zbieraku (+- 3min)
             },
@@ -55,7 +55,10 @@ function loadSettings(){
                 offOnVillages: ["village1", "village2"],
                 deffOnVillages: ["village1"]
             },
-            scheduler: []
+            scheduler: [
+                ["Napad", "2025-02-26T22:50:01.000", "M001", "393|564", "Mur",     [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]]
+                ["Napad", "2025-02-27T22:50:01.000", "M002", "393|564", "Zagroda", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]]
+            ]
         }
         return default_settings
     } else{
@@ -66,20 +69,121 @@ var SETTINGS = loadSettings()
 
 var handleSettingsEvent = () => {
 	var startDialog = Dialog.show(
-		'Script', `<div id='dudialog'>
+		'Script', `<div id='dudialog'><form>
 			<fieldset><legend>Farm</legend><table>
-			<tr>
-				<td><label>Max distance:</label></td>
-				<td><input id='farm-maxDistance' value='${SETTINGS.farm.maxDistance}'/></td>
-			</tr>
-			<tr>
-				<td><label>Speed in Milliseconds:</label></td>
-				<td><input id='farm-speedInMilliseconds' value='${SETTINGS.farm.speedInMilliseconds}'/></td>
-			</tr>
+                <tr>
+                    <td><label>Max distance:</label></td>
+                    <td><input id='farm-maxDistance' value='${SETTINGS.farm.maxDistance}'/></td>
+                </tr>
+                <tr>
+                    <td><label>Speed in Milliseconds:</label></td>
+                    <td><input id='farm-speedInMilliseconds' value='${SETTINGS.farm.speedInMilliseconds}'/></td>
+                </tr>
+                <tr>
+                    <td><label for="repeatWhenNoMoreVillagesLeft">Repeat when no more villages left</label></td>
+                    <td><input type="checkbox" id="farm-repeatWhenNoMoreVillagesLeft" name="repeatWhenNoMoreVillagesLeft"></td>
+                </tr>
 			</table></fieldset>
+			<fieldset><legend>Wrecker</legend><table>
+                <tr>
+                    <td><label>Max distance:</label></td>
+                    <td><input id='wrecker-maxDistance' value='${SETTINGS.farm.wrecker.maxDistance}'/></td>
+                </tr>
+                <tr>
+                    <td><label>Light:</label></td>
+                    <td><input id='wrecker-light' value='${SETTINGS.farm.wrecker.units.light}'/></td>
+                </tr>
+                <tr>
+                    <td><label>Ram:</label></td>
+                    <td><input id='wrecker-ram' value='${SETTINGS.farm.wrecker.units.ram}'/></td>
+                </tr>
+                <tr>
+                    <td><label>Catapult:</label></td>
+                    <td><input id='wrecker-catapult' value='${SETTINGS.farm.wrecker.units.catapult}'/></td>
+                </tr>
+            </table></fieldset>
+            <fieldset><legend>Auto Expansion</legend><table>
+                <tr>
+                    <td><label>Max distance:</label></td>
+                    <td><input id='autoExpansion-maxDistance' value='${SETTINGS.farm.autoExpansion.maxDistance}'/></td>
+                </tr>
+                <tr>
+                    <td><label>Max Village points:</label></td>
+                    <td><input id='autoExpansion-maxVillagePoints' value='${SETTINGS.farm.autoExpansion.maxVillagePoints}'/></td>
+                </tr>
+            </table></fieldset>
+            <fieldset><legend>Scavenger</legend><table>
+                <tr>
+                    <td><label>Duration in minutes:</label></td>
+                    <td><input id='scavenger-durationInMinutes' value='${SETTINGS.scavenger.durationInMinutes}'/></td>
+                </tr>
+                <tr>
+                    <td><label>Spear safeguard:</label></td>
+                    <td><input id='scavenger-spearSafeguard' value='${SETTINGS.scavenger.spearSafeguard}'/></td>
+                </tr>
+                <tr>
+                    <td><label>Sword safeguard:</label></td>
+                    <td><input id='scavenger-swordSafeguard' value='${SETTINGS.scavenger.swordSafeguard}'/></td>
+                </tr>
+            </table></fieldset>
+            <fieldset><legend>Freeze</legend><table>
+                <tr>
+                    <td><label>offOnVillages:</label></td>
+                    <td><input id='freeze-offOnVillages' value='${SETTINGS.freeze.offOnVillages}'/></td>
+                </tr>
+                <tr>
+                    <td><label>deffOnVillages:</label></td>
+                    <td><input id='freeze-deffOnVillages' value='${SETTINGS.freeze.deffOnVillages}'/></td>
+                </tr>
+            </table></fieldset>
+            <fieldset><legend>Scheduler</legend><table>
+                <tr>
+                    <td>Typ</td>
+                    <td>Data wysłania</td>
+                    <td>Data dotarcia</td>
+                    <td>Z</td>
+                    <td>DO</td>
+                    <td>Cel</td>
+                </tr>
+                <tr>
+                    <td><select name="Typ" id="type">
+                          <option value="Napad">Napad</option>
+                          <option value="Pomoc">Pomoc</option>
+                        </select></td>
+                    <td><input id='freeze-offOnVillages' value='2025-03-19T23:59:00.500'/></td>
+                    <td><input id='freeze-offOnVillages' value='2025-03-19T23:59:00.500'/></td>
+                    <td><input id='freeze-offOnVillages' value='001'/></td>
+                    <td><input id='freeze-offOnVillages' value='678|647'/></td>
+                    <td><select name="Cel" id="target">
+                          <option value="">Domyślny</option>
+                          <option value="Ratusz">Ratusz</option>
+                          <option value="Koszary">Koszary</option>
+                          <option value="Stajnia">Stajnia</option>
+                          <option value="Warsztat">Warsztat</option>
+                          <option value="Kościół">Kościół</option>
+                          <option value="Pałac">Pałac</option>
+                          <option value="Kuźnia">Kuźnia</option>
+                          <option value="Plac">Plac</option>
+                          <option value="Piedestał">Piedestał</option>
+                          <option value="Rynek">Rynek</option>
+                          <option value="Tartak">Tartak</option>
+                          <option value="Cegielnia">Cegielnia</option>
+                          <option value="Huta żelaza">Huta żelaza</option>
+                          <option value="Zagroda">Zagroda</option>
+                          <option value="Spichlerz">Spichlerz</option>
+                          <option value="Mur">Mur</option>
+                        </select></td>
+                </tr>
+
+
+            </table></fieldset>
+        <br>
 		<button type="button" onclick="handleSaveButtonEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
-		</div>`
+		</form></div>`
 	)
+	if(SETTINGS.farm.repeatWhenNoMoreVillagesLeft == 1){
+      $("#farm-repeatWhenNoMoreVillagesLeft").prop('checked', true);
+    }
 }
 
 var handleSaveButtonEvent = () => {
@@ -88,29 +192,29 @@ var handleSaveButtonEvent = () => {
 	  farm: {
 		maxDistance: $("#farm-maxDistance").val(),
 		speedInMilliseconds: $("#farm-speedInMilliseconds").val(),
-		repeatWhenNoMoreVillagesLeft: 1,
+		repeatWhenNoMoreVillagesLeft: $('#farm-repeatWhenNoMoreVillagesLeft').is(':checked') ? 1 : 0,
 		wrecker: {
-		  maxDistance: 15,
+		  maxDistance: $("#wrecker-maxDistance").val(),
 		  units: {
-			light: 4,
-			ram: 4,
-			catapult: 7
+			light: $("#wrecker-light").val(),
+			ram: $("#wrecker-ram").val(),
+			catapult: $("#wrecker-catapult").val()
 		  }
 		},
 		autoExpansion: {
-		  maxDistance: 30,
-		  maxVillagePoints: 500,
-		  dailyNumberOfAttacksFromVillage: 50
+		  maxDistance: $("#autoExpansion-maxDistance").val(),
+		  maxVillagePoints: $("#autoExpansion-maxVillagePoints").val(),
+		  dailyNumberOfAttacksFromVillage: 9999 // deprecated
 		}
 	  },
 	  scavenger: {
-		spearSafeguard: 50,
-		swordSafeguard: 0,
-		durationInMinutes: 30
+		durationInMinutes: $("#scavenger-durationInMinutes").val(),
+		spearSafeguard: $("#scavenger-spearSafeguard").val(),
+		swordSafeguard: $("#scavenger-swordSafeguard").val()
 	  },
 	  freeze: {
-		offOnVillages: ["village1", "village2"],
-		deffOnVillages: ["village1"]
+		offOnVillages: $("#freeze-offOnVillages").val().split(","),
+		deffOnVillages: $("#freeze-deffOnVillages").val().split(",")
 	  },
 	  scheduler: [
 
@@ -118,6 +222,8 @@ var handleSaveButtonEvent = () => {
 	}
 
 	localStorage.setItem("MajQs.settings", JSON.stringify(new_conf))
+	SETTINGS = new_conf
+	alert("Settings Saved!")
 }
 function settingsUI() {
 	const settings_image = document.createElement('img');
