@@ -87,7 +87,7 @@ var handleSaveButtonEvent = () => {
 	var new_conf = {
 	  farm: {
 		maxDistance: $("#farm-maxDistance").val(),
-		speedInMilliseconds: 700,
+		speedInMilliseconds: $("#farm-speedInMilliseconds").val(),
 		repeatWhenNoMoreVillagesLeft: 1,
 		wrecker: {
 		  maxDistance: 15,
@@ -109,15 +109,15 @@ var handleSaveButtonEvent = () => {
 		durationInMinutes: 30
 	  },
 	  freeze: {
-		offOnVillages: ["village 1", "village 2"],
-		deffOnVillages: ["village 1"]
+		offOnVillages: ["village1", "village2"],
+		deffOnVillages: ["village1"]
 	  },
 	  scheduler: [
 
 	  ]
 	}
 
-	localStorage.setItem("MajQs.test", JSON.stringify(new_conf))
+	localStorage.setItem("MajQs.settings", JSON.stringify(new_conf))
 }
 function settingsUI() {
 	const settings_image = document.createElement('img');
