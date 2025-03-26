@@ -60,7 +60,7 @@ function processScavenge() {
 
                 $.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
 
-                let n = 30
+                let n = 10
                 function waitForScript(){
                     if ($('input[name="spear"]').val() > 0
                         || $('input[name="sword"]').val() > 0
@@ -79,19 +79,19 @@ function processScavenge() {
                                 if($('.autoHideBox.error').length > 0){
                                     goToMassScavengePage()
                                 }
-                            }, 100);
+                            }, 400);
 
                             setTimeout(function() {
                                 processLevel(level - 1)
                             }, 500);
-                        }, 100);
+                        }, 500);
 
                     } else {
                         setTimeout(function() {
                             console.log("n = " + n );
                             n--
                             waitForScript()
-                        }, 100);
+                        }, 500);
                     }
                 }
                 waitForScript()
