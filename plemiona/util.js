@@ -56,7 +56,7 @@ function loadSettings(){
                 deffOnVillages: ["village1"]
             },
             scheduler: [
-                ["Napad", "2025-02-26T22:50:01.000", "M001", "393|564", "Mur",     [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]]
+                ["Napad", "2025-02-26T22:50:01.000", "M001", "393|564", "Mur",     [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]],
                 ["Napad", "2025-02-27T22:50:01.000", "M002", "393|564", "Zagroda", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]]
             ]
         }
