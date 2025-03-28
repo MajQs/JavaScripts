@@ -153,7 +153,7 @@ function processScheduler() {
             }
         }
 
-        playerVillageId = villageNameToId(action[2])
+        playerVillageId = action[2]
         if($.cookie("global_village_id") != playerVillageId){
             goToCommandPageFor(playerVillageId)
         } else {

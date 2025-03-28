@@ -137,8 +137,9 @@ var handleSettingsEvent = () => {
                     <td><input id='freeze-deffOnVillages' value='${SETTINGS.freeze.deffOnVillages}'/></td>
                 </tr>
             </table></fieldset>
-            <fieldset><legend>Scheduler</legend><table id='scheduler-table'>
+            <fieldset><legend>Scheduler</legend><table id='scheduler-table' style="border-collapse: collapse;">
                 <tr>
+                    <td></td>
                     <td>Typ</td>
 
                     <td>Data wysłania</td>
@@ -181,7 +182,9 @@ var handleSettingsEvent = () => {
                         </table>
                     </td>
                 </tr>
-            </table></fieldset>
+            </table>
+                            <button type="button" onclick="handleAddRowEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
+                            </fieldset>
         <br>
 		<button type="button" onclick="handleSaveButtonEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
 		</form></div>`
@@ -236,7 +239,8 @@ function fillSchedulerTable(){
             }
 
             tr[r] = `
-            <tr>
+            <tr style="border-bottom: 1pt solid black;">
+                <td><button type="button" onclick="handleRemoveRowEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">-</button></td>
                 <td><select name="Typ" id='scheduler_${r}_type'>
                       <option value="Napad" ${SETTINGS.scheduler[r][type_index] == "Napad" ? 'selected="selected"' : ''} >Napad</option>
                       <option value="Pomoc" ${SETTINGS.scheduler[r][type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
@@ -269,7 +273,7 @@ function fillSchedulerTable(){
                       <option value="Mur" ${SETTINGS.scheduler[r][target_index] == "Mur" ? 'selected="selected"' : ''}>Mur</option>
                     </select></td>
                 <td>
-                    <table id='scheduler_${r}_units-table' >
+                    <table id='scheduler_${r}_units-table'>
                         ${tur.join('')}
                     </table>
                     <button type="button" onclick="handleAddAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
@@ -285,7 +289,7 @@ function handleAddAttackEvent(row) {
 	console.log("Add attack to row " + row);
 	var attacks = $('#scheduler_'+row+'_units-table tr').length
     $('#scheduler_'+row+'_units-table').append(
-        `<tr id='scheduler_${r}_units_${ur}'>
+        `<tr id='scheduler_${row}_units_${ur}'>
             <td><input id='scheduler_${row}_units_${attacks}_unit_0' value=0 style="width: 30px"/></td>
             <td><input id='scheduler_${row}_units_${attacks}_unit_1' value=0 style="width: 30px"/></td>
             <td><input id='scheduler_${row}_units_${attacks}_unit_2' value=0 style="width: 30px"/></td>
@@ -305,6 +309,18 @@ function handleRemoveAttackEvent(row) {
 	console.log("Remove attack from row " + row);
 	var attacks = $('#scheduler_'+row+'_units-table tr').length - 1
 	$('#scheduler_'+row+'_units_'+ attacks).remove();
+}
+
+function handleAddRowEvent() {
+	console.log("Add row");
+	SETTINGS.scheduler.push(["Napad", "2025-02-27T22:50:01.000", $.cookie("global_village_id"), "393|564", "Mur", [[0,0,"all",0,0,10,"all",0,"all","all","all",0]]])
+    fillSchedulerTable()
+}
+
+function handleRemoveRowEvent(row) {
+	console.log("Add row");
+	SETTINGS.scheduler.splice(row, 1);
+    fillSchedulerTable()
 }
 
 var handleSaveButtonEvent = () => {
