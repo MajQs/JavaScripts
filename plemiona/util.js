@@ -76,119 +76,75 @@ var handleSettingsEvent = () => {
 			<fieldset><legend>Farm</legend><table>
                 <tr>
                     <td><label>Max distance:</label></td>
-                    <td><input id='farm-maxDistance' type="number" value='${SETTINGS.farm.maxDistance}'/></td>
+                    <td><input id='farm-maxDistance' type="number" value='${SETTINGS.farm.maxDistance} onchange="saveSettings()" '/></td>
                 </tr>
                 <tr>
                     <td><label>Speed in Milliseconds:</label></td>
-                    <td><input id='farm-speedInMilliseconds' type="number" value='${SETTINGS.farm.speedInMilliseconds}'/></td>
+                    <td><input id='farm-speedInMilliseconds' type="number" value='${SETTINGS.farm.speedInMilliseconds} onchange="saveSettings()" '/></td>
                 </tr>
                 <tr>
                     <td><label for="repeatWhenNoMoreVillagesLeft">Repeat when no more villages left</label></td>
-                    <td><input type="checkbox" id="farm-repeatWhenNoMoreVillagesLeft" name="repeatWhenNoMoreVillagesLeft"></td>
+                    <td><input type="checkbox" id="farm-repeatWhenNoMoreVillagesLeft" name="repeatWhenNoMoreVillagesLeft" onchange="saveSettings()" ></td>
                 </tr>
 			</table></fieldset>
 			<fieldset><legend>Wrecker</legend><table>
                 <tr>
                     <td><label>Max distance:</label></td>
-                    <td><input id='wrecker-maxDistance' type="number" value='${SETTINGS.farm.wrecker.maxDistance}'/></td>
+                    <td><input id='wrecker-maxDistance' type="number" value='${SETTINGS.farm.wrecker.maxDistance}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label>Light:</label></td>
-                    <td><input id='wrecker-light' type="number" value='${SETTINGS.farm.wrecker.units.light}'/></td>
+                    <td><input id='wrecker-light' type="number" value='${SETTINGS.farm.wrecker.units.light}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label>Ram:</label></td>
-                    <td><input id='wrecker-ram' type="number" value='${SETTINGS.farm.wrecker.units.ram}'/></td>
+                    <td><input id='wrecker-ram' type="number" value='${SETTINGS.farm.wrecker.units.ram}' onchange="saveSettings()"/></td>
                 </tr>
                 <tr>
                     <td><label>Catapult:</label></td>
-                    <td><input id='wrecker-catapult' type="number" value='${SETTINGS.farm.wrecker.units.catapult}'/></td>
+                    <td><input id='wrecker-catapult' type="number" value='${SETTINGS.farm.wrecker.units.catapult}' onchange="saveSettings()"/></td>
                 </tr>
             </table></fieldset>
             <fieldset><legend>Auto Expansion</legend><table>
                 <tr>
                     <td><label>Max distance:</label></td>
-                    <td><input id='autoExpansion-maxDistance' type="number" value='${SETTINGS.farm.autoExpansion.maxDistance}'/></td>
+                    <td><input id='autoExpansion-maxDistance' type="number" value='${SETTINGS.farm.autoExpansion.maxDistance}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label>Max Village points:</label></td>
-                    <td><input id='autoExpansion-maxVillagePoints' type="number" value='${SETTINGS.farm.autoExpansion.maxVillagePoints}'/></td>
+                    <td><input id='autoExpansion-maxVillagePoints' type="number" value='${SETTINGS.farm.autoExpansion.maxVillagePoints}' onchange="saveSettings()" /></td>
                 </tr>
             </table></fieldset>
             <fieldset><legend>Scavenger</legend><table>
                 <tr>
                     <td><label>Duration in minutes:</label></td>
-                    <td><input id='scavenger-durationInMinutes' type="number" value='${SETTINGS.scavenger.durationInMinutes}'/></td>
+                    <td><input id='scavenger-durationInMinutes' type="number" value='${SETTINGS.scavenger.durationInMinutes}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label>Spear safeguard:</label></td>
-                    <td><input id='scavenger-spearSafeguard' type="number" value='${SETTINGS.scavenger.spearSafeguard}'/></td>
+                    <td><input id='scavenger-spearSafeguard' type="number" value='${SETTINGS.scavenger.spearSafeguard}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label>Sword safeguard:</label></td>
-                    <td><input id='scavenger-swordSafeguard' type="number" value='${SETTINGS.scavenger.swordSafeguard}'/></td>
+                    <td><input id='scavenger-swordSafeguard' type="number" value='${SETTINGS.scavenger.swordSafeguard}' onchange="saveSettings()" /></td>
                 </tr>
             </table></fieldset>
             <fieldset><legend>Freeze</legend><table>
                 <tr>
                     <td><label>Off on Villages:</label></td>
-                    <td><input id='freeze-offOnVillages' value='${SETTINGS.freeze.offOnVillages}'/></td>
+                    <td><input id='freeze-offOnVillages' value='${SETTINGS.freeze.offOnVillages}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label>Deff on Villages:</label></td>
-                    <td><input id='freeze-deffOnVillages' value='${SETTINGS.freeze.deffOnVillages}'/></td>
+                    <td><input id='freeze-deffOnVillages' value='${SETTINGS.freeze.deffOnVillages}' onchange="saveSettings()" /></td>
                 </tr>
             </table></fieldset>
             <fieldset><legend>Scheduler</legend><table id='scheduler-table' style="border-collapse: collapse;">
-                <tr>
-                    <td></td>
-                    <td>Typ</td>
-
-                    <td>Data wysłania</td>
-
-                    <td>Data dotarcia</td>
-                    <td>Z</td>
-                    <td>DO</td>
-                    <td>Cel</td>
-                    <td>Wojska</td>
-                </tr>
-                <tr>
-                    <td><select name="Typ" id="type">
-                          <option value="Napad">Napad</option>
-                        </select></td>
-                    <td><input type="checkbox" id="farm" name=""></td>
-                    <td><input id='freeze-offOnVillages' value='2025-03-19T23:59:00.500'/></td>
-                    <td><input type="checkbox" id="farm" name=""></td>
-                    <td><input id='freeze-offOnVillages' value='2025-03-19T23:59:00.500'/></td>
-                    <td><input id='freeze-offOnVillages' value='001' /></td>
-                    <td><input id='freeze-offOnVillages' value='678|647' style="width: 60px"/></td>
-                    <td><select name="Cel" id="target">
-                          <option value="Huta żelaza">Huta żelaza</option>
-                        </select></td>
-                    <td>
-                        <table>
-                            <tr>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                                <td><input type="number" id='1' value='1' style="width: 40px"/></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
             </table>
             <button type="button" onclick="handleAddRowEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
         </fieldset>
         <br>
-		<button type="button" onclick="handleSaveButtonEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
+		<button type="button" onclick="saveSettings()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
 		</form></div>`
 	)
 	if(SETTINGS.farm.repeatWhenNoMoreVillagesLeft == 1){
@@ -258,19 +214,19 @@ function fillSchedulerTable(){
             tr.push(`
             <tr style="border-bottom: 1pt solid black;">
                 <td><button type="button" onclick="handleRemoveRowEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">-</button></td>
-                <td><select name="Typ" id='scheduler_${r}_type'>
+                <td><select name="Typ" id='scheduler_${r}_type' onchange="saveSettings()">
                       <option value="Napad" ${SETTINGS.scheduler[r][type_index] == "Napad" ? 'selected="selected"' : ''} >Napad</option>
                       <option value="Pomoc" ${SETTINGS.scheduler[r][type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
                     </select></td>
                 <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="checkboxEvent(0, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
                 <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][sendTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled'}/></td>
                 <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="checkboxEvent(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][attackTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled'} /></td>
+                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][attackTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? '' : 'disabled'} /></td>
                 <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="calculateTime(${r})">
                         ${tv.join('')}
                     </select></td>
                 <td><input id='scheduler_${r}_toCords' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][toCords_index]} style="width: 40px"/></td>
-                <td><select name="Cel" id="scheduler_${r}_target">
+                <td><select name="Cel" id="scheduler_${r}_target" onchange="saveSettings()">
                       <option value="" ${SETTINGS.scheduler[r][target_index] == "" ? 'selected="selected"' : ''}>Domyślny</option>
                       <option value="Ratusz" ${SETTINGS.scheduler[r][target_index] == "Ratusz" ? 'selected="selected"' : ''}>Ratusz</option>
                       <option value="Koszary" ${SETTINGS.scheduler[r][target_index] == "Koszary" ? 'selected="selected"' : ''}>Koszary</option>
@@ -321,23 +277,27 @@ function handleAddAttackEvent(row) {
             <td><input id='scheduler_${row}_units_${attacks}_unit_11' value=0 style="width: 30px"/></td>
         </tr>`
     )
+    saveSettings()
 }
 function handleRemoveAttackEvent(row) {
 	console.log("Remove attack from row " + row);
 	var attacks = $('#scheduler_'+row+'_units-table tr').length - 1
 	$('#scheduler_'+row+'_units_'+ attacks).remove();
+	saveSettings()
 }
 
 function handleAddRowEvent() {
 	console.log("Add row");
-	SETTINGS.scheduler.push(["Napad", "2025-02-27T22:50:01.000", $.cookie("global_village_id"), "393|564", "Mur", [[0,0,"all",0,0,10,"all",0,"all","all","all",0]]])
+	SETTINGS.scheduler.push(SETTINGS.scheduler[SETTINGS.scheduler.lenght - 1])
     fillSchedulerTable()
+    saveSettings()
 }
 
 function handleRemoveRowEvent(row) {
 	console.log("Add row");
 	SETTINGS.scheduler.splice(row, 1);
     fillSchedulerTable()
+    saveSettings()
 }
 
 function checkboxEvent(i, row) {
@@ -351,13 +311,7 @@ function checkboxEvent(i, row) {
     calculateTime(row)
 }
 
-function calculateTime(row) {
-	console.log("Calculate time for row " + row);
-    calculateSendEntryDate(row)
-}
-
-
-function calculateSendEntryDate(row){
+function calculateTime(row){
     var playerVillages = getPlayerVillages()
     var worldSetup = getWorldSetup()
     var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
@@ -401,6 +355,7 @@ function calculateSendEntryDate(row){
         var sendDate = new Date(entryDate - diff)
         $("#scheduler_"+row+"_sendTime").val(sendDate.format("yyyy-mm-dd'T'HH:MM:ss.l"))
     }
+    saveSettings()
 }
 
 function schedulerUnits(i){
@@ -429,7 +384,7 @@ function schedulerUnits(i){
     return units
 }
 
-var handleSaveButtonEvent = () => {
+var saveSettings = () => {
 	console.log("Save config");
 
     var scheduler_items = new Array()
@@ -458,6 +413,8 @@ var handleSaveButtonEvent = () => {
             }
             scheduler_items[i] = [
                 $('#scheduler_'+i+'_type').val(),
+                $('#scheduler_'+i+'_sendTime_checkbox').val(),
+                $('#scheduler_'+i+'_sendTime').val(),
                 $('#scheduler_'+i+'_attackTime').val(),
                 $('#scheduler_'+i+'_fromVillage').val(),
                 $('#scheduler_'+i+'_toCords').val(),
