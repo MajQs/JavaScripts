@@ -888,9 +888,9 @@ function calculateSendEntryDate(row){
     var worldSetup = getWorldSetup()
     var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
     var type = $("#scheduler_1_type").val()
-    var date = option ? $("#scheduler_"+row+"_attackTime").val() : $("#scheduler_"+row+"_sendTime").val(),
-    var villageId = $("#scheduler_"+row+"_fromVillage").val(),
-    var targetCords = $("#scheduler_"+row+"_toCords").val(),
+    var date = option ? $("#scheduler_"+row+"_attackTime").val() : $("#scheduler_"+row+"_sendTime").val()
+    var villageId = $("#scheduler_"+row+"_fromVillage").val()
+    var targetCords = $("#scheduler_"+row+"_toCords").val()
     var units = schedulerUnits(row)
 
     function getSlowestUnitFactor(attacks){
