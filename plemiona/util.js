@@ -333,7 +333,7 @@ function handleRemoveAttackEvent(row) {
 
 function handleAddRowEvent() {
 	console.log("Add row");
-	SETTINGS.scheduler.push(SETTINGS.scheduler[SETTINGS.scheduler.lenght - 1])
+	SETTINGS.scheduler.push(SETTINGS.scheduler[SETTINGS.scheduler.length-1])
     fillSchedulerTable()
     saveSettings()
 }
