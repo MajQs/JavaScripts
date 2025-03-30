@@ -361,11 +361,10 @@ function calculateSendEntryDate(row){
     var playerVillages = getPlayerVillages()
     var worldSetup = getWorldSetup()
     var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
-    var type = $("#scheduler_1_type").val()
+    var type = $("#scheduler_"+row+"_type").val()
 
     var villageId = $("#scheduler_"+row+"_fromVillage").val()
     var targetCords = $("#scheduler_"+row+"_toCords").val()
-    var units = schedulerUnits(row)
 
     function getSlowestUnitFactor(attacks){
         var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
@@ -375,9 +374,9 @@ function calculateSendEntryDate(row){
             for(let i=0; i< units.length; i++){
                 if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
                     slowestUnitFactor = unitSpeeds[i]
-                    if(type == "Pomoc" && i == 11) {
-                        ai = 99, i = 99
-                    }
+//                    if(type == "Pomoc" && i == 11) {
+//                        ai = 99, i = 99
+//                    }
                 }
             }
         }
@@ -391,13 +390,16 @@ function calculateSendEntryDate(row){
     var playerVillage = playerVillages.get(villageId)
     var targetCoords = targetCords.split("|")
     var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
+    var diff = roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(schedulerUnits(row)) * 60000))
 
     if(option){
-        var sendDate = new Date($("#scheduler_"+row+"_sendTime").val());
-        $("#scheduler_"+row+"_attackTime").val( new Date(sendDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime"))
+        var sendDate = new Date($("#scheduler_"+row+"_sendTime").val())
+        var entryDate = new Date((+sendDate) + (+diff))
+        $("#scheduler_"+row+"_attackTime").val(entryDate.format("yyyy-mm-dd'T'HH:MM:ss.l"))
     } else {
         var entryDate = new Date($("#scheduler_"+row+"_attackTime").val());
-        $("#scheduler_"+row+"_sendTime").val( new Date(entryDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime"))
+        var sendDate = new Date(entryDate - diff)
+        $("#scheduler_"+row+"_sendTime").val(sendDate.format("yyyy-mm-dd'T'HH:MM:ss.l"))
     }
 }
 
