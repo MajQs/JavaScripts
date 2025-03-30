@@ -361,19 +361,9 @@ function calculateTime(row) {
     var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
 
     if(option){
-        $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(
-                                                        $("#scheduler_"+row+"_sendTime").val(),
-                                                        $("#scheduler_"+row+"_fromVillage").val(),
-                                                        $("#scheduler_"+row+"_toCords").val(),
-                                                        schedulerUnits(row)
-                                                    ))
+        $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(row))
     } else {
-        $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(
-                                                        $("#scheduler_"+row+"_attackTime").val(),
-                                                        $("#scheduler_"+row+"_fromVillage").val(),
-                                                        $("#scheduler_"+row+"_toCords").val(),
-                                                        schedulerUnits(row)
-                                                    ))
+       $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(row))
     }
 }
 
