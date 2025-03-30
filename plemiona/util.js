@@ -240,18 +240,18 @@ function fillSchedulerTable(){
             for (var ur=0; ur < SETTINGS.scheduler[r][units_index].length; ur++){
                 tur[ur] = `
                     <tr id='scheduler_${r}_units_${ur}'>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_0' value=${SETTINGS.scheduler[r][units_index][ur][0]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_1' value=${SETTINGS.scheduler[r][units_index][ur][1]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_2' value=${SETTINGS.scheduler[r][units_index][ur][2]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_3' value=${SETTINGS.scheduler[r][units_index][ur][3]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_4' value=${SETTINGS.scheduler[r][units_index][ur][4]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_5' value=${SETTINGS.scheduler[r][units_index][ur][5]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_6' value=${SETTINGS.scheduler[r][units_index][ur][6]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_7' value=${SETTINGS.scheduler[r][units_index][ur][7]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_8' value=${SETTINGS.scheduler[r][units_index][ur][8]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_9' value=${SETTINGS.scheduler[r][units_index][ur][9]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_10' value=${SETTINGS.scheduler[r][units_index][ur][10]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_11' value=${SETTINGS.scheduler[r][units_index][ur][11]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_0' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][0]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_1' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][1]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_2' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][2]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_3' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][3]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_4' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][4]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_5' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][5]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_6' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][6]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_7' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][7]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_8' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][8]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_9' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][9]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_10' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][10]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_11' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][11]} style="width: 30px"/></td>
                     </tr>`
             }
 
@@ -266,10 +266,10 @@ function fillSchedulerTable(){
                 <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(0, ${r})" value=${SETTINGS.scheduler[r][sendTime_index]} /></td>
                 <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="calculateTime(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
                 <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(1, ${r})" value=${SETTINGS.scheduler[r][attackTime_index]} /></td>
-                <td><select name="Typ" id='scheduler_${r}_fromVillage'>
+                <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="calculateTime(${r})">
                         ${tv.join('')}
                     </select></td>
-                <td><input id='scheduler_${r}_toCords' value=${SETTINGS.scheduler[r][toCords_index]} style="width: 40px"/></td>
+                <td><input id='scheduler_${r}_toCords' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][toCords_index]} style="width: 40px"/></td>
                 <td><select name="Cel" id="scheduler_${r}_target">
                       <option value="" ${SETTINGS.scheduler[r][target_index] == "" ? 'selected="selected"' : ''}>Domyślny</option>
                       <option value="Ratusz" ${SETTINGS.scheduler[r][target_index] == "Ratusz" ? 'selected="selected"' : ''}>Ratusz</option>
@@ -349,8 +349,19 @@ function calculateTime(i, row) {
     $("#scheduler_"+row+"_attackTime").prop('disabled', i == 1 ? false : true)
 
     if(i==0){
+        $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(row))
+    } else {
+        $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(row))
+    }
+}
+
+function calculateTime(row) {
+	console.log("Calculate time for row " + row);
+
+    var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
+
+    if(option){
         $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(
-                                                        0,
                                                         $("#scheduler_"+row+"_sendTime").val(),
                                                         $("#scheduler_"+row+"_fromVillage").val(),
                                                         $("#scheduler_"+row+"_toCords").val(),
@@ -358,7 +369,6 @@ function calculateTime(i, row) {
                                                     ))
     } else {
         $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(
-                                                        1,
                                                         $("#scheduler_"+row+"_attackTime").val(),
                                                         $("#scheduler_"+row+"_fromVillage").val(),
                                                         $("#scheduler_"+row+"_toCords").val(),
@@ -395,6 +405,43 @@ function schedulerUnits(i){
 
 var handleSaveButtonEvent = () => {
 	console.log("Save config");
+
+    var scheduler_items = new Array()
+    for (var i=0; i < 999; i++){
+        if($('#scheduler_'+i+'_type').length > 0){
+        	var units = new Array()
+            for (var ui=0; ui < 999; ui++){
+                if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
+                    units.push([
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_0').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_1').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_2').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_3').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_4').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_5').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_6').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_7').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_8').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_9').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_10').val(),
+                        $('#scheduler_'+i+'_units_'+ui+'_unit_11').val()
+                    ])
+                }else{
+                    ui = 999999
+                }
+            }
+            scheduler_items[i] = [
+                $('#scheduler_'+i+'_type').val(),
+                $('#scheduler_'+i+'_attackTime').val(),
+                $('#scheduler_'+i+'_fromVillage').val(),
+                $('#scheduler_'+i+'_toCords').val(),
+                $('#scheduler_'+i+'_target').val(),
+                units
+            ]
+        } else{
+            i = 999999
+        }
+    }
 
 	var new_conf = {
 	  farm: {
@@ -836,9 +883,15 @@ function schedulerCalculateSendDate(){
     return scheduler
 }
 
-function calculateSendEntryDate(option, date, villageId, targetCords, units){
+function calculateSendEntryDate(row){
     var playerVillages = getPlayerVillages()
     var worldSetup = getWorldSetup()
+    var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
+    var type = $("#scheduler_1_type").val()
+    var date = option ? $("#scheduler_"+row+"_attackTime").val() : $("#scheduler_"+row+"_sendTime").val(),
+    var villageId = $("#scheduler_"+row+"_fromVillage").val(),
+    var targetCords = $("#scheduler_"+row+"_toCords").val(),
+    var units = schedulerUnits(row)
 
     function getSlowestUnitFactor(attacks){
         var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
@@ -848,6 +901,9 @@ function calculateSendEntryDate(option, date, villageId, targetCords, units){
             for(let i=0; i< units.length; i++){
                 if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
                     slowestUnitFactor = unitSpeeds[i]
+                    if(type == "Pomoc" && i == 11) {
+                        ai = 99, i = 99
+                    }
                 }
             }
         }
@@ -862,12 +918,12 @@ function calculateSendEntryDate(option, date, villageId, targetCords, units){
     var targetCoords = targetCords.split("|")
     var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
 
-    if(option == 0){
-        var entryDate = new Date(date);
-        return new Date(entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
-    } else {
+    if(option){
         var sendDate = new Date(date);
-        return new Date(sendDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
+        return new Date(sendDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
+    } else {
+        var entryDate = new Date(date);
+        return new Date(entryDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
     }
 }
 
