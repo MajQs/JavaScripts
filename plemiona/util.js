@@ -139,13 +139,58 @@ var handleSettingsEvent = () => {
                     <td><input id='freeze-deffOnVillages' value='${SETTINGS.freeze.deffOnVillages}' onchange="saveSettings()" /></td>
                 </tr>
             </table></fieldset>
-            <fieldset><legend>Scheduler</legend><table id='scheduler-table' style="border-collapse: collapse;">
-            </table>
-            <button type="button" onclick="handleAddRowEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
-        </fieldset>
-        <br>
-		<button type="button" onclick="saveSettings()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
-		</form></div>`
+            <fieldset><legend>Scheduler</legend>
+                <table id='scheduler-table' style="border-collapse: collapse;">
+                    <tr>
+                        <td></td>
+                        <td>Typ</td>
+
+                        <td>Data wysłania</td>
+
+                        <td>Data dotarcia</td>
+                        <td>Z</td>
+                        <td>DO</td>
+                        <td>Cel</td>
+                        <td>Wojska</td>
+                    </tr>
+                    <tr>
+                        <td><select name="Typ" id="type">
+                              <option value="Napad">Napad</option>
+                            </select></td>
+                        <td><input type="checkbox" id="farm" name=""></td>
+                        <td><input id='freeze-offOnVillages' value='2025-03-19T23:59:00.500'/></td>
+                        <td><input type="checkbox" id="farm" name=""></td>
+                        <td><input id='freeze-offOnVillages' value='2025-03-19T23:59:00.500'/></td>
+                        <td><input id='freeze-offOnVillages' value='001' /></td>
+                        <td><input id='freeze-offOnVillages' value='678|647' style="width: 60px"/></td>
+                        <td><select name="Cel" id="target">
+                              <option value="Huta żelaza">Huta żelaza</option>
+                            </select></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                    <td><input type="number" id='1' value='1' style="width: 40px"/></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <button type="button" onclick="handleAddRowEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
+            </fieldset>
+            <br>
+            <button type="button" onclick="saveSettings()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
+            </form></div>`
 	)
 	if(SETTINGS.farm.repeatWhenNoMoreVillagesLeft == 1){
       $("#farm-repeatWhenNoMoreVillagesLeft").prop('checked', true);
