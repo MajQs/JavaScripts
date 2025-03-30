@@ -458,7 +458,7 @@ var saveSettings = () => {
             }
             scheduler_items[i] = [
                 $('#scheduler_'+i+'_type').val(),
-                $('#scheduler_'+i+'_sendTime_checkbox').val(),
+                $('#scheduler_'+i+'_sendTime_checkbox').prop("checked") ? 1 : 0,
                 $('#scheduler_'+i+'_sendTime').val(),
                 $('#scheduler_'+i+'_attackTime').val(),
                 $('#scheduler_'+i+'_fromVillage').val(),
@@ -504,7 +504,6 @@ var saveSettings = () => {
 
 	localStorage.setItem("MajQs.settings", JSON.stringify(new_conf))
 	SETTINGS = new_conf
-	alert("Settings Saved!")
 }
 function settingsUI() {
 	const settings_image = document.createElement('img');
