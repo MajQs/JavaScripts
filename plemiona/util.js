@@ -263,9 +263,9 @@ function fillSchedulerTable(){
                       <option value="Pomoc" ${SETTINGS.scheduler[r][type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
                     </select></td>
                 <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="checkboxEvent(0, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][sendTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled="disabled"'}/></td>
+                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][sendTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled'}/></td>
                 <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="checkboxEvent(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][attackTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled="disabled"'} /></td>
+                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][attackTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled'} /></td>
                 <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="calculateTime(${r})">
                         ${tv.join('')}
                     </select></td>
@@ -359,7 +359,52 @@ function calculateTime(row) {
     if(option){
         $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(row))
     } else {
-       $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(row))
+        $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(row))
+    }
+}
+
+
+function calculateSendEntryDate(row){
+    var playerVillages = getPlayerVillages()
+    var worldSetup = getWorldSetup()
+    var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
+    var type = $("#scheduler_1_type").val()
+    var date = option ? $("#scheduler_"+row+"_attackTime").val() : $("#scheduler_"+row+"_sendTime").val()
+    var villageId = $("#scheduler_"+row+"_fromVillage").val()
+    var targetCords = $("#scheduler_"+row+"_toCords").val()
+    var units = schedulerUnits(row)
+
+    function getSlowestUnitFactor(attacks){
+        var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
+        var slowestUnitFactor = 0
+        for(let ai=0; ai< attacks.length; ai++){
+            units = attacks[ai]
+            for(let i=0; i< units.length; i++){
+                if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
+                    slowestUnitFactor = unitSpeeds[i]
+                    if(type == "Pomoc" && i == 11) {
+                        ai = 99, i = 99
+                    }
+                }
+            }
+        }
+        return slowestUnitFactor
+    }
+    function roundToSeconds(date) {
+      p = 1000;
+      return new Date(Math.round(date.getTime() / p ) * p);
+    }
+
+    var playerVillage = playerVillages.get(villageId)
+    var targetCoords = targetCords.split("|")
+    var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
+
+    if(option){
+        var sendDate = new Date(date);
+        return new Date(sendDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
+    } else {
+        var entryDate = new Date(date);
+        return new Date(entryDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
     }
 }
 
@@ -869,49 +914,6 @@ function schedulerCalculateSendDate(){
     return scheduler
 }
 
-function calculateSendEntryDate(row){
-    var playerVillages = getPlayerVillages()
-    var worldSetup = getWorldSetup()
-    var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
-    var type = $("#scheduler_1_type").val()
-    var date = option ? $("#scheduler_"+row+"_attackTime").val() : $("#scheduler_"+row+"_sendTime").val()
-    var villageId = $("#scheduler_"+row+"_fromVillage").val()
-    var targetCords = $("#scheduler_"+row+"_toCords").val()
-    var units = schedulerUnits(row)
-
-    function getSlowestUnitFactor(attacks){
-        var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
-        var slowestUnitFactor = 0
-        for(let ai=0; ai< attacks.length; ai++){
-            units = attacks[ai]
-            for(let i=0; i< units.length; i++){
-                if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
-                    slowestUnitFactor = unitSpeeds[i]
-                    if(type == "Pomoc" && i == 11) {
-                        ai = 99, i = 99
-                    }
-                }
-            }
-        }
-        return slowestUnitFactor
-    }
-    function roundToSeconds(date) {
-      p = 1000;
-      return new Date(Math.round(date.getTime() / p ) * p);
-    }
-
-    var playerVillage = playerVillages.get(villageId)
-    var targetCoords = targetCords.split("|")
-    var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
-
-    if(option){
-        var sendDate = new Date(date);
-        return new Date(sendDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
-    } else {
-        var entryDate = new Date(date);
-        return new Date(entryDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
-    }
-}
 
 function schedulerCheck() {
     if(!shouldProcessLevel(schedulerLevel) && localStorage.getItem("MajQs.scheduledItem") == null){
