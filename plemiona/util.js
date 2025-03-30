@@ -458,7 +458,7 @@ var saveSettings = () => {
             }
             scheduler_items[i] = [
                 $('#scheduler_'+i+'_type').val(),
-                $('#scheduler_'+i+'_sendTime_checkbox').prop("checked") ? 1 : 0,
+                $('#scheduler_'+i+'_sendTime_checkbox').prop("checked") ? 0 : 1,
                 $('#scheduler_'+i+'_sendTime').val(),
                 $('#scheduler_'+i+'_attackTime').val(),
                 $('#scheduler_'+i+'_fromVillage').val(),
