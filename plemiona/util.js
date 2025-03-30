@@ -262,10 +262,10 @@ function fillSchedulerTable(){
                       <option value="Napad" ${SETTINGS.scheduler[r][type_index] == "Napad" ? 'selected="selected"' : ''} >Napad</option>
                       <option value="Pomoc" ${SETTINGS.scheduler[r][type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
                     </select></td>
-                <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="calculateTime(0, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(0, ${r})" value=${SETTINGS.scheduler[r][sendTime_index]} /></td>
-                <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="calculateTime(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(1, ${r})" value=${SETTINGS.scheduler[r][attackTime_index]} /></td>
+                <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="checkboxEvent(0, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
+                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][sendTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled="disabled"'}/></td>
+                <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="checkboxEvent(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
+                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][attackTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled="disabled"'} /></td>
                 <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="calculateTime(${r})">
                         ${tv.join('')}
                     </select></td>
@@ -340,7 +340,7 @@ function handleRemoveRowEvent(row) {
     fillSchedulerTable()
 }
 
-function calculateTime(i, row) {
+function checkboxEvent(i, row) {
 	console.log("Calculate time for row " + row);
 
 	$("#scheduler_"+row+"_sendTime_checkbox").prop('checked', i == 0 ? true : false)
@@ -348,11 +348,7 @@ function calculateTime(i, row) {
 	$("#scheduler_"+row+"_sendTime").prop('disabled', i == 0 ? false : true)
     $("#scheduler_"+row+"_attackTime").prop('disabled', i == 1 ? false : true)
 
-    if(i==0){
-        $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(row))
-    } else {
-        $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(row))
-    }
+    calculateTime(row)
 }
 
 function calculateTime(row) {
