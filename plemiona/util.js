@@ -1,3 +1,5 @@
+$.getScript('https://stevenlevithan.com/assets/misc/date.format.js');
+
 // Page timer
 // return to AF when you stay too long on the same page
 function pageTimer() {
@@ -345,7 +347,7 @@ function calculateTime(i, row) {
 	$("#scheduler_"+row+"_attackTime_checkbox").prop('checked', i == 1 ? true : false)
 	$("#scheduler_"+row+"_sendTime").prop('disabled', i == 0 ? false : true)
     $("#scheduler_"+row+"_attackTime").prop('disabled', i == 1 ? false : true)
-option, entryDate, villageId, targetCords, units
+
     if(i==0){
         $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(
                                                         i,
@@ -366,42 +368,29 @@ option, entryDate, villageId, targetCords, units
 }
 
 function schedulerUnits(i){
-    var scheduler_items = new Array()
-    for (var i=0; i < 999; i++){
-        if($('#scheduler_'+i+'_type').length > 0){
-        	var units = new Array()
-            for (var ui=0; ui < 999; ui++){
-                if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
-                    units.push([
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_0').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_1').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_2').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_3').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_4').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_5').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_6').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_7').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_8').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_9').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_10').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_11').val()
-                    ])
-                }else{
-                    ui = 999999
-                }
-            }
-            scheduler_items[i] = [
-                $('#scheduler_'+i+'_type').val(),
-                $('#scheduler_'+i+'_attackTime').val(),
-                $('#scheduler_'+i+'_fromVillage').val(),
-                $('#scheduler_'+i+'_toCords').val(),
-                $('#scheduler_'+i+'_target').val(),
-                units
-            ]
-        } else{
-            i = 999999
+    var units = new Array()
+    for (var ui=0; ui < 999; ui++){
+        if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
+            units.push([
+                $('#scheduler_'+i+'_units_'+ui+'_unit_0').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_1').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_2').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_3').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_4').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_5').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_6').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_7').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_8').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_9').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_10').val(),
+                $('#scheduler_'+i+'_units_'+ui+'_unit_11').val()
+            ])
+        }else{
+            ui = 999999
         }
     }
+
+    return units
 }
 
 var handleSaveButtonEvent = () => {
@@ -849,7 +838,7 @@ function schedulerCalculateSendDate(){
     return scheduler
 }
 
-function calculateSendEntryDate(option, entryDate, villageId, targetCords, units){
+function calculateSendEntryDate(option, date, villageId, targetCords, units){
     var playerVillages = getPlayerVillages()
     var worldSetup = getWorldSetup()
 
@@ -876,11 +865,11 @@ function calculateSendEntryDate(option, entryDate, villageId, targetCords, units
     var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
 
     if(option == 0){
-        var entryDate = new Date(entryDate);
-        return new Date(sendDate = entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
+        var entryDate = new Date(date);
+        return new Date(entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
     } else {
-        var sendDate = new Date(entryDate);
-        return new Date(entryDate = sendDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
+        var sendDate = new Date(date);
+        return new Date(sendDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
     }
 }
 
