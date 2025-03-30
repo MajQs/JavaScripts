@@ -222,12 +222,12 @@ function fillSchedulerTable(){
 
             var type_index = 0
             var timeCheckbox_index = 1
-            var sendTime_index = 1
-            var attackTime_index = 1
-            var fromVillage_index = 2
-            var toCords_index = 3
-            var target_index = 4
-            var units_index = 5
+            var sendTime_index = 2
+            var attackTime_index = 3
+            var fromVillage_index = 4
+            var toCords_index = 5
+            var target_index = 6
+            var units_index = 7
 
             var tv = new Array()
             var playerVillages = Array.from(getPlayerVillages())
@@ -263,9 +263,9 @@ function fillSchedulerTable(){
                       <option value="Pomoc" ${SETTINGS.scheduler[r][type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
                     </select></td>
                 <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="calculateTime(0, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_sendTime' value=${SETTINGS.scheduler[r][sendTime_index]} /></td>
+                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(0, ${r})" value=${SETTINGS.scheduler[r][sendTime_index]} /></td>
                 <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="calculateTime(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_attackTime' value=${SETTINGS.scheduler[r][attackTime_index]} /></td>
+                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(1, ${r})" value=${SETTINGS.scheduler[r][attackTime_index]} /></td>
                 <td><select name="Typ" id='scheduler_${r}_fromVillage'>
                         ${tv.join('')}
                     </select></td>
@@ -350,7 +350,7 @@ function calculateTime(i, row) {
 
     if(i==0){
         $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(
-                                                        i,
+                                                        0,
                                                         $("#scheduler_"+row+"_sendTime").val(),
                                                         $("#scheduler_"+row+"_fromVillage").val(),
                                                         $("#scheduler_"+row+"_toCords").val(),
@@ -358,7 +358,7 @@ function calculateTime(i, row) {
                                                     ))
     } else {
         $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(
-                                                        i,
+                                                        1,
                                                         $("#scheduler_"+row+"_attackTime").val(),
                                                         $("#scheduler_"+row+"_fromVillage").val(),
                                                         $("#scheduler_"+row+"_toCords").val(),
@@ -395,8 +395,6 @@ function schedulerUnits(i){
 
 var handleSaveButtonEvent = () => {
 	console.log("Save config");
-
-
 
 	var new_conf = {
 	  farm: {
@@ -866,10 +864,10 @@ function calculateSendEntryDate(option, date, villageId, targetCords, units){
 
     if(option == 0){
         var entryDate = new Date(date);
-        return new Date(entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
+        return new Date(entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
     } else {
         var sendDate = new Date(date);
-        return new Date(sendDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
+        return new Date(sendDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
     }
 }
 
