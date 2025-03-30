@@ -374,9 +374,9 @@ function calculateSendEntryDate(row){
             for(let i=0; i< units.length; i++){
                 if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
                     slowestUnitFactor = unitSpeeds[i]
-//                    if(type == "Pomoc" && i == 11) {
-//                        ai = 99, i = 99
-//                    }
+                    if(type == "Pomoc" && i == 11) {
+                        ai = 99, i = 99
+                    }
                 }
             }
         }
