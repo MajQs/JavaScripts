@@ -56,9 +56,9 @@ function loadSettings(){
                 deffOnVillages: ["village1"]
             },
             scheduler: [
-                ["Napad", "2025-02-26T22:50:01.000", "M001", "393|564", "Mur",     [[0,0,"all",0,0,"all","all",0,"all","all","all",0],[0,0,0,10,0,0,0,0,0,0,0,0]]],
-                ["Napad", "2025-02-27T22:50:01.000", "M002", "393|564", "Zagroda", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]],
-                ["Pomoc", "2025-02-27T22:50:01.000", "M002", "393|564", "", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]]
+                ["Napad", 0, "2025-02-26T22:50:01.000", "2025-02-26T22:50:01.000", "M001", "393|564", "Mur",     [[0,0,"all",0,0,"all","all",0,"all","all","all",0],[0,0,0,10,0,0,0,0,0,0,0,0]]],
+                ["Napad", 0, "2025-02-27T22:50:01.000", "2025-02-26T22:50:01.000", "M002", "393|564", "Zagroda", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]],
+                ["Pomoc", 0, "2025-02-27T22:50:01.000", "2025-02-26T22:50:01.000", "M002", "393|564", "", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]]
             ]
         }
         return default_settings
@@ -183,8 +183,8 @@ var handleSettingsEvent = () => {
                     </td>
                 </tr>
             </table>
-                            <button type="button" onclick="handleAddRowEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
-                            </fieldset>
+            <button type="button" onclick="handleAddRowEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
+        </fieldset>
         <br>
 		<button type="button" onclick="handleSaveButtonEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
 		</form></div>`
@@ -202,9 +202,24 @@ function fillSchedulerTable(){
 	const settings_image = document.createElement('img');
 	settings_image.setAttribute('id', 'MajQs-settings');
     var tr = new Array()
+
+    tr.push(
+        `<tr style="border-bottom: 2pt solid black;">
+            <td></td>
+            <td>Typ</td>
+            <td></td>
+            <td>Data wysłania</td>
+            <td></td>
+            <td>Data dotarcia</td>
+            <td>Z</td>
+            <td>DO</td>
+            <td>Cel</td>
+            <td>Wojska</td>
+        </tr>`)
     for (var r=0; r < SETTINGS.scheduler.length; r++){
 
             var type_index = 0
+            var timeCheckbox_index = 1
             var sendTime_index = 1
             var attackTime_index = 1
             var fromVillage_index = 2
@@ -238,16 +253,16 @@ function fillSchedulerTable(){
                     </tr>`
             }
 
-            tr[r] = `
+            tr.push(`
             <tr style="border-bottom: 1pt solid black;">
                 <td><button type="button" onclick="handleRemoveRowEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">-</button></td>
                 <td><select name="Typ" id='scheduler_${r}_type'>
                       <option value="Napad" ${SETTINGS.scheduler[r][type_index] == "Napad" ? 'selected="selected"' : ''} >Napad</option>
                       <option value="Pomoc" ${SETTINGS.scheduler[r][type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
                     </select></td>
-                //<td><input type="checkbox" id="farm" name=""></td>
+                <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="calculateTime(0, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
                 <td><input id='scheduler_${r}_sendTime' value=${SETTINGS.scheduler[r][sendTime_index]} /></td>
-                //<td><input type="checkbox" id="farm" name=""></td>
+                <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="calculateTime(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
                 <td><input id='scheduler_${r}_attackTime' value=${SETTINGS.scheduler[r][attackTime_index]} /></td>
                 <td><select name="Typ" id='scheduler_${r}_fromVillage'>
                         ${tv.join('')}
@@ -279,7 +294,7 @@ function fillSchedulerTable(){
                     <button type="button" onclick="handleAddAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
                     <button type="button" onclick="handleRemoveAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Remove</button>
                 </td>
-            </tr>`
+            </tr>`)
     }
 
 	$('#scheduler-table').eq(0).html(tr.join(''))
@@ -323,10 +338,35 @@ function handleRemoveRowEvent(row) {
     fillSchedulerTable()
 }
 
-var handleSaveButtonEvent = () => {
-	console.log("Save config");
+function calculateTime(i, row) {
+	console.log("Calculate time for row " + row);
 
-	var scheduler_items = new Array()
+	$("#scheduler_"+row+"_sendTime_checkbox").prop('checked', i == 0 ? true : false)
+	$("#scheduler_"+row+"_attackTime_checkbox").prop('checked', i == 1 ? true : false)
+	$("#scheduler_"+row+"_sendTime").prop('disabled', i == 0 ? false : true)
+    $("#scheduler_"+row+"_attackTime").prop('disabled', i == 1 ? false : true)
+option, entryDate, villageId, targetCords, units
+    if(i==0){
+        $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(
+                                                        i,
+                                                        $("#scheduler_"+row+"_sendTime").val(),
+                                                        $("#scheduler_"+row+"_fromVillage").val(),
+                                                        $("#scheduler_"+row+"_toCords").val(),
+                                                        schedulerUnits(row)
+                                                    ))
+    } else {
+        $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(
+                                                        i,
+                                                        $("#scheduler_"+row+"_attackTime").val(),
+                                                        $("#scheduler_"+row+"_fromVillage").val(),
+                                                        $("#scheduler_"+row+"_toCords").val(),
+                                                        schedulerUnits(row)
+                                                    ))
+    }
+}
+
+function schedulerUnits(i){
+    var scheduler_items = new Array()
     for (var i=0; i < 999; i++){
         if($('#scheduler_'+i+'_type').length > 0){
         	var units = new Array()
@@ -362,6 +402,12 @@ var handleSaveButtonEvent = () => {
             i = 999999
         }
     }
+}
+
+var handleSaveButtonEvent = () => {
+	console.log("Save config");
+
+
 
 	var new_conf = {
 	  farm: {
@@ -801,6 +847,41 @@ function schedulerCalculateSendDate(){
     localStorage.setItem("MajQs.scheduler", JSON.stringify(scheduler))
 
     return scheduler
+}
+
+function calculateSendEntryDate(option, entryDate, villageId, targetCords, units){
+    var playerVillages = getPlayerVillages()
+    var worldSetup = getWorldSetup()
+
+    function getSlowestUnitFactor(attacks){
+        var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
+        var slowestUnitFactor = 0
+        for(let ai=0; ai< attacks.length; ai++){
+            units = attacks[ai]
+            for(let i=0; i< units.length; i++){
+                if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
+                    slowestUnitFactor = unitSpeeds[i]
+                }
+            }
+        }
+        return slowestUnitFactor
+    }
+    function roundToSeconds(date) {
+      p = 1000;
+      return new Date(Math.round(date.getTime() / p ) * p);
+    }
+
+    var playerVillage = playerVillages.get(villageId)
+    var targetCoords = targetCords.split("|")
+    var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
+
+    if(option == 0){
+        var entryDate = new Date(entryDate);
+        return new Date(sendDate = entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
+    } else {
+        var sendDate = new Date(entryDate);
+        return new Date(entryDate = sendDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000)))
+    }
 }
 
 function schedulerCheck() {
