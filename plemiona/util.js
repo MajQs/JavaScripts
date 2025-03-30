@@ -353,14 +353,7 @@ function checkboxEvent(i, row) {
 
 function calculateTime(row) {
 	console.log("Calculate time for row " + row);
-
-    var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
-
-    if(option){
-        $("#scheduler_"+row+"_attackTime").val(calculateSendEntryDate(row))
-    } else {
-        $("#scheduler_"+row+"_sendTime").val(calculateSendEntryDate(row))
-    }
+    calculateSendEntryDate(row)
 }
 
 
@@ -401,10 +394,10 @@ function calculateSendEntryDate(row){
 
     if(option){
         var sendDate = new Date($("#scheduler_"+row+"_sendTime").val());
-        return new Date(sendDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
+        $("#scheduler_"+row+"_attackTime").val( new Date(sendDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime"))
     } else {
         var entryDate = new Date($("#scheduler_"+row+"_attackTime").val());
-        return new Date(entryDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
+        $("#scheduler_"+row+"_sendTime").val( new Date(entryDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime"))
     }
 }
 
