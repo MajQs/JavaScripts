@@ -369,7 +369,7 @@ function calculateSendEntryDate(row){
     var worldSetup = getWorldSetup()
     var option = $("#scheduler_"+row+"_sendTime_checkbox").prop("checked")
     var type = $("#scheduler_1_type").val()
-    var date = option ? $("#scheduler_"+row+"_attackTime").val() : $("#scheduler_"+row+"_sendTime").val()
+
     var villageId = $("#scheduler_"+row+"_fromVillage").val()
     var targetCords = $("#scheduler_"+row+"_toCords").val()
     var units = schedulerUnits(row)
@@ -400,10 +400,10 @@ function calculateSendEntryDate(row){
     var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
 
     if(option){
-        var sendDate = new Date(date);
+        var sendDate = new Date($("#scheduler_"+row+"_sendTime").val());
         return new Date(sendDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
     } else {
-        var entryDate = new Date(date);
+        var entryDate = new Date($("#scheduler_"+row+"_attackTime").val());
         return new Date(entryDate + roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(units) * 60000))).format("isoDateTime");
     }
 }
