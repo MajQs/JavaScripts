@@ -424,7 +424,29 @@ function calculateTime(row){
         $("#scheduler_"+row+"_sendTime").val(sendDate.format("yyyy-mm-dd'T'HH:MM:ss.l"))
     }
 
+    checkParallelSendingAttacks()
     return saveSettings()
+}
+
+function checkParallelSendingAttacks(){
+    for (var i=0; i < 999; i++){
+        if($('#scheduler_'+i+'_type').length > 0){
+            for (var i2=0; i2 < 999; i2++){
+                if($('#scheduler_'+i2+'_type').length > 0){
+                    diff = (new Date($('#scheduler_'+i+'_sendTime').val()) - new Date($('#scheduler_'+i2+'_sendTime').val())) / 1000 / 60
+                    if(diff >= -2 && diff <= 2){
+                        $("#scheduler_0_sendTime").css("background-color","red");
+                    } else {
+                        $("#scheduler_0_sendTime").css("background-color","white");
+                    }
+                }else{
+                    i2 = 999
+                }
+            }
+        }else{
+            i = 999
+        }
+    }
 }
 
 function schedulerUnits(i){
