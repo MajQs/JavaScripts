@@ -244,21 +244,30 @@ function fillSchedulerTable(){
             var villageUnits = getVillageUnits(SETTINGS.scheduler[r][scheduler_fromVillage_index])
 
             for (var ur=0; ur < SETTINGS.scheduler[r][scheduler_units_index].length; ur++){
-                tur[ur] = `
-                    <tr id='scheduler_${r}_units_${ur}'>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_0' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][0]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_1' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][1]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_2' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][2]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_3' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][3]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_4' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][4]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_5' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][5]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_6' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][6]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_7' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][7]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_8' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][8]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_9' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][9]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_10' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][10]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_11' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][11]} style="width: 30px"/></td>
-                    </tr>`
+                if(SETTINGS.scheduler[r][scheduler_units_index][ur].length == 0){
+                    tur[ur] = `
+                        <tr id='scheduler_${r}_units_${ur}'>
+                            <td colspan = "11">
+                                <label> DEFAULT </label>
+                            </td>
+                        </tr>`
+                } else {
+                    tur[ur] = `
+                        <tr id='scheduler_${r}_units_${ur}'>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_0' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][0]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_1' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][1]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_2' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][2]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_3' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][3]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_4' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][4]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_5' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][5]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_6' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][6]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_7' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][7]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_8' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][8]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_9' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][9]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_10' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][10]} style="width: 30px"/></td>
+                            <td><input id='scheduler_${r}_units_${ur}_unit_11' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][11]} style="width: 30px"/></td>
+                        </tr>`
+                }
             }
 
             tr.push(`
@@ -327,23 +336,8 @@ function fillSchedulerTable(){
 
 function handleAddAttackEvent(row) {
 	console.log("Add attack to row " + row);
-	var attacks = $('#scheduler_'+row+'_units-table tr').length
-    $('#scheduler_'+row+'_units-table').append(
-        `<tr id='scheduler_${row}_units_${attacks}'>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_0' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_1' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_2' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_3' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_4' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_5' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_6' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_7' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_8' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_9' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_10' value=0 style="width: 30px"/></td>
-            <td><input id='scheduler_${row}_units_${attacks}_unit_11' value=0 style="width: 30px"/></td>
-        </tr>`
-    )
+	SETTINGS.scheduler[row][scheduler_units_index].push([0,0,0,0,0,0,0,0,0,0,0,0])
+    fillSchedulerTable()
     saveSettings()
 }
 function handleOffAttackEvent(row) {
@@ -353,11 +347,18 @@ function handleOffAttackEvent(row) {
     saveSettings()
 }
 
+function handleTrainAttackEvent(row) {
+	console.log("Train to row " + row);
+	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,0,"all",0,"all","all",0,"all","all","all",0],[],[],[]]
+    fillSchedulerTable()
+    saveSettings()
+}
+
 function handleRemoveAttackEvent(row) {
 	console.log("Remove attack from row " + row);
-	var attacks = $('#scheduler_'+row+'_units-table tr').length - 1
-	$('#scheduler_'+row+'_units_'+ attacks).remove();
-	saveSettings()
+	SETTINGS.scheduler[row][scheduler_units_index].splice(-1)
+    fillSchedulerTable()
+    saveSettings()
 }
 
 function handleAddRowEvent() {
@@ -536,21 +537,25 @@ function saveSettings() {
         if($('#scheduler_'+i+'_type').length > 0){
         	var units = new Array()
             for (var ui=0; ui < 999; ui++){
-                if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
-                    units.push([
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_0').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_1').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_2').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_3').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_4').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_5').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_6').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_7').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_8').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_9').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_10').val(),
-                        $('#scheduler_'+i+'_units_'+ui+'_unit_11').val()
-                    ])
+                if($('#scheduler_'+i+'_units_'+ui).length > 0){
+                    if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
+                        units.push([
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_0').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_1').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_2').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_3').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_4').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_5').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_6').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_7').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_8').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_9').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_10').val(),
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_11').val()
+                        ])
+                    } else {
+                        units.push([])
+                    }
                 }else{
                     ui = 999999
                 }
