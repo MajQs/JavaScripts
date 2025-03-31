@@ -247,8 +247,9 @@ function fillSchedulerTable(){
                 if(SETTINGS.scheduler[r][scheduler_units_index][ur].length == 0){
                     tur[ur] = `
                         <tr id='scheduler_${r}_units_${ur}'>
-                            <td colspan = "11">
-                                <label> DEFAULT </label>
+                            <td></td>
+                            <td colspan = "10">
+                                <strong> AUTOMATIC FILL </strong>
                             </td>
                         </tr>`
                 } else {
@@ -349,7 +350,9 @@ function handleOffAttackEvent(row) {
 
 function handleTrainAttackEvent(row) {
 	console.log("Train to row " + row);
-	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,0,"all",0,"all","all",0,"all","all","all",0],[],[],[]]
+	var axe = schedulerVillageUnitsMap.get(SETTINGS.scheduler[row][scheduler_fromVillage_index])[3]
+	var axe_for_first_attack = Math.round(axe * 0.95)
+	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,0,axe_for_first_attack,0,"all","all",0,"all","all","all",1],[],[],[]]
     fillSchedulerTable()
     saveSettings()
 }
