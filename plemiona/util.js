@@ -238,6 +238,9 @@ function fillSchedulerTable(){
             }
 
             var tur = new Array()
+
+            var villageUnits = getVillageUnits(SETTINGS.scheduler[r][fromVillage_index])
+
             for (var ur=0; ur < SETTINGS.scheduler[r][units_index].length; ur++){
                 tur[ur] = `
                     <tr id='scheduler_${r}_units_${ur}'>
@@ -292,6 +295,20 @@ function fillSchedulerTable(){
                     </select></td>
                 <td>
                     <table id='scheduler_${r}_units-table'>
+                        <tr>
+                            <td><label>${villageUnits[0]}</label></td>
+                            <td><label>${villageUnits[1]}</label></td>
+                            <td><label>${villageUnits[2]}</label></td>
+                            <td><label>${villageUnits[3]}</label></td>
+                            <td><label>${villageUnits[4]}</label></td>
+                            <td><label>${villageUnits[5]}</label></td>
+                            <td><label>${villageUnits[6]}</label></td>
+                            <td><label>${villageUnits[7]}</label></td>
+                            <td><label>${villageUnits[8]}</label></td>
+                            <td><label>${villageUnits[9]}</label></td>
+                            <td><label>${villageUnits[10]}</label></td>
+                            <td><label>${villageUnits[11]}</label></td>
+                        </tr>
                         ${tur.join('')}
                     </table>
                     <button type="button" onclick="handleAddAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
@@ -400,7 +417,9 @@ function calculateTime(row){
         var sendDate = new Date(entryDate - diff)
         $("#scheduler_"+row+"_sendTime").val(sendDate.format("yyyy-mm-dd'T'HH:MM:ss.l"))
     }
-    saveSettings()
+    if(saveSettings()){
+        fillSchedulerTable()
+    }
 }
 
 function schedulerUnits(i){
@@ -429,7 +448,40 @@ function schedulerUnits(i){
     return units
 }
 
-var saveSettings = () => {
+function getVillageUnits(villageId){
+    var Request = new XMLHttpRequest();
+    Request.open('GET', 'game.php?village='+villageId+'&screen=train', false);
+    Request.send(null);
+    var units = $("<div>").html(Request.responseText).find("#train_form").find('tr');
+
+    function getUnit(unitName){
+        for(let i=0; i<units.length; i++){
+            if(units.eq(i).find(".nowrap a").attr("data-unit") == unitName){
+                return units.eq(i).find("td").eq(2).text().split("/")[0]
+            }
+        }
+        return 0
+    }
+
+    var units = [
+        getUnit("spear"),
+        getUnit("sword"),
+        getUnit("axe"),
+        getUnit("archer"),
+        getUnit("spy"),
+        getUnit("light"),
+        getUnit("marcher"),
+        getUnit("heavy"),
+        getUnit("ram"),
+        getUnit("catapult"),
+        getUnit("knight"),
+        getUnit("snob")
+    ]
+
+    return units
+}
+
+function saveSettings() {
 	console.log("Save config");
 
     var scheduler_items = new Array()
@@ -504,6 +556,8 @@ var saveSettings = () => {
 
 	localStorage.setItem("MajQs.settings", JSON.stringify(new_conf))
 	SETTINGS = new_conf
+
+	return true
 }
 function settingsUI() {
 	const settings_image = document.createElement('img');
@@ -517,6 +571,8 @@ function settingsUI() {
 	$('td .menu-side').eq(1).append(settings_image)
 }
 settingsUI()
+
+
 
 // *** PAGES ***
 function goToScavengePage() {
