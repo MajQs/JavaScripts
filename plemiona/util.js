@@ -318,6 +318,7 @@ function fillSchedulerTable(){
     }
 
 	$('#scheduler-table').eq(0).html(tr.join(''))
+	checkParallelSendingAttacks()
 }
 
 function handleAddAttackEvent(row) {
@@ -434,10 +435,11 @@ function checkParallelSendingAttacks(){
             for (var i2=0; i2 < 999; i2++){
                 if($('#scheduler_'+i2+'_type').length > 0){
                     diff = (new Date($('#scheduler_'+i+'_sendTime').val()) - new Date($('#scheduler_'+i2+'_sendTime').val())) / 1000 / 60
-                    if(diff >= -2 && diff <= 2){
-                        $("#scheduler_0_sendTime").css("background-color","red");
+                    if(diff > -2 && diff < 2 && i != i2){
+                        $('#scheduler_'+i+'_sendTime').css("background-color","red");
+                        i2 = 999
                     } else {
-                        $("#scheduler_0_sendTime").css("background-color","white");
+                        $('#scheduler_'+i+'_sendTime').css("background-color","white");
                     }
                 }else{
                     i2 = 999
