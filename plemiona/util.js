@@ -667,6 +667,7 @@ function goToCommandPageFor(village) {
 function getPlayerVillages(){
     var playerVillages = JSON.parse(localStorage.getItem("MajQs.playerVillages"))
     if(playerVillages == null){
+        goToNextLevel(collectAFStatisticsLevel)
         return new Map()
     }else {
         return new Map(playerVillages)

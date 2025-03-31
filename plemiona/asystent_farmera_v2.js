@@ -1,3 +1,8 @@
+function getFarmVillageDoneList(){
+    a = localStorage.getItem("MajQs.farmVillageDoneList")
+    return a == null ? [] : a
+}
+
 function processCollectAFStatistics() {
     console.log("Processing collecting AF statistics..." );
     var playerVillages = Array.from(getPlayerVillages())
@@ -126,7 +131,7 @@ function nextVillage(){
         nextVillage.click()
     }else{
         playerVillages = getPlayerVillages()
-        JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList"))
+        JSON.parse(getFarmVillageDoneList())
             .forEach((villageId) => playerVillages.delete(villageId));
         if(playerVillages.size > 0){
             goToAfPageFor(playerVillages.entries().next().value[0])
@@ -271,10 +276,7 @@ if (isAF()) {
     setTimeout(function() {
 
         function isVillageAlreadyNotVisited(){
-            var farmVillageDoneList = JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList"));
-            if(farmVillageDoneList == null) {
-                farmVillageDoneList = []
-            }
+            var farmVillageDoneList = JSON.parse(getFarmVillageDoneList());
             for(let i=0; i<farmVillageDoneList.length; i++){
                 if(farmVillageDoneList[i] == $.cookie("global_village_id")){
                     return false
@@ -289,7 +291,7 @@ if (isAF()) {
             if(isVillageAlreadyNotVisited() && SETTINGS.farm.maxDistance != 0){
                 processFarm();
             } else {
-                if(localStorage.getItem("MajQs.farmVillageDoneList") != null && JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
+                if(JSON.parse(getFarmVillageDoneList()).length >= getPlayerVillages().size ){
                     goToScavengePage()
                 } else {
                     nextVillage()
@@ -300,3 +302,4 @@ if (isAF()) {
 } else {
     localStorage.removeItem("MajQs.farmVillageDoneList");
 }
+
