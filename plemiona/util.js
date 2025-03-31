@@ -76,15 +76,15 @@ var handleSettingsEvent = () => {
 			<fieldset><legend>Farm</legend><table>
                 <tr>
                     <td><label>Max distance:</label></td>
-                    <td><input id='farm-maxDistance' type="number" value='${SETTINGS.farm.maxDistance} onchange="saveSettings()" '/></td>
+                    <td><input id='farm-maxDistance' type="number" value='${SETTINGS.farm.maxDistance}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label>Speed in Milliseconds:</label></td>
-                    <td><input id='farm-speedInMilliseconds' type="number" value='${SETTINGS.farm.speedInMilliseconds} onchange="saveSettings()" '/></td>
+                    <td><input id='farm-speedInMilliseconds' type="number" value='${SETTINGS.farm.speedInMilliseconds}' onchange="saveSettings()" /></td>
                 </tr>
                 <tr>
                     <td><label for="repeatWhenNoMoreVillagesLeft">Repeat when no more villages left</label></td>
-                    <td><input type="checkbox" id="farm-repeatWhenNoMoreVillagesLeft" name="repeatWhenNoMoreVillagesLeft" onchange="saveSettings()" ></td>
+                    <td><input type="checkbox" id="farm-repeatWhenNoMoreVillagesLeft" name="repeatWhenNoMoreVillagesLeft" onchange="saveSettings()" /></td>
                 </tr>
 			</table></fieldset>
 			<fieldset><legend>Wrecker</legend><table>
