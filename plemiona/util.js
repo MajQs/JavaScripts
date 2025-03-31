@@ -477,37 +477,44 @@ function schedulerUnits(i){
     return units
 }
 
+var schedulerVillageUnitsMap = new Map()
 function getVillageUnits(villageId){
-    var Request = new XMLHttpRequest();
-    Request.open('GET', 'game.php?village='+villageId+'&screen=train', false);
-    Request.send(null);
-    var units = $("<div>").html(Request.responseText).find("#train_form").find('tr');
 
-    function getUnit(unitName){
-        for(let i=0; i<units.length; i++){
-            if(units.eq(i).find(".nowrap a").attr("data-unit") == unitName){
-                return units.eq(i).find("td").eq(2).text().split("/")[0]
+    var villageUnits = schedulerVillageUnitsMap.get(villageId)
+    if(villageUnits == null){
+        var Request = new XMLHttpRequest();
+        Request.open('GET', 'game.php?village='+villageId+'&screen=train', false);
+        Request.send(null);
+        var units = $("<div>").html(Request.responseText).find("#train_form").find('tr');
+
+        function getUnit(unitName){
+            for(let i=0; i<units.length; i++){
+                if(units.eq(i).find(".nowrap a").attr("data-unit") == unitName){
+                    return units.eq(i).find("td").eq(2).text().split("/")[0]
+                }
             }
+            return 0
         }
-        return 0
+
+        var units = [
+            getUnit("spear"),
+            getUnit("sword"),
+            getUnit("axe"),
+            getUnit("archer"),
+            getUnit("spy"),
+            getUnit("light"),
+            getUnit("marcher"),
+            getUnit("heavy"),
+            getUnit("ram"),
+            getUnit("catapult"),
+            getUnit("knight"),
+            getUnit("snob")
+        ]
+        schedulerVillageUnitsMap.set(villageId, units)
+        return units
+    } else {
+        return villageUnits
     }
-
-    var units = [
-        getUnit("spear"),
-        getUnit("sword"),
-        getUnit("axe"),
-        getUnit("archer"),
-        getUnit("spy"),
-        getUnit("light"),
-        getUnit("marcher"),
-        getUnit("heavy"),
-        getUnit("ram"),
-        getUnit("catapult"),
-        getUnit("knight"),
-        getUnit("snob")
-    ]
-
-    return units
 }
 
 function saveSettings() {
