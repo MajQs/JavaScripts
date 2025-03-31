@@ -289,7 +289,7 @@ if (isAF()) {
             if(isVillageAlreadyNotVisited() && SETTINGS.farm.maxDistance != 0){
                 processFarm();
             } else {
-                if(JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
+                if(localStorage.getItem("MajQs.farmVillageDoneList") != null && JSON.parse(localStorage.getItem("MajQs.farmVillageDoneList")).length >= getPlayerVillages().size ){
                     goToScavengePage()
                 } else {
                     nextVillage()
