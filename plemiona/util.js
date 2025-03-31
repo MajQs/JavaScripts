@@ -203,7 +203,7 @@ var handleSettingsEvent = () => {
 
 var scheduler_type_index = 0
 var scheduler_timeCheckbox_index = 1
-var scheduler_type_index = 2
+var scheduler_sendTime_index = 2
 var scheduler_attackTime_index = 3
 var scheduler_fromVillage_index = 4
 var scheduler_toCords_index = 5
@@ -279,7 +279,7 @@ function fillSchedulerTable(){
                       <option value="Pomoc" ${SETTINGS.scheduler[r][scheduler_type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
                     </select></td>
                 <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="checkboxEvent(0, ${r})" name="" ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_type_index]} ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 0 ? '' : 'disabled'}/></td>
+                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_sendTime_index]} ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 0 ? '' : 'disabled'}/></td>
                 <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="checkboxEvent(1, ${r})" name="" ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
                 <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_attackTime_index]} ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 1 ? '' : 'disabled'} /></td>
                 <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="handleVillageChange(${r})">
@@ -982,56 +982,15 @@ if (isIncomingsAttacks()) {
     }, 1500)
 }
 
-function schedulerCalculateSendDate(){
-    var playerVillages = getPlayerVillages()
-    var worldSetup = getWorldSetup()
-    var scheduler = []
-    function getSlowestUnitFactor(attacks){
-        var unitSpeeds = [18,22,18,18,9,10,10,11,30,30,10,35]
-        var slowestUnitFactor = 0
-        for(let ai=0; ai< attacks.length; ai++){
-            units = attacks[ai]
-            for(let i=0; i< units.length; i++){
-                if((units[i] > 0 || units[i] == "all") && unitSpeeds[i] > slowestUnitFactor){
-                    slowestUnitFactor = unitSpeeds[i]
-                }
-            }
-        }
-        return slowestUnitFactor
-    }
-    function roundToSeconds(date) {
-      p = 1000;
-      return new Date(Math.round(date.getTime() / p ) * p);
-    }
-
-    for(let i=0; i < SETTINGS.scheduler.length; i++){
-        var entryDate = new Date(SETTINGS.scheduler[i][1]);
-        var playerVillage = playerVillages.get(villageNameToId(SETTINGS.scheduler[i][2]))
-        if(playerVillage != null){
-            var targetCoords = SETTINGS.scheduler[i][3].split("|")
-            var distance = Math.sqrt(Math.pow(targetCoords[0]-playerVillage.X,2)+Math.pow(targetCoords[1]-playerVillage.Y,2))
-            var sendDate = entryDate - roundToSeconds(new Date(distance * worldSetup.speed * worldSetup.unit_speed * getSlowestUnitFactor(SETTINGS.scheduler[i][5]) * 60000))
-            scheduler.push({
-                "item": i,
-                "sendDateUTC": new Date(sendDate)
-            })
-        }
-    }
-    localStorage.setItem("MajQs.scheduler", JSON.stringify(scheduler))
-
-    return scheduler
-}
-
-
 function schedulerCheck() {
     if(!shouldProcessLevel(schedulerLevel) && localStorage.getItem("MajQs.scheduledItem") == null){
-        var scheduler = schedulerCalculateSendDate()
+        var scheduler = SETTINGS.scheduler
         var now = new Date();
         for(let i=0; i < scheduler.length; i++){
-            var sendDate = new Date(scheduler[i].sendDateUTC);
+            var sendDate = new Date(scheduler[i][scheduler_sendTime_index]);
             var diffMins = (sendDate - now) / 60000
-            if(diffMins > 0 && diffMins <= 2){
-                localStorage.setItem("MajQs.scheduledItem", scheduler[i].item)
+            if(diffMins > 0 && diffMins < 2){
+                localStorage.setItem("MajQs.scheduledItem", i)
                 goToNextLevel(schedulerLevel)
             }
         }
