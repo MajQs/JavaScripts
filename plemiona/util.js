@@ -201,6 +201,15 @@ var handleSettingsEvent = () => {
     fillSchedulerTable()
 }
 
+var scheduler_type_index = 0
+var scheduler_timeCheckbox_index = 1
+var scheduler_type_index = 2
+var scheduler_attackTime_index = 3
+var scheduler_fromVillage_index = 4
+var scheduler_toCords_index = 5
+var scheduler_target_index = 6
+var scheduler_units_index = 7
+
 function fillSchedulerTable(){
 	const settings_image = document.createElement('img');
 	settings_image.setAttribute('id', 'MajQs-settings');
@@ -221,41 +230,34 @@ function fillSchedulerTable(){
         </tr>`)
     for (var r=0; r < SETTINGS.scheduler.length; r++){
 
-            var type_index = 0
-            var timeCheckbox_index = 1
-            var sendTime_index = 2
-            var attackTime_index = 3
-            var fromVillage_index = 4
-            var toCords_index = 5
-            var target_index = 6
-            var units_index = 7
+
 
             var tv = new Array()
             var playerVillages = Array.from(getPlayerVillages())
             playerVillages.sort((x, y) => x[1].name.localeCompare(y[1].name))
             for (var v=0; v < playerVillages.length; v++){
-                tv[v] = `<option value=${playerVillages[v][0]} ${SETTINGS.scheduler[r][fromVillage_index] == playerVillages[v][0] ? 'selected="selected"' : ''} >${playerVillages[v][1].name}</option>`
+                tv[v] = `<option value=${playerVillages[v][0]} ${SETTINGS.scheduler[r][scheduler_fromVillage_index] == playerVillages[v][0] ? 'selected="selected"' : ''} >${playerVillages[v][1].name}</option>`
             }
 
             var tur = new Array()
 
-            var villageUnits = getVillageUnits(SETTINGS.scheduler[r][fromVillage_index])
+            var villageUnits = getVillageUnits(SETTINGS.scheduler[r][scheduler_fromVillage_index])
 
-            for (var ur=0; ur < SETTINGS.scheduler[r][units_index].length; ur++){
+            for (var ur=0; ur < SETTINGS.scheduler[r][scheduler_units_index].length; ur++){
                 tur[ur] = `
                     <tr id='scheduler_${r}_units_${ur}'>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_0' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][0]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_1' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][1]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_2' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][2]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_3' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][3]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_4' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][4]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_5' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][5]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_6' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][6]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_7' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][7]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_8' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][8]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_9' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][9]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_10' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][10]} style="width: 30px"/></td>
-                        <td><input id='scheduler_${r}_units_${ur}_unit_11' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][units_index][ur][11]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_0' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][0]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_1' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][1]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_2' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][2]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_3' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][3]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_4' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][4]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_5' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][5]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_6' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][6]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_7' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][7]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_8' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][8]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_9' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][9]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_10' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][10]} style="width: 30px"/></td>
+                        <td><input id='scheduler_${r}_units_${ur}_unit_11' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_units_index][ur][11]} style="width: 30px"/></td>
                     </tr>`
             }
 
@@ -263,35 +265,35 @@ function fillSchedulerTable(){
             <tr style="border-bottom: 1pt solid black;">
                 <td><button type="button" onclick="handleRemoveRowEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">-</button></td>
                 <td><select name="Typ" id='scheduler_${r}_type' onchange="saveSettings()">
-                      <option value="Napad" ${SETTINGS.scheduler[r][type_index] == "Napad" ? 'selected="selected"' : ''} >Napad</option>
-                      <option value="Pomoc" ${SETTINGS.scheduler[r][type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
+                      <option value="Napad" ${SETTINGS.scheduler[r][scheduler_type_index] == "Napad" ? 'selected="selected"' : ''} >Napad</option>
+                      <option value="Pomoc" ${SETTINGS.scheduler[r][scheduler_type_index] == "Pomoc" ? 'selected="selected"' : ''} >Pomoc</option>
                     </select></td>
-                <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="checkboxEvent(0, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][sendTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled'}/></td>
-                <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="checkboxEvent(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
-                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][attackTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? '' : 'disabled'} /></td>
+                <td><input type="checkbox" id="scheduler_${r}_sendTime_checkbox" onclick="checkboxEvent(0, ${r})" name="" ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 0 ? 'checked="checked"' : ''}></td>
+                <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_type_index]} ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 0 ? '' : 'disabled'}/></td>
+                <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="checkboxEvent(1, ${r})" name="" ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
+                <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_attackTime_index]} ${SETTINGS.scheduler[r][scheduler_timeCheckbox_index] == 1 ? '' : 'disabled'} /></td>
                 <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="handleVillageChange(${r})">
                         ${tv.join('')}
                     </select></td>
-                <td><input id='scheduler_${r}_toCords' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][toCords_index]} style="width: 40px"/></td>
+                <td><input id='scheduler_${r}_toCords' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][scheduler_toCords_index]} style="width: 40px"/></td>
                 <td><select name="Cel" id="scheduler_${r}_target" onchange="saveSettings()">
-                      <option value="" ${SETTINGS.scheduler[r][target_index] == "" ? 'selected="selected"' : ''}>Domyślny</option>
-                      <option value="Ratusz" ${SETTINGS.scheduler[r][target_index] == "Ratusz" ? 'selected="selected"' : ''}>Ratusz</option>
-                      <option value="Koszary" ${SETTINGS.scheduler[r][target_index] == "Koszary" ? 'selected="selected"' : ''}>Koszary</option>
-                      <option value="Stajnia" ${SETTINGS.scheduler[r][target_index] == "Stajnia" ? 'selected="selected"' : ''}>Stajnia</option>
-                      <option value="Warsztat" ${SETTINGS.scheduler[r][target_index] == "Warsztat" ? 'selected="selected"' : ''}>Warsztat</option>
-                      <option value="Kościół" ${SETTINGS.scheduler[r][target_index] == "Kościół" ? 'selected="selected"' : ''}>Kościół</option>
-                      <option value="Pałac" ${SETTINGS.scheduler[r][target_index] == "Pałac" ? 'selected="selected"' : ''}>Pałac</option>
-                      <option value="Kuźnia" ${SETTINGS.scheduler[r][target_index] == "Kuźnia" ? 'selected="selected"' : ''}>Kuźnia</option>
-                      <option value="Plac" ${SETTINGS.scheduler[r][target_index] == "Plac" ? 'selected="selected"' : ''}>Plac</option>
-                      <option value="Piedestał" ${SETTINGS.scheduler[r][target_index] == "Piedestał" ? 'selected="selected"' : ''}>Piedestał</option>
-                      <option value="Rynek" ${SETTINGS.scheduler[r][target_index] == "Rynek" ? 'selected="selected"' : ''}>Rynek</option>
-                      <option value="Tartak" ${SETTINGS.scheduler[r][target_index] == "Tartak" ? 'selected="selected"' : ''}>Tartak</option>
-                      <option value="Cegielnia" ${SETTINGS.scheduler[r][target_index] == "Cegielnia" ? 'selected="selected"' : ''}>Cegielnia</option>
-                      <option value="Huta żelaza" ${SETTINGS.scheduler[r][target_index] == "Huta żelaza" ? 'selected="selected"' : ''}>Huta żelaza</option>
-                      <option value="Zagroda" ${SETTINGS.scheduler[r][target_index] == "Zagroda" ? 'selected="selected"' : ''}>Zagroda</option>
-                      <option value="Spichlerz" ${SETTINGS.scheduler[r][target_index] == "Spichlerz" ? 'selected="selected"' : ''}>Spichlerz</option>
-                      <option value="Mur" ${SETTINGS.scheduler[r][target_index] == "Mur" ? 'selected="selected"' : ''}>Mur</option>
+                      <option value="" ${SETTINGS.scheduler[r][scheduler_target_index] == "" ? 'selected="selected"' : ''}>Domyślny</option>
+                      <option value="Ratusz" ${SETTINGS.scheduler[r][scheduler_target_index] == "Ratusz" ? 'selected="selected"' : ''}>Ratusz</option>
+                      <option value="Koszary" ${SETTINGS.scheduler[r][scheduler_target_index] == "Koszary" ? 'selected="selected"' : ''}>Koszary</option>
+                      <option value="Stajnia" ${SETTINGS.scheduler[r][scheduler_target_index] == "Stajnia" ? 'selected="selected"' : ''}>Stajnia</option>
+                      <option value="Warsztat" ${SETTINGS.scheduler[r][scheduler_target_index] == "Warsztat" ? 'selected="selected"' : ''}>Warsztat</option>
+                      <option value="Kościół" ${SETTINGS.scheduler[r][scheduler_target_index] == "Kościół" ? 'selected="selected"' : ''}>Kościół</option>
+                      <option value="Pałac" ${SETTINGS.scheduler[r][scheduler_target_index] == "Pałac" ? 'selected="selected"' : ''}>Pałac</option>
+                      <option value="Kuźnia" ${SETTINGS.scheduler[r][scheduler_target_index] == "Kuźnia" ? 'selected="selected"' : ''}>Kuźnia</option>
+                      <option value="Plac" ${SETTINGS.scheduler[r][scheduler_target_index] == "Plac" ? 'selected="selected"' : ''}>Plac</option>
+                      <option value="Piedestał" ${SETTINGS.scheduler[r][scheduler_target_index] == "Piedestał" ? 'selected="selected"' : ''}>Piedestał</option>
+                      <option value="Rynek" ${SETTINGS.scheduler[r][scheduler_target_index] == "Rynek" ? 'selected="selected"' : ''}>Rynek</option>
+                      <option value="Tartak" ${SETTINGS.scheduler[r][scheduler_target_index] == "Tartak" ? 'selected="selected"' : ''}>Tartak</option>
+                      <option value="Cegielnia" ${SETTINGS.scheduler[r][scheduler_target_index] == "Cegielnia" ? 'selected="selected"' : ''}>Cegielnia</option>
+                      <option value="Huta żelaza" ${SETTINGS.scheduler[r][scheduler_target_index] == "Huta żelaza" ? 'selected="selected"' : ''}>Huta żelaza</option>
+                      <option value="Zagroda" ${SETTINGS.scheduler[r][scheduler_target_index] == "Zagroda" ? 'selected="selected"' : ''}>Zagroda</option>
+                      <option value="Spichlerz" ${SETTINGS.scheduler[r][scheduler_target_index] == "Spichlerz" ? 'selected="selected"' : ''}>Spichlerz</option>
+                      <option value="Mur" ${SETTINGS.scheduler[r][scheduler_target_index] == "Mur" ? 'selected="selected"' : ''}>Mur</option>
                     </select></td>
                 <td>
                     <table id='scheduler_${r}_units-table'>
@@ -312,6 +314,8 @@ function fillSchedulerTable(){
                         ${tur.join('')}
                     </table>
                     <button type="button" onclick="handleAddAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
+                    <button type="button" onclick="handleOffAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Off</button>
+                    <button type="button" onclick="handleTrainAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Train</button>
                     <button type="button" onclick="handleRemoveAttackEvent(${r})" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Remove</button>
                 </td>
             </tr>`)
@@ -325,7 +329,7 @@ function handleAddAttackEvent(row) {
 	console.log("Add attack to row " + row);
 	var attacks = $('#scheduler_'+row+'_units-table tr').length
     $('#scheduler_'+row+'_units-table').append(
-        `<tr id='scheduler_${row}_units_${ur}'>
+        `<tr id='scheduler_${row}_units_${attacks}'>
             <td><input id='scheduler_${row}_units_${attacks}_unit_0' value=0 style="width: 30px"/></td>
             <td><input id='scheduler_${row}_units_${attacks}_unit_1' value=0 style="width: 30px"/></td>
             <td><input id='scheduler_${row}_units_${attacks}_unit_2' value=0 style="width: 30px"/></td>
@@ -342,6 +346,13 @@ function handleAddAttackEvent(row) {
     )
     saveSettings()
 }
+function handleOffAttackEvent(row) {
+	console.log("Off to row " + row);
+	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,0,"all",0,"all","all",0,"all","all","all",0]]
+    fillSchedulerTable()
+    saveSettings()
+}
+
 function handleRemoveAttackEvent(row) {
 	console.log("Remove attack from row " + row);
 	var attacks = $('#scheduler_'+row+'_units-table tr').length - 1
