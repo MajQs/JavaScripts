@@ -270,7 +270,7 @@ function fillSchedulerTable(){
                 <td><input id='scheduler_${r}_sendTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][sendTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 0 ? '' : 'disabled'}/></td>
                 <td><input type="checkbox" id="scheduler_${r}_attackTime_checkbox" onclick="checkboxEvent(1, ${r})" name="" ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? 'checked="checked"' : ''}></td>
                 <td><input id='scheduler_${r}_attackTime' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][attackTime_index]} ${SETTINGS.scheduler[r][timeCheckbox_index] == 1 ? '' : 'disabled'} /></td>
-                <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="calculateTime(${r})">
+                <td><select name="Typ" id='scheduler_${r}_fromVillage' onchange="handleVillageChange(${r})">
                         ${tv.join('')}
                     </select></td>
                 <td><input id='scheduler_${r}_toCords' onchange="calculateTime(${r})" value=${SETTINGS.scheduler[r][toCords_index]} style="width: 40px"/></td>
@@ -362,6 +362,12 @@ function handleRemoveRowEvent(row) {
     saveSettings()
 }
 
+function handleVillageChange(row){
+    if(calculateTime(row)){
+        fillSchedulerTable()
+    }
+}
+
 function checkboxEvent(i, row) {
 	console.log("Calculate time for row " + row);
 
@@ -417,9 +423,8 @@ function calculateTime(row){
         var sendDate = new Date(entryDate - diff)
         $("#scheduler_"+row+"_sendTime").val(sendDate.format("yyyy-mm-dd'T'HH:MM:ss.l"))
     }
-    if(saveSettings()){
-        fillSchedulerTable()
-    }
+
+    return saveSettings()
 }
 
 function schedulerUnits(i){
