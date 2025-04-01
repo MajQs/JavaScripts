@@ -370,7 +370,7 @@ function handleAddRowEvent() {
 	SETTINGS.scheduler.push(SETTINGS.scheduler[SETTINGS.scheduler.length-1])
     fillSchedulerTable()
     saveSettings()
-}t
+}
 
 function handleRemoveRowEvent(row) {
 	console.log("Add row");
