@@ -206,6 +206,7 @@ function schedulerSubmit(){
 
     var action = SETTINGS.scheduler[localStorage.getItem("MajQs.scheduledItem")]
     SETTINGS.scheduler.splice(localStorage.getItem("MajQs.scheduledItem"),1)
+    localStorage.setItem("MajQs.settings", JSON.stringify(SETTINGS))
 
     units = action[scheduler_units_index]
     for(let i=1; i < units.length; i++){
