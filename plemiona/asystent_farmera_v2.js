@@ -288,7 +288,9 @@ if (isAF()) {
         if(shouldProcessLevel(collectAFStatisticsLevel)){
             processCollectAFStatistics();
         } else {
-            if(isVillageAlreadyNotVisited() && SETTINGS.farm.maxDistance != 0){
+            if(SETTINGS.farm.maxDistance == 0){
+                goToScavengePage()
+            } else if(isVillageAlreadyNotVisited() ){
                 processFarm();
             } else {
                 if(getFarmVillageDoneList().length >= getPlayerVillages().size ){
