@@ -169,14 +169,14 @@ function isScavenge() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('mode') === "scavenge"
+    return params.get('mode') === "scavenge" && $(".captcha").length == 0
 }
 
 function isMassScavenge() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('mode') === "scavenge_mass"
+    return params.get('mode') === "scavenge_mass" && $(".captcha").length == 0
 }
 
 function getLeftTime(){

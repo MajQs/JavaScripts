@@ -189,14 +189,14 @@ function isCommand() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('screen') === "place" && $("#target_attack").length > 0
+    return params.get('screen') === "place" && $("#target_attack").length > 0 && $(".captcha").length == 0
 }
 
 function isCommandConfirm() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('screen') === "place" && $("#troop_confirm_submit").length > 0
+    return params.get('screen') === "place" && $("#troop_confirm_submit").length > 0 && $(".captcha").length == 0
 }
 
 function schedulerSubmit(){

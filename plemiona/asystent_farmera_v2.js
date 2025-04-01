@@ -268,7 +268,7 @@ function isAF() {
     var url = new URL(window.location.href);
     var params = new URLSearchParams(url.search);
 
-    return params.get('screen') === "am_farm"
+    return params.get('screen') === "am_farm" && $(".captcha").length == 0
 }
 
 if (isAF()) {
