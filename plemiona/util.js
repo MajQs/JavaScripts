@@ -451,7 +451,7 @@ function checkSendingAttacksTime(){
                 if($('#scheduler_'+i2+'_type').length > 0){
                     diff = (new Date($('#scheduler_'+i+'_sendTime').val()) - new Date($('#scheduler_'+i2+'_sendTime').val())) / 1000 / 60
                     if(diff > -2 && diff < 2 && i != i2
-                        || new Date($('#scheduler_'+i+'_sendTime').val()) <= Date.now()) ){
+                        || new Date($('#scheduler_'+i+'_sendTime').val()) <= Date.now()){
                         $('#scheduler_'+i+'_sendTime').css("background-color","red");
                         i2 = 999
                     } else {
