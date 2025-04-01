@@ -31,7 +31,7 @@ function loadSettings(){
         var default_settings =
         {
             farm: {                               // FARMA -> wysyła A z AF (pełna wygrana lub poziom muru 0)
-                maxDistance: 99,
+                maxDistance: 20,
                 speedInMilliseconds: 700,               // odstęp pomiędzy wysłaniem wojsk (speedInMilliseconds +-250ms)
                 repeatWhenNoMoreVillagesLeft: 1,        // 0 -> idzie do zbieraka, 1 -> wraca na pierwszą strone
                 wrecker: {                              // BURZYCIEL -> wymaga: (1 skan, lk, taran), opcjonalne: kat
@@ -43,9 +43,9 @@ function loadSettings(){
                     }
                 },
                 autoExpansion: {                        // AUTO EKSPANSIA - wysyła 1 skan na niezbadane barby
-                    maxDistance: 30,
+                    maxDistance: 20,
                     maxVillagePoints: 500,                    // aby uniknąć wiosek graczy którzy usuneli konto itp.
-                    dailyNumberOfAttacksFromVillage: 50       // ilość ataków z jednej wioski gracza na dzień
+                    dailyNumberOfAttacksFromVillage: 99999       // ilość ataków z jednej wioski gracza na dzień
                 }
             },
             scavenger: {                              // ZBIERAK -> nie bierze LK pod uwagę

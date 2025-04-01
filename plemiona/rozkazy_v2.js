@@ -153,29 +153,30 @@ function processScheduler() {
             }
         }
 
-        playerVillageId = action[2]
+        playerVillageId = action[scheduler_fromVillage_index]
         if($.cookie("global_village_id") != playerVillageId){
             goToCommandPageFor(playerVillageId)
         } else {
-            setUnit("spear", action[5][0][0])
-            setUnit("sword", action[5][0][1])
-            setUnit("axe", action[5][0][2])
-            setUnit("archer", action[5][0][3])
-            setUnit("spy", action[5][0][4])
-            setUnit("light", action[5][0][5])
-            setUnit("marcher", action[5][0][6])
-            setUnit("heavy", action[5][0][7])
-            setUnit("ram", action[5][0][8])
-            setUnit("catapult", action[5][0][9])
-            setUnit("knight", action[5][0][10])
-            setUnit("snob", action[5][0][11])
+            units = action[scheduler_units_index]
+            setUnit("spear", units[0][0])
+            setUnit("sword", units[0][1])
+            setUnit("axe", units[0][2])
+            setUnit("archer", units[0][3])
+            setUnit("spy", units[0][4])
+            setUnit("light", units[0][5])
+            setUnit("marcher", units[0][6])
+            setUnit("heavy", units[0][7])
+            setUnit("ram", units[0][8])
+            setUnit("catapult", units[0][9])
+            setUnit("knight", units[0][10])
+            setUnit("snob", units[0][11])
 
-            $("#place_target").find('input').first().val(action[3])
+            $("#place_target").find('input').first().val(action[scheduler_toCords_index])
 
             setTimeout(function() {
-                if(action[0] == "Napad"){
+                if(action[scheduler_type_index] == "Napad"){
                     $("#target_attack").click()
-                } else if(action[0] == "Pomoc"){
+                } else if(action[scheduler_type_index] == "Pomoc"){
                     $("#target_support").click()
                 }
             }, 1000)
@@ -206,23 +207,24 @@ function schedulerSubmit(){
     var action = SETTINGS.scheduler[localStorage.getItem("MajQs.scheduledItem")]
     SETTINGS.scheduler.splice(localStorage.getItem("MajQs.scheduledItem"),1)
 
-    for(let i=1; i < action[5].length; i++){
+    for(let i=1; i < action[scheduler_type_index].length; i++){
         $("#troop_confirm_train").click()
     }
-    for(let i=1; i < action[5].length; i++){
-        if(action[5][i].length > 0){
-          $('input[name="train['+(i+1)+'][spear]"]').val(action[5][i][0])
-          $('input[name="train['+(i+1)+'][sword]"]').val(action[5][i][1])
-          $('input[name="train['+(i+1)+'][axe]"]').val(action[5][i][2])
-          $('input[name="train['+(i+1)+'][archer]"]').val(action[5][i][3])
-          $('input[name="train['+(i+1)+'][spy]"]').val(action[5][i][4])
-          $('input[name="train['+(i+1)+'][light]"]').val(action[5][i][5])
-          $('input[name="train['+(i+1)+'][marcher]"]').val(action[5][i][6])
-          $('input[name="train['+(i+1)+'][heavy]"]').val(action[5][i][7])
-          $('input[name="train['+(i+1)+'][ram]"]').val(action[5][i][8])
-          $('input[name="train['+(i+1)+'][catapult]"]').val(action[5][i][9])
-          $('input[name="train['+(i+1)+'][knight]"]').val(action[5][i][10])
-          $('input[name="train['+(i+1)+'][snob]"]').val(action[5][i][11])
+    units = action[scheduler_units_index]
+    for(let i=1; i < units.length; i++){
+        if(units[i].length > 0){
+          $('input[name="train['+(i+1)+'][spear]"]').val(units[i][0])
+          $('input[name="train['+(i+1)+'][sword]"]').val(units[i][1])
+          $('input[name="train['+(i+1)+'][axe]"]').val(units[i][2])
+          $('input[name="train['+(i+1)+'][archer]"]').val(units[i][3])
+          $('input[name="train['+(i+1)+'][spy]"]').val(units[i][4])
+          $('input[name="train['+(i+1)+'][light]"]').val(units[i][5])
+          $('input[name="train['+(i+1)+'][marcher]"]').val(units[i][6])
+          $('input[name="train['+(i+1)+'][heavy]"]').val(units[i][7])
+          $('input[name="train['+(i+1)+'][ram]"]').val(units[i][8])
+          $('input[name="train['+(i+1)+'][catapult]"]').val(units[i][9])
+          $('input[name="train['+(i+1)+'][knight]"]').val(units[i][10])
+          $('input[name="train['+(i+1)+'][snob]"]').val(units[i][11])
         }
     }
     Place.confirmScreen.updateUnitsSum()
@@ -245,12 +247,12 @@ function schedulerSubmit(){
       ["Spichlerz", 'storage'],
       ["Mur", 'wall'],
     ]);
-    var catTarget = catTargetMap.get(action[4])
+    var catTarget = catTargetMap.get(action[scheduler_target_index])
     if(catTarget != null){
         $('select[name="building"]').val(catTarget)
     }
 
-    sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
+    sendDate = new Date(action[scheduler_sendTime_index])
 
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
