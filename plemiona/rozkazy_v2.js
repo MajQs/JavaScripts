@@ -207,10 +207,11 @@ function schedulerSubmit(){
     var action = SETTINGS.scheduler[localStorage.getItem("MajQs.scheduledItem")]
     SETTINGS.scheduler.splice(localStorage.getItem("MajQs.scheduledItem"),1)
 
-    for(let i=1; i < action[scheduler_type_index].length; i++){
+    units = action[scheduler_units_index]
+    for(let i=1; i < units.length; i++){
         $("#troop_confirm_train").click()
     }
-    units = action[scheduler_units_index]
+
     for(let i=1; i < units.length; i++){
         if(units[i].length > 0){
           $('input[name="train['+(i+1)+'][spear]"]').val(units[i][0])
