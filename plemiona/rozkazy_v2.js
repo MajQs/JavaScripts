@@ -204,6 +204,8 @@ function schedulerSubmit(){
     Timing.resetTickHandlers()
 
     var action = SETTINGS.scheduler[localStorage.getItem("MajQs.scheduledItem")]
+    SETTINGS.scheduler.splice(localStorage.getItem("MajQs.scheduledItem"),1)
+
     for(let i=1; i < action[5].length; i++){
         $("#troop_confirm_train").click()
     }
@@ -249,6 +251,7 @@ function schedulerSubmit(){
     }
 
     sendDate = new Date(JSON.parse(localStorage.getItem("MajQs.scheduler"))[localStorage.getItem("MajQs.scheduledItem")].sendDateUTC)
+
     localStorage.setItem("MajQs.scriptLevel", autoExpansionLevel)
 
     function greed(){
