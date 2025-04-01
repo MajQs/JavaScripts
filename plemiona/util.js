@@ -366,7 +366,7 @@ function handleRemoveAttackEvent(row) {
 
 function handleAddRowEvent() {
 	console.log("Add row");
-	custom = ["Napad", 0, Date.now().format("yyyy-mm-dd'T'HH:MM:ss.l"), Date.now().format("yyyy-mm-dd'T'HH:MM:ss.l"), $.cookie("global_village_id"), "500|500", "Mur", [[0,0,"all",0,0,10,"all",0,"all","all","all",0]]],
+	custom = ["Napad", 0, new Date().format("yyyy-mm-dd'T'HH:MM:ss.l"), new Date().format("yyyy-mm-dd'T'HH:MM:ss.l"), $.cookie("global_village_id"), "500|500", "Mur", [[0,0,"all",0,0,10,"all",0,"all","all","all",0]]],
 	SETTINGS.scheduler.push(SETTINGS.scheduler[SETTINGS.scheduler.length-1])
     fillSchedulerTable()
     saveSettings()
