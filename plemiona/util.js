@@ -354,9 +354,9 @@ function handleOffAttackEvent(row) {
 
 function handleTrainAttackEvent(row) {
 	console.log("Train to row " + row);
-	var axe = schedulerVillageUnitsMap.get(SETTINGS.scheduler[row][scheduler_fromVillage_index])[3]
+	var axe = schedulerVillageUnitsMap.get(SETTINGS.scheduler[row][scheduler_fromVillage_index])[2]
 	var axe_for_first_attack = Math.round(axe * 0.95)
-	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,0,axe_for_first_attack,0,"all","all",0,"all","all","all",1],[],[],[]]
+	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,axe_for_first_attack,0,0,"all","all",0,"all","all","all",1],[],[],[]]
     fillSchedulerTable()
     saveSettings()
 }
