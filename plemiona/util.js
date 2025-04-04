@@ -338,6 +338,7 @@ function fillSchedulerTable(){
 function handleAddAttackEvent(row) {
 	console.log("Add attack to row " + row);
 	SETTINGS.scheduler[row][scheduler_units_index].push([0,0,0,0,0,0,0,0,0,0,0,0])
+	fillSchedulerTable()
     if(calculateTime(row)){
         fillSchedulerTable()
     }
@@ -345,6 +346,7 @@ function handleAddAttackEvent(row) {
 function handleOffAttackEvent(row) {
 	console.log("Off to row " + row);
 	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]
+	fillSchedulerTable()
     if(calculateTime(row)){
         fillSchedulerTable()
     }
