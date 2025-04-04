@@ -338,14 +338,18 @@ function fillSchedulerTable(){
 function handleAddAttackEvent(row) {
 	console.log("Add attack to row " + row);
 	SETTINGS.scheduler[row][scheduler_units_index].push([0,0,0,0,0,0,0,0,0,0,0,0])
-    fillSchedulerTable()
-    saveSettings()
+    if(calculateTime(row)){
+        fillSchedulerTable()
+        saveSettings()
+    }
 }
 function handleOffAttackEvent(row) {
 	console.log("Off to row " + row);
-	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,0,"all",0,"all","all",0,"all","all","all",0]]
-    fillSchedulerTable()
-    saveSettings()
+	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]
+    if(calculateTime(row)){
+        fillSchedulerTable()
+        saveSettings()
+    }
 }
 
 function handleTrainAttackEvent(row) {
@@ -500,17 +504,13 @@ function getVillageUnits(villageId){
     var villageUnits = schedulerVillageUnitsMap.get(villageId)
     if(villageUnits == null){
         var Request = new XMLHttpRequest();
-        Request.open('GET', 'game.php?village='+villageId+'&screen=train', false);
+        Request.open('GET', 'game.php?village='+villageId+'&screen=place', false);
         Request.send(null);
-        var units = $("<div>").html(Request.responseText).find("#train_form").find('tr');
+        var units = $("<div>").html(Request.responseText)
 
         function getUnit(unitName){
-            for(let i=0; i<units.length; i++){
-                if(units.eq(i).find(".nowrap a").attr("data-unit") == unitName){
-                    return units.eq(i).find("td").eq(2).text().split("/")[0]
-                }
-            }
-            return 0
+            var unit = units.find("#units_entry_all_"+unitName).text()
+            return unit.substr(unit.indexOf('(') + 1, unit.indexOf(')') - 1 )
         }
 
         var units = [
@@ -582,27 +582,27 @@ function saveSettings() {
 
 	var new_conf = {
 	  farm: {
-		maxDistance: $("#farm-maxDistance").val(),
-		speedInMilliseconds: $("#farm-speedInMilliseconds").val(),
+		maxDistance: parseInt($("#farm-maxDistance").val()),
+		speedInMilliseconds: parseInt($("#farm-speedInMilliseconds").val()),
 		repeatWhenNoMoreVillagesLeft: $('#farm-repeatWhenNoMoreVillagesLeft').is(':checked') ? 1 : 0,
 		wrecker: {
-		  maxDistance: $("#wrecker-maxDistance").val(),
+		  maxDistance: parseInt($("#wrecker-maxDistance").val()),
 		  units: {
-			light: $("#wrecker-light").val(),
-			ram: $("#wrecker-ram").val(),
-			catapult: $("#wrecker-catapult").val()
+			light: parseInt($("#wrecker-light").val()),
+			ram: parseInt($("#wrecker-ram").val()),
+			catapult: parseInt($("#wrecker-catapult").val())
 		  }
 		},
 		autoExpansion: {
-		  maxDistance: $("#autoExpansion-maxDistance").val(),
-		  maxVillagePoints: $("#autoExpansion-maxVillagePoints").val(),
+		  maxDistance: parseInt($("#autoExpansion-maxDistance").val()),
+		  maxVillagePoints: parseInt($("#autoExpansion-maxVillagePoints").val()),
 		  dailyNumberOfAttacksFromVillage: 9999 // deprecated
 		}
 	  },
 	  scavenger: {
-		durationInMinutes: $("#scavenger-durationInMinutes").val(),
-		spearSafeguard: $("#scavenger-spearSafeguard").val(),
-		swordSafeguard: $("#scavenger-swordSafeguard").val()
+		durationInMinutes: parseInt($("#scavenger-durationInMinutes").val()),
+		spearSafeguard: parseInt($("#scavenger-spearSafeguard").val()),
+		swordSafeguard: parseInt($("#scavenger-swordSafeguard").val())
 	  },
 	  freeze: {
 		offOnVillages: $("#freeze-offOnVillages").val().split(","),
