@@ -90,12 +90,12 @@ function zbierak(){
         var unlocked_levels = doc.getElementsByClassName('btn btn-default free_send_button');
         var free_levels = unlocked_levels.length - unfree_levels.length;
 
-        if(free_levels == 0)
-//            alert('Brak dostÄpnych poziomĂłw zbieractwa');
-        else{
-            if(unlocked_levels.length > 1 && free_levels == 1 && settings.skip_level_1 == 1)
+        if(free_levels == 0){
+ //            alert('Brak dostÄpnych poziomĂłw zbieractwa');
+        } else {
+            if(unlocked_levels.length > 1 && free_levels == 1 && settings.skip_level_1 == 1){
 //                alert('Ustawiono pominiÄcie 1 poziomu zbieractwa');
-            else{
+            } else {
                 let unit;
                 for(var i = 0; i<7; i++){
                     if(settings.archers == 0)
