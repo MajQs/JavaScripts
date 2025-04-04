@@ -340,7 +340,6 @@ function handleAddAttackEvent(row) {
 	SETTINGS.scheduler[row][scheduler_units_index].push([0,0,0,0,0,0,0,0,0,0,0,0])
     if(calculateTime(row)){
         fillSchedulerTable()
-        saveSettings()
     }
 }
 function handleOffAttackEvent(row) {
@@ -348,7 +347,6 @@ function handleOffAttackEvent(row) {
 	SETTINGS.scheduler[row][scheduler_units_index] = [[0,0,"all",0,0,"all","all",0,"all","all","all",0]]
     if(calculateTime(row)){
         fillSchedulerTable()
-        saveSettings()
     }
 }
 
