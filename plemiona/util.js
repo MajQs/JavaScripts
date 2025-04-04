@@ -506,10 +506,10 @@ function getVillageUnits(villageId){
         var Request = new XMLHttpRequest();
         Request.open('GET', 'game.php?village='+villageId+'&screen=place', false);
         Request.send(null);
-        var units = $("<div>").html(Request.responseText)
+        var response = $("<div>").html(Request.responseText)
 
         function getUnit(unitName){
-            var unit = units.find("#units_entry_all_"+unitName).text()
+            var unit = response.find("#units_entry_all_"+unitName).text()
             return unit.substr(unit.indexOf('(') + 1, unit.indexOf(')') - 1 )
         }
 
