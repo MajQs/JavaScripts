@@ -455,12 +455,30 @@ function checkSendingAttacksTime(){
             for (var i2=0; i2 < 999; i2++){
                 if($('#scheduler_'+i2+'_type').length > 0){
                     diff = (new Date($('#scheduler_'+i+'_sendTime').val()) - new Date($('#scheduler_'+i2+'_sendTime').val())) / 1000 / 60
-                    if(diff > -2 && diff < 2 && i != i2
+                    if(diff > -5 && diff < 5 && i != i2
                         || new Date($('#scheduler_'+i+'_sendTime').val()) <= Date.now()){
                         $('#scheduler_'+i+'_sendTime').css("background-color","red");
                         i2 = 999
                     } else {
                         $('#scheduler_'+i+'_sendTime').css("background-color","white");
+                    }
+                }else{
+                    i2 = 999
+                }
+            }
+        }else{
+            i = 999
+        }
+    }
+
+    for (var i=0; i < 999; i++){
+        if($('#scheduler_'+i+'_type').length > 0){
+            for (var i2=0; i2 < 999; i2++){
+                if($('#scheduler_'+i2+'_type').length > 0){
+                    if($('#scheduler_'+i+'_fromVillage').val() == $('#scheduler_'+i2+'_fromVillage').val()){
+                        $('#scheduler_'+i+'_fromVillage').css("background-color","yellow");
+                    } else {
+                        $('#scheduler_'+i+'_fromVillage').css("background-color","white");
                     }
                 }else{
                     i2 = 999
@@ -981,20 +999,26 @@ if (isIncomingsAttacks()) {
         }else{
             goToNextLevel(defaultLevel)
         }
-    }, 1500)
 }
 
 function schedulerCheck() {
     if(!shouldProcessLevel(schedulerLevel) && localStorage.getItem("MajQs.scheduledItem") == null){
         var scheduler = SETTINGS.scheduler
         var now = new Date();
+        var scheduledItem = null;
         for(let i=0; i < scheduler.length; i++){
             var sendDate = new Date(scheduler[i][scheduler_sendTime_index]);
             var diffMins = (sendDate - now) / 60000
-            if(diffMins > 0 && diffMins < 2){
-                localStorage.setItem("MajQs.scheduledItem", i)
-                goToNextLevel(schedulerLevel)
+            if(diffMins > 0 && diffMins < 5){
+                scheduledItem = i
+                i = scheduler.length
             }
+        }
+        if(scheduledItem != null){
+            localStorage.setItem("MajQs.scheduledItem", scheduledItem)
+            setTimeout(function() {
+                goToNextLevel(schedulerLevel)
+            }, 20)
         }
     }
     return 0
