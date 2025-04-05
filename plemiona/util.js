@@ -999,6 +999,7 @@ if (isIncomingsAttacks()) {
         }else{
             goToNextLevel(defaultLevel)
         }
+    }, 1500)
 }
 
 function schedulerCheck() {

@@ -179,7 +179,7 @@ function processScheduler() {
                 } else if(action[scheduler_type_index] == "Pomoc"){
                     $("#target_support").click()
                 }
-            }, 1000)
+            }, 2000)
         }
     }
 
