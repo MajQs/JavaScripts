@@ -475,7 +475,7 @@ function checkSendingAttacksTime(){
         if($('#scheduler_'+i+'_type').length > 0){
             for (var i2=0; i2 < 999; i2++){
                 if($('#scheduler_'+i2+'_type').length > 0){
-                    if($('#scheduler_'+i+'_fromVillage').val() == $('#scheduler_'+i2+'_fromVillage').val()){
+                    if(i != i2 && $('#scheduler_'+i+'_fromVillage').val() == $('#scheduler_'+i2+'_fromVillage').val()){
                         $('#scheduler_'+i+'_fromVillage').css("background-color","yellow");
                     } else {
                         $('#scheduler_'+i+'_fromVillage').css("background-color","white");
