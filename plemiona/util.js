@@ -230,8 +230,6 @@ function fillSchedulerTable(){
         </tr>`)
     for (var r=0; r < SETTINGS.scheduler.length; r++){
 
-
-
             var tv = new Array()
             var playerVillages = Array.from(getPlayerVillages())
             playerVillages.sort((x, y) => x[1].name.localeCompare(y[1].name))
@@ -337,11 +335,13 @@ function fillSchedulerTable(){
 
 function handleAddAttackEvent(row) {
 	console.log("Add attack to row " + row);
-	SETTINGS.scheduler[row][scheduler_units_index].push([0,0,0,0,0,0,0,0,0,0,0,0])
-	fillSchedulerTable()
-    if(calculateTime(row)){
-        fillSchedulerTable()
-    }
+	if(SETTINGS.scheduler[row][scheduler_units_index].length < 5){
+		SETTINGS.scheduler[row][scheduler_units_index].push([0,0,0,0,0,0,0,0,0,0,0,0])
+    	fillSchedulerTable()
+        if(calculateTime(row)){
+            fillSchedulerTable()
+        }
+	}
 }
 function handleOffAttackEvent(row) {
 	console.log("Off to row " + row);
@@ -450,40 +450,46 @@ function calculateTime(row){
 }
 
 function checkSendingAttacksTime(){
-    for (var i=0; i < 999; i++){
-        if($('#scheduler_'+i+'_type').length > 0){
-            for (var i2=0; i2 < 999; i2++){
-                if($('#scheduler_'+i2+'_type').length > 0){
-                    diff = (new Date($('#scheduler_'+i+'_sendTime').val()) - new Date($('#scheduler_'+i2+'_sendTime').val())) / 1000 / 60
-                    if(diff > -5 && diff < 5 && i != i2
-                        || new Date($('#scheduler_'+i+'_sendTime').val()) <= Date.now()){
-                        $('#scheduler_'+i+'_sendTime').css("background-color","red");
-                        i2 = 999
-                    } else {
-                        $('#scheduler_'+i+'_sendTime').css("background-color","white");
-                    }
-                }else{
-                    i2 = 999
-                }
-            }
-        }else{
-            i = 999
-        }
-    }
+    var sendTimeColor = "white"
+    var fromVillageColor = "white"
 
     for (var i=0; i < 999; i++){
         if($('#scheduler_'+i+'_type').length > 0){
             for (var i2=0; i2 < 999; i2++){
-                if($('#scheduler_'+i2+'_type').length > 0){
-                    if(i != i2 && $('#scheduler_'+i+'_fromVillage').val() == $('#scheduler_'+i2+'_fromVillage').val()){
-                        $('#scheduler_'+i+'_fromVillage').css("background-color","yellow");
-                    } else {
-                        $('#scheduler_'+i+'_fromVillage').css("background-color","white");
+                if(i != i2 && $('#scheduler_'+i2+'_type').length > 0){
+                    // SEND TIME CHECK
+                    diff = (new Date($('#scheduler_'+i+'_sendTime').val()) - new Date($('#scheduler_'+i2+'_sendTime').val())) / 1000 / 60
+                    if(diff > -5 && diff < 5
+                        || new Date($('#scheduler_'+i+'_sendTime').val()) <= Date.now()){
+                        sendTimeColor = "red"
                     }
-                }else{
-                    i2 = 999
+                    // FROM VILLAGE CHECK
+                    if(i != i2 && $('#scheduler_'+i+'_fromVillage').val() == $('#scheduler_'+i2+'_fromVillage').val()){
+                        fromVillageColor = "yellow"
+                    }
                 }
             }
+
+            // UNITS CHECK
+            var villageUnits = getVillageUnits($('#scheduler_'+i+'_fromVillage').val())
+            for (var ui=0; ui < 5; ui++){
+                if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
+                    for (var uii=0; uii < 12; uii++){
+                        if($('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val() != "all" && $('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val() > villageUnits[uii]){
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).css("background-color", "red");
+                        } else if ($('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val() == "all" && villageUnits[uii] == 0){
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).css("background-color", "yellow");
+                        } else {
+                            $('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).css("background-color", "white");
+                        }
+                    }
+                }else{
+                    ui = 5
+                }
+            }
+
+            $('#scheduler_'+i+'_sendTime').css("background-color", sendTimeColor);
+            $('#scheduler_'+i+'_fromVillage').css("background-color", fromVillageColor);
         }else{
             i = 999
         }
@@ -492,7 +498,7 @@ function checkSendingAttacksTime(){
 
 function schedulerUnits(i){
     var units = new Array()
-    for (var ui=0; ui < 999; ui++){
+    for (var ui=0; ui < 5; ui++){
         if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
             units.push([
                 $('#scheduler_'+i+'_units_'+ui+'_unit_0').val(),
@@ -509,7 +515,7 @@ function schedulerUnits(i){
                 $('#scheduler_'+i+'_units_'+ui+'_unit_11').val()
             ])
         }else{
-            ui = 999999
+            ui = 5
         }
     }
 
