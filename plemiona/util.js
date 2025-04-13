@@ -120,6 +120,10 @@ var handleSettingsEvent = () => {
                     <td><label>Duration in minutes:</label></td>
                     <td><input id='scavenger-durationInMinutes' type="number" value='${SETTINGS.scavenger.durationInMinutes}' onchange="saveSettings()" /></td>
                 </tr>
+                tr>
+                   <td><label>Speed in Milliseconds:</label></td>
+                   <td><input id='scavenger-speedInMilliseconds' type="number" value='${SETTINGS.scavenger.speedInMilliseconds || 500}' onchange="saveSettings()" /></td>
+                /tr>
                 <tr>
                     <td><label>Spear safeguard:</label></td>
                     <td><input id='scavenger-spearSafeguard' type="number" value='${SETTINGS.scavenger.spearSafeguard}' onchange="saveSettings()" /></td>
@@ -625,6 +629,7 @@ function saveSettings() {
 	  },
 	  scavenger: {
 		durationInMinutes: parseInt($("#scavenger-durationInMinutes").val()),
+		speedInMilliseconds: parseInt($("#scavenger-speedInMilliseconds").val()),
 		spearSafeguard: parseInt($("#scavenger-spearSafeguard").val()),
 		swordSafeguard: parseInt($("#scavenger-swordSafeguard").val())
 	  },

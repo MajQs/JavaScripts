@@ -236,19 +236,19 @@ function processScavenge() {
                                 if($('.autoHideBox.error').length > 0){
                                     goToMassScavengePage()
                                 }
-                            }, 400);
+                            }, SETTINGS.scavenger.speedInMilliseconds * 0.8);
 
                             setTimeout(function() {
                                 processLevel(level - 1)
-                            }, 500);
-                        }, 500);
+                            }, SETTINGS.scavenger.speedInMilliseconds);
+                        }, SETTINGS.scavenger.speedInMilliseconds);
 
                     } else {
                         setTimeout(function() {
                             console.log("n = " + n );
                             n--
                             waitForScript()
-                        }, 500);
+                        }, SETTINGS.scavenger.speedInMilliseconds);
                     }
                 }
                 waitForScript()
