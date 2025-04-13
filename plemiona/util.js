@@ -964,7 +964,7 @@ function saveParameterToLocalStorage(name, data){
 
 function isVillageWithFrozenOff(){
     for(let i=0; i < SETTINGS.freeze.offOnVillages.length; i++){
-        if($("#menu_row2_village").find('a').text().indexOf(SETTINGS.freeze.offOnVillages[i]) >= 0){
+        if(SETTINGS.freeze.offOnVillages[i] != "" && $("#menu_row2_village").find('a').text().indexOf(SETTINGS.freeze.offOnVillages[i]) >= 0){
             return true
         }
     }
@@ -973,7 +973,7 @@ function isVillageWithFrozenOff(){
 
 function isVillageWithFrozenDeff(){
     for(let i=0; i < SETTINGS.freeze.deffOnVillages.length; i++){
-        if($("#menu_row2_village").find('a').text().indexOf(SETTINGS.freeze.deffOnVillages[i]) >= 0){
+        if(SETTINGS.freeze.deffOnVillages[i] != "" && $("#menu_row2_village").find('a').text().indexOf(SETTINGS.freeze.deffOnVillages[i]) >= 0){
             return true
         }
     }
