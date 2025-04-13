@@ -135,7 +135,7 @@ var handleSettingsEvent = () => {
                 <tr>
                     <td><label>Sword safeguard:</label></td>
                     <td><input id='scavenger-swordSafeguard' type="number" value='${SETTINGS.scavenger.swordSafeguard || 0}' onchange="saveSettings()" /></td>
-                    <td><input type="radio" id="swordSafeguardMode_number" name="swordSafeguardMode" value="Number" onchange="saveSettings()" ${SETTINGS.scavenger.swordSafeguardMode == "Number" || SETTINGS.scavenger.spearSafeguardMode == null ? 'checked="checked"' : ''}></td>
+                    <td><input type="radio" id="swordSafeguardMode_number" name="swordSafeguardMode" value="Number" onchange="saveSettings()" ${SETTINGS.scavenger.swordSafeguardMode == "Number" || SETTINGS.scavenger.swordSafeguardMode == null ? 'checked="checked"' : ''}></td>
                     <td><label for="swordSafeguardMode_number">Number</label></td>
                     <td><input type="radio" id="swordSafeguardMode_perc" name="swordSafeguardMode" value="%" onchange="saveSettings()" ${SETTINGS.scavenger.swordSafeguardMode == "%" ? 'checked="checked"' : ''}></td>
                     <td><label for="swordSafeguardMode_perc">%</label></td>
@@ -143,7 +143,7 @@ var handleSettingsEvent = () => {
                 <tr>
                     <td><label>Archer safeguard:</label></td>
                     <td><input id='scavenger-archerSafeguard' type="number" value='${SETTINGS.scavenger.archerSafeguard || 0}' onchange="saveSettings()" /></td>
-                    <td><input type="radio" id="archerSafeguardMode_number" name="archerSafeguardMode" value="Number" onchange="saveSettings()" ${SETTINGS.scavenger.archerSafeguardMode == "Number" || SETTINGS.scavenger.spearSafeguardMode == null ? 'checked="checked"' : ''}></td>
+                    <td><input type="radio" id="archerSafeguardMode_number" name="archerSafeguardMode" value="Number" onchange="saveSettings()" ${SETTINGS.scavenger.archerSafeguardMode == "Number" || SETTINGS.scavenger.archerSafeguardMode == null ? 'checked="checked"' : ''}></td>
                     <td><label for="archerSafeguardMode_number">Number</label></td>
                     <td><input type="radio" id="archerSafeguardMode_perc" name="archerSafeguardMode" value="%" onchange="saveSettings()" ${SETTINGS.scavenger.archerSafeguardMode == "%" ? 'checked="checked"' : ''}></td>
                     <td><label for="archerSafeguardMode_perc">%</label></td>
@@ -151,7 +151,7 @@ var handleSettingsEvent = () => {
                 <tr>
                     <td><label>Heavy safeguard:</label></td>
                     <td><input id='scavenger-heavySafeguard' type="number" value='${SETTINGS.scavenger.heavySafeguard || 0}' onchange="saveSettings()" /></td>
-                    <td><input type="radio" id="heavySafeguardMode_number" name="heavySafeguardMode" value="Number" onchange="saveSettings()" ${SETTINGS.scavenger.heavySafeguardMode == "Number" || SETTINGS.scavenger.spearSafeguardMode == null ? 'checked="checked"' : ''}></td>
+                    <td><input type="radio" id="heavySafeguardMode_number" name="heavySafeguardMode" value="Number" onchange="saveSettings()" ${SETTINGS.scavenger.heavySafeguardMode == "Number" || SETTINGS.scavenger.heavySafeguardMode == null ? 'checked="checked"' : ''}></td>
                     <td><label for="heavySafeguardMode_number">Number</label></td>
                     <td><input type="radio" id="heavySafeguardMode_perc" name="heavySafeguardMode" value="%" onchange="saveSettings()" ${SETTINGS.scavenger.heavySafeguardMode == "%" ? 'checked="checked"' : ''}></td>
                     <td><label for="heavySafeguardMode_perc">%</label></td>
