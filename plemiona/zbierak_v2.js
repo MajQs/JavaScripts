@@ -351,8 +351,10 @@ if (isScavenge()) {
     console.log("Scavenger page..." );
     setTimeout(function() {
         settings.archers = getWorldSetup().archer
-        settings_spear.conditional_safeguard = SETTINGS.scavenger.spearSafeguard
-        settings_sword.conditional_safeguard = SETTINGS.scavenger.swordSafeguard
+        settings_spear.conditional_safeguard = SETTINGS.scavenger.spearSafeguardMode == "Number" ? SETTINGS.scavenger.spearSafeguard : Math.round(($('a[data-unit="spear"]').text().replace("(","").replace(")","") * SETTINGS.scavenger.spearSafeguard / 100))
+        settings_sword.conditional_safeguard = SETTINGS.scavenger.swordSafeguardMode == "Number" ? SETTINGS.scavenger.swordSafeguard : Math.round(($('a[data-unit="sword"]').text().replace("(","").replace(")","") * SETTINGS.scavenger.swordSafeguard / 100))
+        settings_archer.conditional_safeguard = SETTINGS.scavenger.archerSafeguardMode == "Number" ? SETTINGS.scavenger.archerSafeguard : Math.round(($('a[data-unit="archer"]').text().replace("(","").replace(")","") * SETTINGS.scavenger.archerSafeguard / 100))
+        settings_heavy.conditional_safeguard = SETTINGS.scavenger.heavySafeguardMode == "Number" ? SETTINGS.scavenger.heavySafeguard : Math.round(($('a[data-unit="heavy"]').text().replace("(","").replace(")","") * SETTINGS.scavenger.heavySafeguard / 100))
         if(isVillageWithFrozenOff()){
             console.log("Off frozen!");
             settings_axe.max_unit_number = 0
