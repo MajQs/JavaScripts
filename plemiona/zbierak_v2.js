@@ -46,7 +46,7 @@ var settings_heavy = {
     conditional_safeguard: '0'
 }
 
-function zbierak(){
+function Asystent_Zbieracza(){
 
     function fill(unit, number) {
         let field = $(`[name=${unit}]`);
@@ -215,7 +215,8 @@ function processScavenge() {
             var divLevel = container.find('.scavenge-option')[level]
             if ($(divLevel).find('.free_send_button').length > 0) {
 
-                $.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
+                //$.getScript('https://media.innogamescdn.com/com_DS_PL/skrypty/Asystent_Zbieracza.js');
+                Asystent_Zbieracza()
 
                 let n = 10
                 function waitForScript(){
