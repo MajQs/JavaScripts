@@ -1080,6 +1080,8 @@ function villageNameToId(villageName){
 function checkVillageUrlWithCookie(){
     if(window.location.href.indexOf($.cookie("global_village_id")) == -1){
         localStorage.removeItem("MajQs.collectedServerDataDay");
+        localStorage.removeItem("MajQs.coordinatesForWrecker");
+        localStorage.removeItem("MajQs.coordinatesForAutoExpansion");
         goToNextLevel(collectServerDataLevel)
     }
 }
