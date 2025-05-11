@@ -309,7 +309,7 @@ if (isAF()) {
             }
         }
     }, 1000)
-} else if (isAfNotAvailable(){
+} else if (isAfNotAvailable()){
     localStorage.setItem("MajQs.isAfNotAvailable", 1)
     if(shouldProcessLevel(collectAFStatisticsLevel)){
         goToNextLevel(collectServerDataLevel)
