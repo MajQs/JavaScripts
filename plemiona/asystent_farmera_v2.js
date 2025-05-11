@@ -280,9 +280,9 @@ function isAfNotAvailable() {
 
 if (isAF()) {
     console.log("AF page..." );
-    localStorage.removeItem("MajQs.isAfNotAvailable");
 
     setTimeout(function() {
+        localStorage.removeItem("MajQs.isAfNotAvailable");
         function isVillageAlreadyNotVisited(){
             var farmVillageDoneList = getFarmVillageDoneList();
             for(let i=0; i<farmVillageDoneList.length; i++){
