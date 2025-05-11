@@ -1082,7 +1082,7 @@ function checkVillageUrlWithCookie(){
         localStorage.removeItem("MajQs.collectedServerDataDay");
         localStorage.removeItem("MajQs.coordinatesForWrecker");
         localStorage.removeItem("MajQs.coordinatesForAutoExpansion");
-        goToNextLevel(collectServerDataLevel)
+        goToAfPageFor($.cookie("global_village_id"))
     }
 }
 checkVillageUrlWithCookie()
