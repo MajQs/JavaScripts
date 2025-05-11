@@ -280,9 +280,9 @@ function isAfNotAvailable() {
 
 if (isAF()) {
     console.log("AF page..." );
+    localStorage.removeItem("MajQs.isAfNotAvailable");
 
     setTimeout(function() {
-        localStorage.removeItem("MajQs.isAfNotAvailable");
         function isVillageAlreadyNotVisited(){
             var farmVillageDoneList = getFarmVillageDoneList();
             for(let i=0; i<farmVillageDoneList.length; i++){
@@ -311,11 +311,13 @@ if (isAF()) {
     }, 1000)
 } else if (isAfNotAvailable()){
     localStorage.setItem("MajQs.isAfNotAvailable", 1)
-    if(shouldProcessLevel(collectAFStatisticsLevel)){
-        goToNextLevel(collectServerDataLevel)
-    } else {
-        goToScavengePage()
-    }
+    setTimeout(function() {
+        if(shouldProcessLevel(collectAFStatisticsLevel)){
+            goToNextLevel(collectServerDataLevel)
+        } else {
+            goToScavengePage()
+        }
+    }, 1000)
 } else {
     localStorage.removeItem("MajQs.farmVillageDoneList");
 }
