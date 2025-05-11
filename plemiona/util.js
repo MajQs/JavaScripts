@@ -1076,3 +1076,11 @@ function villageNameToId(villageName){
     }
     return 0
 }
+
+function checkVillageUrlWithCookie(){
+    if(window.location.href.indexOf($.cookie("global_village_id")) == -1){
+        localStorage.removeItem("MajQs.collectedServerDataDay");
+        goToNextLevel(collectServerDataLevel)
+    }
+}
+checkVillageUrlWithCookie()
