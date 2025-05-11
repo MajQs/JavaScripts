@@ -57,11 +57,7 @@ function loadSettings(){
                 offOnVillages: ["village1", "village2"],
                 deffOnVillages: ["village1"]
             },
-            scheduler: [
-                ["Napad", 0, "2025-02-26T22:50:01.000", "2025-02-26T22:50:01.000", "M001", "393|564", "Mur",     [[0,0,"all",0,0,"all","all",0,"all","all","all",0],[0,0,0,10,0,0,0,0,0,0,0,0]]],
-                ["Napad", 0, "2025-02-27T22:50:01.000", "2025-02-26T22:50:01.000", "M002", "393|564", "Zagroda", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]],
-                ["Pomoc", 0, "2025-02-27T22:50:01.000", "2025-02-26T22:50:01.000", "M002", "393|564", "", [[0,0,200,0,0,10,"all",0,"all","all","all",0]]]
-            ]
+            scheduler: []
         }
         return default_settings
     } else{
@@ -851,49 +847,54 @@ function processCollectingServerData() {
             setPlayerVillages();
             localStorage.setItem("MajQs.playerVillages", JSON.stringify(Array.from(playerVillages)));
 
-            // ignore villages available in AF
-            function filterPossibleVillages(){
-                for (let vi = Villages.length-1; vi >= 0; vi--) {
-                    village = Villages[vi].split(',');
-                    villageCoords = village[2]+"|"+village[3]
-                    if(afStatistics.get(villageCoords) != null){
-                        Villages.splice(vi,1);
-                        afStatistics.delete(villageCoords);
+            function collectCoordinatesForAutoExpansion(){
+                // ignore villages available in AF
+                function filterPossibleVillages(){
+                    for (let vi = Villages.length-1; vi >= 0; vi--) {
+                        village = Villages[vi].split(',');
+                        villageCoords = village[2]+"|"+village[3]
+                        if(afStatistics.get(villageCoords) != null){
+                            Villages.splice(vi,1);
+                            afStatistics.delete(villageCoords);
+                        }
                     }
+                    return 0;
                 }
-                return 0;
-            }
-            filterPossibleVillages();
+                filterPossibleVillages();
 
-            // look for possible barbarian villages in distance
-            function setCoordinatesForAutoExpansion(){
-                var i = Villages.length - 1;
-                playerVillagesArray = Array.from(playerVillages)
-                while(i--) {
-                    Village[i] = Villages[i].split(',');
-                    if(Village[i][4] == 0 && Village[i][5] <= SETTINGS.farm.autoExpansion.maxVillagePoints){       // barbarian village
-                        for (let pvi = playerVillagesArray.length-1; pvi >= 0; pvi--) {
-                            var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillagesArray[pvi][1].X,2)+Math.pow(Village[i][3]-playerVillagesArray[pvi][1].Y,2))
-                            if(distance <= SETTINGS.farm.autoExpansion.maxDistance){
-                                //[playerVillageID, distance, barbarianVillage]
-                                coordinates = Village[i][2]+"|"+Village[i][3]
-                                var current = coordinatesForAutoExpansion.get(coordinates)
-                                if(current == null){
-                                    current = []
+                // look for possible barbarian villages in distance
+                function setCoordinatesForAutoExpansion(){
+                    var i = Villages.length - 1;
+                    playerVillagesArray = Array.from(playerVillages)
+                    while(i--) {
+                        Village[i] = Villages[i].split(',');
+                        if(Village[i][4] == 0 && Village[i][5] <= SETTINGS.farm.autoExpansion.maxVillagePoints){       // barbarian village
+                            for (let pvi = playerVillagesArray.length-1; pvi >= 0; pvi--) {
+                                var distance = Math.sqrt(Math.pow(Village[i][2]-playerVillagesArray[pvi][1].X,2)+Math.pow(Village[i][3]-playerVillagesArray[pvi][1].Y,2))
+                                if(distance <= SETTINGS.farm.autoExpansion.maxDistance){
+                                    //[playerVillageID, distance, barbarianVillage]
+                                    coordinates = Village[i][2]+"|"+Village[i][3]
+                                    var current = coordinatesForAutoExpansion.get(coordinates)
+                                    if(current == null){
+                                        current = []
+                                    }
+                                    current.push([playerVillagesArray[pvi][0], distance])
+                                    current.sort(function (a, b) {
+                                        return a[1] - b[1]
+                                    })
+                                    coordinatesForAutoExpansion.set(coordinates, current)
                                 }
-                                current.push([playerVillagesArray[pvi][0], distance])
-                                current.sort(function (a, b) {
-                                    return a[1] - b[1]
-                                })
-                                coordinatesForAutoExpansion.set(coordinates, current)
                             }
                         }
                     }
+                    return 0;
                 }
-                return 0;
+                setCoordinatesForAutoExpansion()
+                sortAndSaveCoordinates("MajQs.coordinatesForAutoExpansion", coordinatesForAutoExpansion)
             }
-            setCoordinatesForAutoExpansion()
-            sortAndSaveCoordinates("MajQs.coordinatesForAutoExpansion", coordinatesForAutoExpansion)
+            if(localStorage.getItem("MajQs.isAfNotAvailable") != 1){
+                collectCoordinatesForAutoExpansion()
+            }
 
             return 0;
         }

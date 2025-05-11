@@ -271,10 +271,18 @@ function isAF() {
     return params.get('screen') === "am_farm" && $(".captcha").length == 0
 }
 
+function isAfNotAvailable() {
+    var url = new URL(window.location.href);
+    var params = new URLSearchParams(url.search);
+
+    return params.get('screen') === "premium" && params.get('feature') === "FarmAssistent" && $(".captcha").length == 0
+}
+
 if (isAF()) {
     console.log("AF page..." );
-    setTimeout(function() {
+    localStorage.removeItem("MajQs.isAfNotAvailable");
 
+    setTimeout(function() {
         function isVillageAlreadyNotVisited(){
             var farmVillageDoneList = getFarmVillageDoneList();
             for(let i=0; i<farmVillageDoneList.length; i++){
@@ -301,6 +309,13 @@ if (isAF()) {
             }
         }
     }, 1000)
+} else if (isAfNotAvailable(){
+    localStorage.setItem("MajQs.isAfNotAvailable", 1)
+    if(shouldProcessLevel(collectAFStatisticsLevel)){
+        goToNextLevel(collectServerDataLevel)
+    } else {
+        goToScavengePage()
+    }
 } else {
     localStorage.removeItem("MajQs.farmVillageDoneList");
 }
