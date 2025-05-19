@@ -1130,13 +1130,14 @@ function collectMarketData(){
             "iron": resFunction($("#pop_max_label").text(), $("#iron").text()),
         }
     )
+
     localStorage.setItem("MajQs.marketData", JSON.stringify(Array.from(marketData)))
 }
 
 function callResources(){
 
     var villageThatNeedResources = JSON.parse(localStorage.getItem("MajQs.marketData")).sort(function (a, b) {
-        return (a[1].callWood + a[1].callStone + a[1].callIron) - (b[1].callWood + b[1].callStone + b[1].callIron)
+        return (a[1].wood + a[1].stone + a[1].iron) - (b[1].wood + b[1].stone + b[1].iron)
     })[0]
 
     if($.cookie("global_village_id") != villageThatNeedResources[0]) {
@@ -1208,10 +1209,12 @@ function isMarketCallPage() {
     return params.get('screen') === "market" && params.get('mode') === "call" && $(".captcha").length == 0
 }
 if (isMarketCallPage()) {
-    console.log("Mass Scavenger page..." );
+    console.log("Market page..." );
     setTimeout(function() {
-        collectMarketData()
+        if(localStorage.getItem("MajQs.marketData") == null){
+            collectMarketData()
+        }
     }, 1000)
 }else{
-//czyszczenie
+    localStorage.removeItem("MajQs.marketData")
 }
