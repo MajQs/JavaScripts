@@ -721,6 +721,11 @@ function goToCommandPageFor(village) {
     window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=place&mode=command';
 }
 
+function goToMarketCallPageFor(village) {
+    var url = new URL(window.location.href);
+    window.location.href = url.origin + url.pathname + '?village=' + village + '&screen=market&mode=call';
+}
+
 function getPlayerVillages(){
     var playerVillages = JSON.parse(localStorage.getItem("MajQs.playerVillages"))
     if(playerVillages == null){
@@ -1086,3 +1091,127 @@ function checkVillageUrlWithCookie(){
     }
 }
 checkVillageUrlWithCookie()
+
+
+// RYNEK\
+function collectMarketData(){
+    var marketData = new Map()
+
+    function resFunction(storage, resource){
+        return resource - ((1/2) * storage + 1000)
+    }
+
+    var villageList = $("#village_list tr").slice(1)
+    for (let index = 0; index < villageList.length; index++) {
+        var storage = villageList.eq(index).find("td").eq(5).text()
+        var wood = villageList.eq(index).find(".wood").attr("data-res")
+        var stone = villageList.eq(index).find(".stone").attr("data-res")
+        var iron = villageList.eq(index).find(".iron").attr("data-res")
+
+        var callWood = resFunction(storage, wood)
+        var callStone = resFunction(storage, stone)
+        var callIron = resFunction(storage, iron)
+
+        marketData.set(villageList.eq(index).attr("data-village"),
+            {
+                "villageId": villageList.eq(index).attr("data-village"),
+                "wood": callWood,
+                "stone": callStone,
+                "iron": callIron,
+            }
+        )
+    }
+
+    marketData.set($.cookie("global_village_id"),
+        {
+            "villageId": $.cookie("global_village_id"),
+            "wood": resFunction($("#pop_max_label").text(), $("#wood").text()),
+            "stone": resFunction($("#pop_max_label").text(), $("#stone").text()),
+            "iron": resFunction($("#pop_max_label").text(), $("#iron").text()),
+        }
+    )
+    localStorage.setItem("MajQs.marketData", JSON.stringify(Array.from(marketData)))
+}
+
+function callResources(){
+
+    var villageThatNeedResources = JSON.parse(localStorage.getItem("MajQs.marketData")).sort(function (a, b) {
+        return (a[1].callWood + a[1].callStone + a[1].callIron) - (b[1].callWood + b[1].callStone + b[1].callIron)
+    })[0]
+
+    if($.cookie("global_village_id") != villageThatNeedResources[0]) {
+        goToMarketCallPageFor(villageThatNeedResources[0])
+    } else {
+        var marketData = new Map(JSON.parse(localStorage.getItem("MajQs.marketData")))
+
+        var villageList = $("#village_list tr").slice(1)
+        for (let index = 0; index < villageList.length; index++) {
+            var availableTraders = villageList.eq(index).find(".traders").text().split("/")[0]
+            var donorId = villageList.eq(index).attr("data-village")
+            var donorData = marketData.get(donorId)
+
+            function clearResources(){
+                if(villageList.eq(index).find("input:checkbox[name=select-village]:checked").length == 0){
+                    villageList.eq(index).find("input:checkbox[name=select-village]").click()
+                    villageList.eq(index).find(".wood input").val(0)
+                    villageList.eq(index).find(".stone input").val(0)
+                    villageList.eq(index).find(".iron input").val(0)
+                }
+            }
+            function canSendTotalFun(resource) {
+                var needResource = parseInt(resource/1000)*(-1)
+                var donorCanSend = parseInt(donorData.wood/1000)
+                return Math.min(Math.min(needResource, donorCanSend), availableTraders)
+            }
+
+            if(availableTraders > 0){
+                if(villageThatNeedResources[1].wood < -1000 && donorData.wood > 0 ){
+                    clearResources()
+                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].wood)
+                    villageList.eq(index).find(".wood input").val(canSendTotal*1000)
+                    availableTraders = availableTraders - canSendTotal
+                    donorData.wood = donorData.wood - (canSendTotal*1000)
+                    marketData.set(donorId, donorData)
+                    villageThatNeedResources[1].wood = villageThatNeedResources[1].wood + (canSendTotal*1000)
+                }
+                if(villageThatNeedResources[1].stone < -1000 && donorData.stone > 0){
+                    clearResources()
+                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].stone)
+                    villageList.eq(index).find(".stone input").val(canSendTotal*1000)
+                    availableTraders = availableTraders - canSendTotal
+                    donorData.stone = donorData.stone - (canSendTotal*1000)
+                    marketData.set(donorId, donorData)
+                    villageThatNeedResources[1].stone = villageThatNeedResources[1].stone + (canSendTotal*1000)
+                }
+                if(villageThatNeedResources[1].iron < -1000 && donorData.iron > 0){
+                    clearResources()
+                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].iron)
+                    villageList.eq(index).find(".iron input").val(canSendTotal*1000)
+                    availableTraders = availableTraders - canSendTotal
+                    donorData.iron = donorData.iron - (canSendTotal*1000)
+                    marketData.set(donorId, donorData)
+                    villageThatNeedResources[1].iron = villageThatNeedResources[1].iron + (canSendTotal*1000)
+                }
+            }
+        }
+        marketData.set($.cookie("global_village_id"), villageThatNeedResources[1])
+        localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
+
+//        $('input:submit[value="Poproś o surowce"]').click()
+    }
+}
+
+function isMarketCallPage() {
+    var url = new URL(window.location.href);
+    var params = new URLSearchParams(url.search);
+
+    return params.get('screen') === "market" && params.get('mode') === "call" && $(".captcha").length == 0
+}
+if (isMarketCallPage()) {
+    console.log("Mass Scavenger page..." );
+    setTimeout(function() {
+        collectMarketData()
+    }, 1000)
+}else{
+//czyszczenie
+}
