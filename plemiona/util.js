@@ -1127,11 +1127,13 @@ function collectMarketData(){
             "villageId": $.cookie("global_village_id"),
             "wood": resFunction($("#pop_max_label").text(), $("#wood").text()),
             "stone": resFunction($("#pop_max_label").text(), $("#stone").text()),
-            "iron": resFunction($("#pop_max_label").text(), $("#iron").text()),
+            "iron": resFunction($("#storage").text(), $("#iron").text()),
         }
     )
 
     localStorage.setItem("MajQs.marketData", JSON.stringify(Array.from(marketData)))
+
+    return JSON.stringify(Array.from(marketData))
 }
 
 function callResources(){
@@ -1214,6 +1216,9 @@ if (isMarketCallPage()) {
         if(localStorage.getItem("MajQs.marketData") == null){
             collectMarketData()
         }
+        setTimeout(function() {
+            callResources()
+        }, 1000)
     }, 1000)
 }else{
     localStorage.removeItem("MajQs.marketData")
