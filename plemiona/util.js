@@ -1236,11 +1236,13 @@ function callResources(){
             marketData.set($.cookie("global_village_id"), villageThatNeedResources[1])
             localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
 
-            $('input:submit[value="Poproś o surowce"]').click()
-
             setTimeout(function() {
-                callResources()
+                //$('input:submit[value="Poproś o surowce"]').click()
+                setTimeout(function() {
+                    callResources()
+                }, 500)
             }, 500)
+
         }
     }
 }
