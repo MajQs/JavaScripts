@@ -1098,7 +1098,13 @@ function collectMarketData(){
     var marketData = new Map()
 
     function resFunction(storage, resource){
-        return resource - ((1/2) * storage + 1000)
+        if(storage <= 40000){
+            return resource - (storage * 0.9)
+        } if(storage > 400000) {
+            return resource - 130000
+        } else {
+            return resource - (0.2611 * storage + 25555)
+        }
     }
 
     var villageList = $("#village_list tr").slice(1)
@@ -1115,6 +1121,7 @@ function collectMarketData(){
         marketData.set(villageList.eq(index).attr("data-village"),
             {
                 "villageId": villageList.eq(index).attr("data-village"),
+                "storage": storage,
                 "wood": callWood,
                 "stone": callStone,
                 "iron": callIron,
@@ -1125,8 +1132,9 @@ function collectMarketData(){
     marketData.set($.cookie("global_village_id"),
         {
             "villageId": $.cookie("global_village_id"),
-            "wood": resFunction($("#pop_max_label").text(), $("#wood").text()),
-            "stone": resFunction($("#pop_max_label").text(), $("#stone").text()),
+            "storage": $("#storage").text(),
+            "wood": resFunction($("#storage").text(), $("#wood").text()),
+            "stone": resFunction($("#storage").text(), $("#stone").text()),
             "iron": resFunction($("#storage").text(), $("#iron").text()),
         }
     )
@@ -1139,7 +1147,7 @@ function collectMarketData(){
 function callResources(){
 
     var villageThatNeedResources = JSON.parse(localStorage.getItem("MajQs.marketData")).sort(function (a, b) {
-        return (a[1].wood + a[1].stone + a[1].iron) - (b[1].wood + b[1].stone + b[1].iron)
+        return (a[1].wood + a[1].stone + a[1].iron)/(a[1].storage * 3) - (b[1].wood + b[1].stone + b[1].iron)/(b[1].storage * 3)
     })[0]
 
     if($.cookie("global_village_id") != villageThatNeedResources[0]) {
@@ -1161,16 +1169,16 @@ function callResources(){
                     villageList.eq(index).find(".iron input").val(0)
                 }
             }
-            function canSendTotalFun(resource) {
-                var needResource = parseInt(resource/1000)*(-1)
-                var donorCanSend = parseInt(donorData.wood/1000)
+            function canSendTotalFun(need, canSend) {
+                var needResource = parseInt(need/1000)*(-1)
+                var donorCanSend = parseInt(canSend/1000)
                 return Math.min(Math.min(needResource, donorCanSend), availableTraders)
             }
 
             if(availableTraders > 0){
                 if(villageThatNeedResources[1].wood < -1000 && donorData.wood > 0 ){
                     clearResources()
-                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].wood)
+                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].wood, donorData.wood)
                     villageList.eq(index).find(".wood input").val(canSendTotal*1000)
                     availableTraders = availableTraders - canSendTotal
                     donorData.wood = donorData.wood - (canSendTotal*1000)
@@ -1179,7 +1187,7 @@ function callResources(){
                 }
                 if(villageThatNeedResources[1].stone < -1000 && donorData.stone > 0){
                     clearResources()
-                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].stone)
+                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].stone, donorData.stone)
                     villageList.eq(index).find(".stone input").val(canSendTotal*1000)
                     availableTraders = availableTraders - canSendTotal
                     donorData.stone = donorData.stone - (canSendTotal*1000)
@@ -1188,7 +1196,7 @@ function callResources(){
                 }
                 if(villageThatNeedResources[1].iron < -1000 && donorData.iron > 0){
                     clearResources()
-                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].iron)
+                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].iron, donorData.iron)
                     villageList.eq(index).find(".iron input").val(canSendTotal*1000)
                     availableTraders = availableTraders - canSendTotal
                     donorData.iron = donorData.iron - (canSendTotal*1000)
@@ -1198,7 +1206,7 @@ function callResources(){
             }
         }
         marketData.set($.cookie("global_village_id"), villageThatNeedResources[1])
-        //localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
+        localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
 
 //        $('input:submit[value="Poproś o surowce"]').click()
     }
@@ -1212,13 +1220,11 @@ function isMarketCallPage() {
 }
 if (isMarketCallPage()) {
     console.log("Market page..." );
+    if(localStorage.getItem("MajQs.marketData") == null){
+        collectMarketData()
+    }
     setTimeout(function() {
-        if(localStorage.getItem("MajQs.marketData") == null){
-            collectMarketData()
-        }
-        setTimeout(function() {
-            callResources()
-        }, 1000)
+        callResources()
     }, 1000)
 }else{
     localStorage.removeItem("MajQs.marketData")
