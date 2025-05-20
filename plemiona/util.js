@@ -1135,7 +1135,7 @@ function collectMarketData(){
     marketData.set($.cookie("global_village_id"),
         {
             "villageId": $.cookie("global_village_id"),
-            "storageThreshold": storageThreshold$("#storage").text()),
+            "storageThreshold": storageThreshold($("#storage").text()),
             "wood": resFunction($("#storage").text(), $("#wood").text()),
             "stone": resFunction($("#storage").text(), $("#stone").text()),
             "iron": resFunction($("#storage").text(), $("#iron").text()),
