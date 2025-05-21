@@ -1249,9 +1249,9 @@ function callResources(){
             localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
 
             setTimeout(function() {
-                $('input:submit[value="Poproś o surowce"]').click()
+                //$('input:submit[value="Poproś o surowce"]').click()
                 setTimeout(function() {
-                    callResources()
+                    //callResources()
                 }, 500)
             }, 500)
 
