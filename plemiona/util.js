@@ -1103,7 +1103,7 @@ function collectMarketData(){
         } if(storage > 400000) {
             return 130000
         } else {
-            return 0.2611 * storage + 25555
+            return parseInt(0.2611 * storage + 25555)
         }
     }
     function resFunction(storage, resource){
@@ -1200,11 +1200,6 @@ function callResources(){
                         villageList.eq(index).find(".stone input").val(0)
                         villageList.eq(index).find(".iron input").val(0)
                     }
-                }
-                function canSendTotalFun(need, canSend) {
-                    var needResource = parseInt(need/1000)*(-1)
-                    var donorCanSend = parseInt(canSend/1000)
-                    return Math.min(Math.min(needResource, donorCanSend), availableTraders)
                 }
 
                 if(availableTraders > 0){
