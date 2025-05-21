@@ -1251,8 +1251,8 @@ function callResources(){
                 $('input:submit[value="Poproś o surowce"]').click()
                 setTimeout(function() {
                     callResources()
-                }, 500)
-            }, 1000)
+                }, 1500)
+            }, 500)
 
         }
     }
