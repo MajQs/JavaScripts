@@ -1208,13 +1208,17 @@ function callResources(){
                 }
 
                 if(availableTraders > 0){
-                    var needWood = Math.abs(villageThatNeedResources[1].wood)
-                    var needStone = Math.abs(villageThatNeedResources[1].stone)
-                    var needIron = Math.abs(villageThatNeedResources[1].iron)
+                    var needWood = Math.abs(Math.min(villageThatNeedResources[1].wood,0))
+                    var needStone = Math.abs(Math.min(villageThatNeedResources[1].stone,0))
+                    var needIron = Math.abs(Math.min(villageThatNeedResources[1].iron,0))
 
-                    var woodPossibleTransfers = parseInt(Math.min(needWood, Math.max(donorData.wood,0)) / 1000)
-                    var stonePossibleTransfers = parseInt(Math.min(needStone, Math.max(donorData.stone,0)) / 1000)
-                    var ironPossibleTransfers = parseInt(Math.min(needIron, Math.max(donorData.iron,0)) / 1000)
+                    var canSendWood = Math.max(donorData.wood,0)
+                    var canSendStone = Math.max(donorData.stone,0)
+                    var canSendIron = Math.max(donorData.iron,0)
+
+                    var woodPossibleTransfers = parseInt(Math.min(needWood, canSendWood) / 1000)
+                    var stonePossibleTransfers = parseInt(Math.min(needStone, canSendStone) / 1000)
+                    var ironPossibleTransfers = parseInt(Math.min(needIron, canSendIron) / 1000)
                     var sumPossibleTransfers = woodPossibleTransfers + stonePossibleTransfers + ironPossibleTransfers
 
                     if(sumPossibleTransfers > 0){
@@ -1248,7 +1252,7 @@ function callResources(){
             localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
 
             setTimeout(function() {
-                //$('input:submit[value="Poproś o surowce"]').click()
+                //$('input:submit[value="Poproś o surowce"]').eq(0).click()
                 setTimeout(function() {
                     //callResources()
                 }, 1500)
