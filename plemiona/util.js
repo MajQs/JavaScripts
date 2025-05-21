@@ -1219,9 +1219,9 @@ function callResources(){
 
                     if(sumPossibleTransfers > 0){
                         clearResources()
-                        var woodToSend = parseInt(Math.min(Math.min(availableTraders * woodPossibleTransfers / sumPossibleTransfers, parseInt(needWood/1000)), woodPossibleTransfers) * 1000)
-                        var stoneToSend = parseInt(Math.min(Math.min(availableTraders * stonePossibleTransfers / sumPossibleTransfers, parseInt(needStone/1000)), stonePossibleTransfers) * 1000)
-                        var ironToSend = parseInt(Math.min(Math.min(availableTraders * ironPossibleTransfers / sumPossibleTransfers, parseInt(needIron/1000)), ironPossibleTransfers) * 1000)
+                        var woodToSend = parseInt(Math.min(Math.min(parseInt(availableTraders * woodPossibleTransfers / sumPossibleTransfers), parseInt(needWood/1000)), woodPossibleTransfers) * 1000)
+                        var stoneToSend = parseInt(Math.min(Math.min(parseInt(availableTraders * stonePossibleTransfers / sumPossibleTransfers), parseInt(needStone/1000)), stonePossibleTransfers) * 1000)
+                        var ironToSend = parseInt(Math.min(Math.min(parseInt(availableTraders * ironPossibleTransfers / sumPossibleTransfers), parseInt(needIron/1000)), ironPossibleTransfers) * 1000)
 
                         villageList.eq(index).find(".wood input").val(woodToSend)
                         villageList.eq(index).find(".stone input").val(stoneToSend)
