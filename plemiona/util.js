@@ -1183,9 +1183,9 @@ function callResources(){
             goToMarketCallPageFor(villageThatNeedResources[0])
         } else {
             // include incoming resources
-            villageThatNeedResources[1].wood = villageThatNeedResources[1].wood + parseInt($("#total_wood span").text().replaceAll(".",""))
-            villageThatNeedResources[1].stone = villageThatNeedResources[1].stone + parseInt($("#total_stone span").text().replaceAll(".",""))
-            villageThatNeedResources[1].iron = villageThatNeedResources[1].iron + parseInt($("#total_iron span").text().replaceAll(".",""))
+            if(villageThatNeedResources[1].wood < 0) villageThatNeedResources[1].wood = villageThatNeedResources[1].wood + parseInt($("#total_wood span").text().replaceAll(".",""))
+            if(villageThatNeedResources[1].stone < 0) villageThatNeedResources[1].stone = villageThatNeedResources[1].stone + parseInt($("#total_stone span").text().replaceAll(".",""))
+            if(villageThatNeedResources[1].iron < 0) villageThatNeedResources[1].iron = villageThatNeedResources[1].iron + parseInt($("#total_iron span").text().replaceAll(".",""))
 
             var villageList = $("#village_list tr").slice(1)
             for (let index = 0; index < villageList.length; index++) {
@@ -1217,7 +1217,6 @@ function callResources(){
                     var ironPossibleTransfers = parseInt(Math.min(needIron, Math.max(donorData.iron,0)) / 1000)
                     var sumPossibleTransfers = woodPossibleTransfers + stonePossibleTransfers + ironPossibleTransfers
 
-                    console.log(availableTraders + " " + sumPossibleTransfers)
                     if(sumPossibleTransfers > 0){
                         clearResources()
                         var woodToSend = parseInt(Math.min(Math.min(availableTraders * woodPossibleTransfers / sumPossibleTransfers, parseInt(needWood/1000)), woodPossibleTransfers) * 1000)
@@ -1249,11 +1248,11 @@ function callResources(){
             localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
 
             setTimeout(function() {
-                //$('input:submit[value="Poproś o surowce"]').click()
+                $('input:submit[value="Poproś o surowce"]').click()
                 setTimeout(function() {
-                    //callResources()
+                    callResources()
                 }, 500)
-            }, 500)
+            }, 1000)
 
         }
     }
