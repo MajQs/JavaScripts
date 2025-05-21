@@ -1208,30 +1208,34 @@ function callResources(){
                 }
 
                 if(availableTraders > 0){
-                    var woodPossibleTransfers = parseInt(Math.min(villageThatNeedResources[1].wood, donorData.wood) / 1000)
-                    var stonePossibleTransfers = parseInt(Math.min(villageThatNeedResources[1].stone, donorData.stone) / 1000)
-                    var ironPossibleTransfers = parseInt(Math.min(villageThatNeedResources[1].iron, donorData.iron) / 1000)
+                    var needWood = Math.abs(villageThatNeedResources[1].wood)
+                    var needStone = Math.abs(villageThatNeedResources[1].stone)
+                    var needIron = Math.abs(villageThatNeedResources[1].iron)
+
+                    var woodPossibleTransfers = parseInt(Math.min(needWood, Math.max(donorData.wood,0)) / 1000)
+                    var stonePossibleTransfers = parseInt(Math.min(needStone, Math.max(donorData.stone,0)) / 1000)
+                    var ironPossibleTransfers = parseInt(Math.min(needIron, Math.max(donorData.iron,0)) / 1000)
                     var sumPossibleTransfers = woodPossibleTransfers + stonePossibleTransfers + ironPossibleTransfers
 
+                    console.log(availableTraders + " " + sumPossibleTransfers)
                     if(sumPossibleTransfers > 0){
                         clearResources()
-                        var woodToSend = Math.min(availableTraders * woodPossibleTransfers / sumPossibleTransfers, parseInt(villageThatNeedResources[1].wood/1000)) * 1000
-                        var stoneToSend = Math.min(availableTraders * stonePossibleTransfers / sumPossibleTransfers, parseInt(villageThatNeedResources[1].stone/1000)) * 1000
-                        var ironToSend = Math.min(availableTraders * ironPossibleTransfers / sumPossibleTransfers, parseInt(villageThatNeedResources[1].iron/1000)) * 1000
+                        var woodToSend = parseInt(Math.min(Math.min(availableTraders * woodPossibleTransfers / sumPossibleTransfers, parseInt(needWood/1000)), woodPossibleTransfers) * 1000)
+                        var stoneToSend = parseInt(Math.min(Math.min(availableTraders * stonePossibleTransfers / sumPossibleTransfers, parseInt(needStone/1000)), stonePossibleTransfers) * 1000)
+                        var ironToSend = parseInt(Math.min(Math.min(availableTraders * ironPossibleTransfers / sumPossibleTransfers, parseInt(needIron/1000)), ironPossibleTransfers) * 1000)
 
                         villageList.eq(index).find(".wood input").val(woodToSend)
                         villageList.eq(index).find(".stone input").val(stoneToSend)
                         villageList.eq(index).find(".iron input").val(ironToSend)
 
-                        donorData.wood = donorData.wood - (woodToSend)
-                        donorData.stone = donorData.stone - (stoneToSend)
-                        donorData.iron = donorData.iron - (ironToSend)
+                        donorData.wood = donorData.wood - woodToSend
+                        donorData.stone = donorData.stone - stoneToSend
+                        donorData.iron = donorData.iron - ironToSend
                         marketData.set(donorId, donorData)
 
                         villageThatNeedResources[1].wood = villageThatNeedResources[1].wood + woodToSend
                         villageThatNeedResources[1].stone = villageThatNeedResources[1].stone + stoneToSend
                         villageThatNeedResources[1].iron = villageThatNeedResources[1].iron + ironToSend
-
                     }
                 }
             }
