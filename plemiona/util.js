@@ -1207,34 +1207,33 @@ function callResources(){
                     return Math.min(Math.min(needResource, donorCanSend), availableTraders)
                 }
 
-                if(availableTraders > 0 && villageThatNeedResources[1].wood < -1000 && donorData.wood > 1000 ){
-                    clearResources()
-                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].wood, donorData.wood)
-                    villageList.eq(index).find(".wood input").val(canSendTotal*1000)
-                    availableTraders = availableTraders - canSendTotal
-                    donorData.wood = donorData.wood - (canSendTotal*1000)
-                    marketData.set(donorId, donorData)
-                    villageThatNeedResources[1].wood = villageThatNeedResources[1].wood + (canSendTotal*1000)
-                }
-                if(availableTraders > 0 && villageThatNeedResources[1].stone < -1000 && donorData.stone > 1000){
-                    clearResources()
-                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].stone, donorData.stone)
-                    villageList.eq(index).find(".stone input").val(canSendTotal*1000)
-                    availableTraders = availableTraders - canSendTotal
-                    donorData.stone = donorData.stone - (canSendTotal*1000)
-                    marketData.set(donorId, donorData)
-                    villageThatNeedResources[1].stone = villageThatNeedResources[1].stone + (canSendTotal*1000)
-                }
-                if(availableTraders > 0 && villageThatNeedResources[1].iron < -1000 && donorData.iron > 1000){
-                    clearResources()
-                    canSendTotal = canSendTotalFun(villageThatNeedResources[1].iron, donorData.iron)
-                    villageList.eq(index).find(".iron input").val(canSendTotal*1000)
-                    availableTraders = availableTraders - canSendTotal
-                    donorData.iron = donorData.iron - (canSendTotal*1000)
-                    marketData.set(donorId, donorData)
-                    villageThatNeedResources[1].iron = villageThatNeedResources[1].iron + (canSendTotal*1000)
-                }
+                if(availableTraders > 0){
+                    var woodPossibleTransfers = parseInt(Math.min(villageThatNeedResources[1].wood, donorData.wood) / 1000)
+                    var stonePossibleTransfers = parseInt(Math.min(villageThatNeedResources[1].stone, donorData.stone) / 1000)
+                    var ironPossibleTransfers = parseInt(Math.min(villageThatNeedResources[1].iron, donorData.iron) / 1000)
+                    var sumPossibleTransfers = woodPossibleTransfers + stonePossibleTransfers + ironPossibleTransfers
 
+                    if(sumPossibleTransfers > 0){
+                        clearResources()
+                        var woodToSend = Math.min(availableTraders * woodPossibleTransfers / sumPossibleTransfers, parseInt(villageThatNeedResources[1].wood/1000)) * 1000
+                        var stoneToSend = Math.min(availableTraders * stonePossibleTransfers / sumPossibleTransfers, parseInt(villageThatNeedResources[1].stone/1000)) * 1000
+                        var ironToSend = Math.min(availableTraders * ironPossibleTransfers / sumPossibleTransfers, parseInt(villageThatNeedResources[1].iron/1000)) * 1000
+
+                        villageList.eq(index).find(".wood input").val(woodToSend)
+                        villageList.eq(index).find(".stone input").val(stoneToSend)
+                        villageList.eq(index).find(".iron input").val(ironToSend)
+
+                        donorData.wood = donorData.wood - (woodToSend)
+                        donorData.stone = donorData.stone - (stoneToSend)
+                        donorData.iron = donorData.iron - (ironToSend)
+                        marketData.set(donorId, donorData)
+
+                        villageThatNeedResources[1].wood = villageThatNeedResources[1].wood + woodToSend
+                        villageThatNeedResources[1].stone = villageThatNeedResources[1].stone + stoneToSend
+                        villageThatNeedResources[1].iron = villageThatNeedResources[1].iron + ironToSend
+
+                    }
+                }
             }
 
             if($("input:checkbox[name=select-village]:checked").length == 0){
