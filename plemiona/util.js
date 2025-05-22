@@ -1248,11 +1248,11 @@ function callResources(){
                 }
             }
 
-            if($("input:checkbox[name=select-village]:checked").length == 0){
+            //if($("input:checkbox[name=select-village]:checked").length == 0){
                 if(villageThatNeedResources[1].wood < 0) villageThatNeedResources[1].wood = 0
                 if(villageThatNeedResources[1].stone < 0) villageThatNeedResources[1].stone = 0
                 if(villageThatNeedResources[1].iron < 0) villageThatNeedResources[1].iron = 0
-            }
+            //}
             marketData.set($.cookie("global_village_id"), villageThatNeedResources[1])
             localStorage.setItem("MajQs.marketData",JSON.stringify(Array.from(marketData)))
 
