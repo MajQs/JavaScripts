@@ -104,7 +104,7 @@ function processAutoExpansion() {
             if(coordMap.size > 0){
                 goToCommandPageFor(coordMap.entries().next().value[0])
             } else{
-                goToNextLevel(defaultLevel)
+                goToNextLevel(marketCallLevel)
             }
         }
 
@@ -119,7 +119,7 @@ function processAutoExpansion() {
         || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) == 0)
     {
         localStorage.removeItem("MajQs.coordinatesForAutoExpansion");
-        goToNextLevel(defaultLevel)
+        goToNextLevel(marketCallLevel)
     } else {
         var coordMap = new Map(coordinatesForAutoExpansion)
         var villageTargets = coordMap.get($.cookie("global_village_id"))

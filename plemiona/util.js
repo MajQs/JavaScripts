@@ -933,6 +933,7 @@ const collectServerDataLevel = 2
 const wreckerLevel = 3
 const autoExpansionLevel = 4
 const schedulerLevel = 5
+const marketCallLevel = 6
 const switchVillageLevel = 99
 
 if(localStorage.getItem("MajQs.scriptLevel") == switchVillageLevel){
@@ -968,6 +969,15 @@ function goToNextLevel(level){
             break;
         case schedulerLevel:
             goToCommandPage();
+            break;
+        case marketCallLevel:
+            var hour = String(new Date().getHours()).padStart(2, '0')
+            if(hour % 3 == 0 && hour != localStorage.setItem("MajQs.marketCallHour", hour)){
+                localStorage.setItem("MajQs.marketCallHour", hour);
+                goToMarketCallPageFor($.cookie("global_village_id"));
+            } else {
+                goToNextLevel(defaultLevel);
+            }
             break;
         case switchVillageLevel:
             var nextVillage = $("#village_switch_right").find(".arrowRight")
@@ -1250,9 +1260,8 @@ function callResources(){
                 $('input:submit[value="Poproś o surowce"]').eq(0).click()
                 setTimeout(function() {
                     callResources()
-                }, 1500)
-            }, 5000)
-
+                }, 1000)
+            }, 500)
         }
     }
 }
