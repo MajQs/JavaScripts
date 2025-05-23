@@ -673,7 +673,7 @@ function saveSettings() {
 		deffOnVillages: $("#freeze-deffOnVillages").val().split(",")
 	  },
 	  market: {
-	    enabled: $('#market_enabled').prop("checked") ? 0 : 1
+	    enabled: $('#market-enabled').prop("checked") ? 1 : 0
 	  },
 	  scheduler: scheduler_items
 	}
