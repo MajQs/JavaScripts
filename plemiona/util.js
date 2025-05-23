@@ -169,7 +169,7 @@ var handleSettingsEvent = () => {
             <fieldset><legend>Market Manager</legend><table>
                 <tr>
                     <td><label for="marketEnabled">Enabled:</label></td>
-                    <td><input type="checkbox" id="market-enabled" name="marketEnabled" onchange="saveSettings()" ${SETTINGS.market.enabled == null || SETTINGS.market.enabled == 1 ? 'checked="checked"' : ''}></td>
+                    <td><input type="checkbox" id="market-enabled" name="marketEnabled" onchange="saveSettings()" ${SETTINGS.market == null || SETTINGS.market.enabled == 1 ? 'checked="checked"' : ''}></td>
                 </tr>
             </table></fieldset>
             <fieldset><legend>Scheduler</legend>
