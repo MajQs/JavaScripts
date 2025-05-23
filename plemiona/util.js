@@ -57,6 +57,9 @@ function loadSettings(){
                 offOnVillages: ["village1", "village2"],
                 deffOnVillages: ["village1"]
             },
+            market: {
+                enabled: 0
+            },
             scheduler: []
         }
         return default_settings
@@ -161,6 +164,12 @@ var handleSettingsEvent = () => {
                 <tr>
                     <td><label>Deff on Villages:</label></td>
                     <td><input id='freeze-deffOnVillages' value='${SETTINGS.freeze.deffOnVillages}' onchange="saveSettings()" /></td>
+                </tr>
+            </table></fieldset>
+            <fieldset><legend>Market Manager</legend><table>
+                <tr>
+                    <td><label for="marketEnabled">Enabled:</label></td>
+                    <td><input type="checkbox" id="market-enabled" name="marketEnabled" onchange="saveSettings()" ${SETTINGS.market.enabled == 1 ? 'checked="checked"' : ''/></td>
                 </tr>
             </table></fieldset>
             <fieldset><legend>Scheduler</legend>
@@ -663,6 +672,9 @@ function saveSettings() {
 		offOnVillages: $("#freeze-offOnVillages").val().split(","),
 		deffOnVillages: $("#freeze-deffOnVillages").val().split(",")
 	  },
+	  market: {
+	    enabled: $('#market_enabled').prop("checked") ? 0 : 1
+	  },
 	  scheduler: scheduler_items
 	}
 
@@ -972,7 +984,8 @@ function goToNextLevel(level){
             break;
         case marketCallLevel:
             var hour = String(new Date().getHours()).padStart(2, '0')
-            if(hour % 3 == 0 && hour != localStorage.setItem("MajQs.marketCallHour", hour)){
+            if(SETTINGS.market.enabled == 1
+                && hour % 3 == 0 && hour != localStorage.setItem("MajQs.marketCallHour", hour)){
                 localStorage.setItem("MajQs.marketCallHour", hour);
                 goToMarketCallPageFor($.cookie("global_village_id"));
             } else {
@@ -1272,7 +1285,7 @@ function isMarketCallPage() {
 
     return params.get('screen') === "market" && params.get('mode') === "call" && $(".captcha").length == 0
 }
-if (isMarketCallPage()) {
+if (isMarketCallPage() && SETTINGS.market.enabled == 1) {
     console.log("Market page..." );
     if(localStorage.getItem("MajQs.marketData") == null){
         collectMarketData()
