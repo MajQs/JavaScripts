@@ -289,6 +289,7 @@ if (isCommandConfirm()) {
     console.log("Command Confirm page..." );
     setTimeout(function() {
         if(shouldProcessLevel(wreckerLevel) || shouldProcessLevel(autoExpansionLevel)){
+            $('select[name="building"]').val("barracks")
             $("#troop_confirm_submit").click()
         }else if(shouldProcessLevel(schedulerLevel)){
             schedulerSubmit()
