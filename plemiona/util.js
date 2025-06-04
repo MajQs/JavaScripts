@@ -508,7 +508,7 @@ function checkSendingAttacksTime(){
             for (var ui=0; ui < 5; ui++){
                 if($('#scheduler_'+i+'_units_'+ui+'_unit_0').length > 0){
                     for (var uii=0; uii < 12; uii++){
-                        if($('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val() != "all" && $('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val() > villageUnits[uii]){
+                        if($('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val() != "all" && parseInt($('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val()) > villageUnits[uii]){
                             $('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).css("background-color", "red");
                         } else if ($('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).val() == "all" && villageUnits[uii] == 0){
                             $('#scheduler_'+i+'_units_'+ui+'_unit_'+uii).css("background-color", "yellow");
@@ -523,6 +523,8 @@ function checkSendingAttacksTime(){
 
             $('#scheduler_'+i+'_sendTime').css("background-color", sendTimeColor);
             $('#scheduler_'+i+'_fromVillage').css("background-color", fromVillageColor);
+            sendTimeColor = "white"
+            fromVillageColor = "white"
         }else{
             i = 999
         }
