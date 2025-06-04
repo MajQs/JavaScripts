@@ -1116,7 +1116,7 @@ function checkVillageUrlWithCookie(){
 checkVillageUrlWithCookie()
 
 
-// RYNEK\
+// RYNEK
 function collectMarketData(){
     var marketData = new Map()
 

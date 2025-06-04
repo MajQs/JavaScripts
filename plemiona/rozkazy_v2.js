@@ -118,7 +118,7 @@ function processAutoExpansion() {
         || attacksLeft <= 0
         || spyCountText.substr(spyCountText.indexOf('(') + 1, spyCountText.indexOf(')') - 1 ) == 0)
     {
-        localStorage.removeItem("MajQs.coordinatesForAutoExpansion");
+        //localStorage.removeItem("MajQs.coordinatesForAutoExpansion");
         goToNextLevel(marketCallLevel)
     } else {
         var coordMap = new Map(coordinatesForAutoExpansion)
