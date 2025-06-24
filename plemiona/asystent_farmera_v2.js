@@ -50,7 +50,7 @@ function processCollectAFStatistics() {
             var villageStatistic = {
                  "date": $(rows[index]).find('td').eq(4).text().replace("dzisiaj o ","").replace("wczoraj o ",""),
                  "max_loot": getMaxLoot(),
-                 "status": ravStatus.substring(ravStatus.indexOf("dots/")+5, ravStatus.indexOf(".png")),
+                 "status": ravStatus.substring(ravStatus.indexOf("dots/")+5, ravStatus.indexOf(".webp")),
                  "wall": $(rows[index]).find('td').eq(6).text()
             }
 
@@ -69,7 +69,7 @@ function processCollectAFStatistics() {
         function collectCoordinatesForWrecker(){
             if (($(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('/red.') > -1                        // defeated
                 || $(rows[index]).find('td').eq(1).find('img').first().attr('src').indexOf('/yellow.') > -1                   // or losses
-                || $(rows[index]).find('td').eq(6).text() <= 2)                                                                 // or wall <= 2
+                || ($(rows[index]).find('td').eq(6).text() > 0 && $(rows[index]).find('td').eq(6).text() <= 2))               // or wall between 1 - 2
                 && $(rows[index]).find('td').eq(3).find('img').length == 0                                                      // and no attack is coming
                 && playerVillages != null)
             {
