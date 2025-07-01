@@ -222,7 +222,7 @@ var handleSettingsEvent = () => {
                 <button type="button" onclick="handleAddRowEvent()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Add</button>
             </fieldset>
             <br>
-            <button type="button" onclick="saveSettings()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Zapisz!</button>
+            <button type="button" onclick="resetData()" style="border-radius: 5px; border: 1px solid #000; color: #fff; background: linear-gradient(to bottom, #947a62 0%,#7b5c3d 22%,#6c4824 30%,#6c4824 100%)">Reset data</button>
             </form></div>`
 	)
 	if(SETTINGS.farm.repeatWhenNoMoreVillagesLeft == 1){
@@ -364,6 +364,13 @@ function fillSchedulerTable(){
 
 	$('#scheduler-table').eq(0).html(tr.join(''))
 	checkSendingAttacksTime()
+}
+
+function resetData() {
+    localStorage.removeItem("MajQs.afStatistics");
+    localStorage.removeItem("MajQs.collectedServerDataDay");
+    localStorage.removeItem("MajQs.coordinatesForWrecker");
+    localStorage.removeItem("MajQs.coordinatesForAutoExpansion");
 }
 
 function handleAddAttackEvent(row) {
